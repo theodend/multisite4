@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% if block('title') %}{{ block('title') }} {% else %}Bienvenue {% endif %}| ZooParc de Beauval</title>
+    {% if block('description') %}
+        <meta name="description" content="{{ block('description') }}"/>
+    {% endif %}
+    {% if block('keywords') %}
+        <meta name="keywords" content="{{ block('keywords') }}"/>
+    {% endif %}
+
+    {% block headLinks %}
+
+    {% endblock %}
+
+    {% block headStyles %}
+
+    {% endblock %}
+
+    {% block headScripts %}{% endblock %}
+</head>
+<body>
+
+    {% block body %}
+        {% block mainHeader%}
+
+        {% endblock %}
+
+        {% block mainContent %}
+
+            {% block content %}
+
+            {% endblock %}
+
+        {% endblock %}
+
+    {% endblock %}
+
+
+    {% block Mainfooter%}
+
+    {% endblock %}
+
+    {% block footScripts %}{% endblock %}
+</body>
+</html>

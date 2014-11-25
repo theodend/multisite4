@@ -1,0 +1,5 @@
+{% if is_mobile_view() %}
+    {% extends "ZPBSitesZooBundle:Layouts:master.mobile.html.twig" %}
+{% else %}
+    {% extends "ZPBSitesZooBundle:Layouts:master.desktop.html.twig" %}
+{% endif %}
