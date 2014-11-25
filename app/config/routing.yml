@@ -1,8 +1,9 @@
-zpb_sites_common:
-    resource: "@ZPBSitesCommonBundle/Resources/config/routing.yml"
-    prefix:   /
-
 zpb_sites_zoo:
     resource: "@ZPBSitesZooBundle/Resources/config/routing.yml"
     prefix:   /
+    host: new4.zoobeauval.com
+    scheme: ["http"]
 
+zpb_sites_common:
+    resource: "@ZPBSitesCommonBundle/Resources/config/routing.yml"
+    prefix:   /
