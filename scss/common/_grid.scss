@@ -1,0 +1,86 @@
+
+$gutterWidth: toUnit(10)!default;
+$numCols: 12!default;
+$containerMaxWidth: toUnit(1200)!default;
+
+@mixin row(){
+  @include clearfix;
+  position: relative;
+  width: 100%;
+}
+
+@mixin column(){
+  min-height: 1px;
+  padding: {
+    right: $gutterWidth;
+    left: $gutterWidth;
+  };
+  float: left;
+  width: 100%;
+}
+
+.container{
+  @include row;
+  max-width: $containerMaxWidth;
+  margin: 0 auto;
+}
+
+[class^="col-xs-"], [class*=" col-xs"],
+[class^="col-sm-"], [class*=" col-sm"],
+[class^="col-md-"], [class*=" col-md"],
+[class^="col-lg-"], [class*=" col-lg"]{
+  @include column;
+}
+
+.row{
+  .row{
+    [class^="col-xs-"]:first-child, [class*=" col-xs"]:first-child,
+    [class^="col-sm-"]:first-child, [class*=" col-sm"]:first-child,
+    [class^="col-md-"]:first-child, [class*=" col-md"]:first-child,
+    [class^="col-lg-"]:first-child, [class*=" col-lg"]:first-child{
+      padding-left: 0;
+    }
+    [class^="col-xs-"]:last-child, [class*=" col-xs"]:last-child,
+    [class^="col-sm-"]:last-child, [class*=" col-sm"]:last-child,
+    [class^="col-md-"]:last-child, [class*=" col-md"]:last-child,
+    [class^="col-lg-"]:last-child, [class*=" col-lg"]:last-child{
+      padding-right: 0;
+    }
+  }
+}
+
+@for $i from 1 through $numCols{
+  .col-xs-#{$i}{
+    width: percentage($i / $numCols);
+  }
+}
+
+
+@media only screen and (min-width: 320px) {
+
+}
+
+@media only screen and (min-width: 640px) {
+  @for $i from 1 through $numCols{
+    .col-sm-#{$i}{
+      width: percentage($i / $numCols);
+    }
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+
+}
+
+@media only screen and (min-width: 1280px) {
+  @for $i from 1 through $numCols{
+    .col-md-#{$i}{
+      width: percentage($i / $numCols);
+    }
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+
+}
+
