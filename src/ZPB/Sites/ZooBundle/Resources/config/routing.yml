@@ -1,0 +1,3 @@
+zpb_sites_zoo_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: ZPBSitesZooBundle:Default:index }
