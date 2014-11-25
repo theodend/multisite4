@@ -22,8 +22,38 @@ namespace ZPB\Sites\CommonBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class ZPBController extends Controller
 {
 
-} 
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function getRouteName(Request $request)
+    {
+        return $request->get('_route');
+    }
+
+    /**
+     * @return \Doctrine\Common\Persistence\ObjectManager|object
+     */
+    public function getManager()
+    {
+        return $this->getDoctrine()->getManager();
+    }
+
+    /**
+     * @param string $repo
+     * @return \Doctrine\Common\Persistence\ObjectRepository|null
+     */
+    public function getRepo($repo = '')
+    {
+        if($repo == null){
+            return null;
+        }
+
+        return $this->getDoctrine()->getRepository($repo);
+    }
+}

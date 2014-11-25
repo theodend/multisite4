@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
             new ZPB\Sites\ZooBundle\ZPBSitesZooBundle(),
             new ZPB\Sites\CommonBundle\ZPBSitesCommonBundle(),
+            new ZPB\AdminBundle\ZPBAdminBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
