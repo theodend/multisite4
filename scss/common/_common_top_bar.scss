@@ -1,0 +1,154 @@
+// ########################## common top bar ##########################\\
+$mainTopBarHeight: 40 ;
+$mainTopBarBgColor: #303030!default;
+$mainTopBarColor: #fff!default;
+$mainTopBarFontSize: 14!default;
+
+// ########################## end common top bar ##########################\\
+.main-top-bar{
+
+  line-height: toUnit($mainTopBarHeight - 5);
+
+  background-color: $mainTopBarBgColor;
+  color: $mainTopBarColor;
+
+  position: relative;
+  width: 100%;
+  height: toUnit($mainTopBarHeight - 5);
+  z-index: 100000;
+  font-size: toUnit($mainTopBarFontSize * 0.9);
+}
+.main-top-bar-navs-mobile{
+  position: relative;
+  z-index: 100;
+  &>ul{
+    &>li{
+      width: 100%;
+      height: 100%;
+      display: block;
+      @include box-shadow(rgba(0,0,0,0.3) 0 1px 3px);
+      &:hover{
+        ul{
+          @include translateY(0);
+        }
+      }
+      ul{
+        position: absolute;
+        width: 100%;
+        left: 0;
+        @include translateY(-200%);
+        @include transition(transform 0.5s);
+        z-index: -100;
+        background-color: $mainTopBarBgColor;
+        color: $mainTopBarColor;
+        @include box-shadow(rgba(0,0,0,0.3) 0 1px 3px);
+        a{
+          text-decoration: none;
+          color: inherit;
+          display: block;
+          text-align: center;
+          padding: 5px 0;
+          &:hover{
+            color: $mainTopBarBgColor;
+            background-color: $mainTopBarColor;
+          }
+        }
+      }
+    }
+  }
+  .main-top-bar-navs-toggler{
+    margin: 0 auto;
+    padding: 0;
+    height: 100%;
+    border: none;
+    background-color: $mainTopBarBgColor;
+    color: $mainTopBarColor;
+    display: block;
+    width: 100%;
+  }
+
+}
+.main-top-bar-navs-desktop{
+  display: none;
+}
+@media only screen and (min-width: 768px) {
+  .main-top-bar{
+
+    line-height: toUnit($mainTopBarHeight);
+
+    background-color: $mainTopBarBgColor;
+    color: $mainTopBarColor;
+
+    position: relative;
+    width: 100%;
+    height: toUnit($mainTopBarHeight);
+    z-index: 100000;
+    font-size: toUnit($mainTopBarFontSize);
+  }
+  .main-top-bar-inner{
+
+  }
+  .main-top-bar-navs-mobile{
+    display: none;
+  }
+  .main-top-bar-navs-desktop{
+
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    @include translateX(-50%);
+    &>ul{
+
+      &>li{
+        display: inline-block;
+        position: relative;
+        height: 100%;
+
+        &.active-site{
+          &>a{
+            color: $jaune;
+          }
+        }
+        &>a{
+          text-decoration: none;
+          color: inherit;
+          display: block;
+          padding: 0 10px;
+          text-align: center;
+        }
+        &.dropdown{
+          &:hover{
+            ul{
+              display: block;
+
+            }
+          }
+          ul{
+            display: none;
+            background-color: #fff;
+            position: absolute;
+            white-space: nowrap;
+            min-width: 100%;
+            z-index: 1000;
+            line-height: normal;
+            @include box-shadow(rgba(0,0,0,0.3) 0 0 2px);
+            li{
+              a{
+                display: block;
+
+                padding: 15px;
+                text-decoration: none;
+                color: $mainTopBarBgColor;
+                &:hover{
+                  background-color: $mainTopBarBgColor;
+                  color: #fff;
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+}

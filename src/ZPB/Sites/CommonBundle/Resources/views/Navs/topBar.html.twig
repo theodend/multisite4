@@ -1,17 +1,37 @@
 <div class="main-top-bar">
-    <div class="container">
-        <div class="navs">
+    <div class="container main-top-bar-inner">
+        <div class="main-top-bar-navs-mobile">
+            <ul>
+                <li>
+                    <button class="main-top-bar-navs-toggler">Tous les sites de Beauval</button>
+                    <ul>
+                        <li><a href="">ZooParc de Beauval</a></li>
+                        <li><a href="">Beauval Nature</a></li>
+                        <li><a href="">Les Jardins de Beauval</a></li>
+                        <li><a href="">Les Pagodes de Beauval</a></li>
+                        <li><a href="">Les Hameaux de Beauval</a></li>
+                        <li><a href="">Groupes, CE, Collectivités</a></li>
+                        <li><a href="">Professionnels du tourisme</a></li>
+                        <li><a href="">Groupes enfants, scolaires</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+
+        </div>
+
+        <div class="main-top-bar-navs-desktop">
             <ul>
                 <li class="{% if active == 'zoo' %}active-site{% endif %}"><a href="">ZooParc de Beauval</a></li>
                 <li class="{% if active == 'bn' %}active-site{% endif %}"><a href="">Beauval Nature</a></li>
-                <li class="dropdown {% if active in ['jdb','pdb','hdb'] %}active-site{% endif %}"><a href="">Les hôtels de Beauval</a>
+                <li class="dropdown {% if active in ['jdb','pdb','hdb'] %}active-site{% endif %}"><a href="javascript:void(0)">Les hôtels de Beauval</a>
                     <ul>
                         <li class="{% if active == 'jdb' %}active-site{% endif %}"><a href="">Les Jardins de Beauval</a></li>
                         <li class="{% if active == 'pdb' %}active-site{% endif %}"><a href="">Les Pagodes de Beauval</a></li>
                         <li class="{% if active == 'hdb' %}active-site{% endif %}"><a href="">Les Hameaux de Beauval</a></li>
                     </ul>
                 </li>
-                <li class="dropdown {% if active in ['groupe','pro','scolaire'] %}active-site{% endif %}"><a href="">Autres publics</a>
+                <li class="dropdown {% if active in ['groupe','pro','scolaire'] %}active-site{% endif %}"><a href="javascript:void(0)">Autres publics</a>
                     <ul>
                         <li class="{% if active == 'groupe' %}active-site{% endif %}"><a href="">Groupes, CE, Collectivités</a></li>
                         <li class="{% if active == 'pro' %}active-site{% endif %}"><a href="">Professionnels du tourisme</a></li>
