@@ -8,6 +8,11 @@ $fontColor: #555 !default;
 $headerFontColor: #555 !default;
 $lineHeight: 1.43 !default;
 
+
+$mainContentMinHeight: 800!default;
+$mainFooterMinHeight: 400!default;
+$mainFooterBgColor: #303030!default;
+
 // ########################## end vars ##########################\\
 
 body{
@@ -15,4 +20,14 @@ body{
   font-family: $fontfamily;
   color: $fontColor;
   line-height: $lineHeight;
+}
+
+
+#main-content{
+  min-height: toUnit($mainContentMinHeight);
+}
+
+#main-footer{
+  min-height: toUnit($mainFooterMinHeight);
+  background-color: $mainFooterBgColor;
 }

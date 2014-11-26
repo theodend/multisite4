@@ -28,25 +28,22 @@
         {% block main_top_bar %}
             {{ render(controller('ZPBSitesCommonBundle:Navs:topBar', {active_site: active_site})) }}
         {% endblock %}
-        {% block mainHeader%}
-
-        {% endblock %}
-
+        <div id="main-header">
+        {% block mainHeader%}{% endblock %}
+        </div>
+        <div id="main-content">
         {% block mainContent %}
-
-            {% block content %}
-
-            {% endblock %}
-
+            <div id="content">
+            {% block content %}{% endblock %}
+            </div>
         {% endblock %}
-
+        </div>
     {% endblock %}
-
-
+    <div id="main-footer">
     {% block Mainfooter%}
-
+        {{ include('ZPBSitesZooBundle:Partials:main_footer.html.twig') }}
     {% endblock %}
-
+    </div>
     {% block footScripts %}{% endblock %}
 </body>
 </html>
