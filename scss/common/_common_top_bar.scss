@@ -27,16 +27,18 @@ $mainTopBarFontSize: 14!default;
       height: 100%;
       display: block;
       @include box-shadow(rgba(0,0,0,0.3) 0 1px 3px);
-      &:hover{
-        ul{
+
+      ul{
+        &.toggle-menu-is-up{
+          @include translateY(-200%);
+        }
+        &.toggle-menu-is-down{
           @include translateY(0);
         }
-      }
-      ul{
         position: absolute;
         width: 100%;
         left: 0;
-        @include translateY(-200%);
+
         @include transition(transform 0.5s);
         z-index: -100;
         background-color: $mainTopBarBgColor;
