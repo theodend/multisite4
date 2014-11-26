@@ -21,14 +21,16 @@
 namespace ZPB\Sites\ZooBundle\Controller;
 
 
-use Symfony\Component\BrowserKit\Request;
+
+use Symfony\Component\HttpFoundation\Request;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
 class IndexController extends ZPBController
 {
-    public function index(Request $request)
+    public function indexAction(Request $request)
     {
         $page = $this->getPage($request);
+
 
         return $this->render('ZPBSitesZooBundle:Index:index.html.twig', ['page'=>$page]);
     }

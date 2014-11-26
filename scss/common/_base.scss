@@ -1,20 +1,18 @@
-@function toUnit($value, $unit: 1px){
 
-  @return floor($value) * $unit;
-}
 
-@mixin cleafix(){
-  *zoom: 1;
+// ########################## vars ##########################\\
+$fontSize: 16 !default;
+$fontfamily:  Arial, Helvetica, sans-serif !default;
+$headerFontFamily: Arial, Helvetica, sans-serif !default;
+$fontColor: #555 !default;
+$headerFontColor: #555 !default;
+$lineHeight: 1.43 !default;
 
-  &:before, &:after{
-    content: " ";
-    display: table;
-  }
-  &:after{
-    clear: both;
-  }
-}
+// ########################## end vars ##########################\\
 
-*,*:before,*:after{
-  @include box-sizing(border-box);
+body{
+  font-size: toUnit($fontSize);
+  font-family: $fontfamily;
+  color: $fontColor;
+  line-height: $lineHeight;
 }

@@ -1,12 +1,14 @@
 zpb_admin:
     resource: "@ZPBAdminBundle/Resources/config/routing.yml"
     prefix:   /
+    host: new.admin.zooparc.com
+    schemes: ["http"]
 
 zpb_sites_zoo:
     resource: "@ZPBSitesZooBundle/Resources/config/routing.yml"
     prefix:   /
-    host: new4.zoobeauval.com
-    scheme: ["http"]
+    host: new.zoobeauval.com
+    schemes: ["http"]
 
 zpb_sites_common:
     resource: "@ZPBSitesCommonBundle/Resources/config/routing.yml"

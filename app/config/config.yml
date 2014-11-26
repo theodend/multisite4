@@ -98,7 +98,7 @@ mobile_detect:
         tablet: ~
     switch_device_view: ~
 
-lunetic_locale:
+lunetics_locale:
     allowed_locales:
         - fr
         - en

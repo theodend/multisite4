@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Page
- *
+ * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="zpb_pages")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\PageRepository")
  */
@@ -64,7 +64,7 @@ class Page
     private $keywords;
 
     /**
-     * @var string
+     * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="ZPB\AdminBundle\Entity\Page", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      *
@@ -414,7 +414,7 @@ class Page
     /**
      * Get route
      *
-     * @return string 
+     * @return string
      */
     public function getRoute()
     {

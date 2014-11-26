@@ -1,24 +1,10 @@
-{% if is_mobile_view() %}
-    {% extends "ZPBSitesZooBundle:Layouts:master.mobile.html.twig" %}
-{% else %}
-    {% extends "ZPBSitesZooBundle:Layouts:master.desktop.html.twig" %}
-{% endif %}
+{% extends is_mobile() ? "ZPBSitesZooBundle:Layouts:master.mobile.html.twig" : "ZPBSitesZooBundle:Layouts:master.desktop.html.twig" %}
 
 {% set active_site = "zoo" %}
 
+{% block title %}{% if page!=null %}{{ page.title }}{% endif %}{% endblock %}
+{% block description %}{% if page!=null and page.description != null %}{{ page.description }}{% endif %}{% endblock %}
+{% block keywords %}{% if page!=null and page.keywords|length > 0 %}{{ page.keywords|join(', ') }}{% endif %}{% endblock %}
+{% block metas_fb %}{% if page!=null %}{{ include('ZPBSitesZooBundle:Incs/facebook:metas.html.twig', {title:page.title, description:page.description|default(''), type:'website', imageUrl:null, request: app.request}, with_context = false) }}{% endif %}{% endblock %}
+{% if page!=null %}{% set active_page = page.slug %}{% endif %}
 
-{% if page != null %}
-    {% block title %}{{ page.title }}{% endblock %}
-    {% if page.description != null %}
-        {% block description %}{{ page.description }}{% endblock %}
-    {% endif %}
-    {% if page.keywords|length > 0 %}
-        {% block keywords %}{{ page.keywords|join(', ') }}{% endblock %}
-    {% endif %}
-
-    {% block metas_fb %}
-        {{ include('ZPBSitesZooBundle:Incs/facebook:metas.html.twig', {title:page.title, description:page.description|default(''), type:'website', imageUrl:null, request: app.request}, with_context = false) }}
-    {% endblock %}
-
-    {% set active_page = page.slug %}
-{% endif %}
