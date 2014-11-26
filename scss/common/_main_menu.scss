@@ -1,7 +1,8 @@
 $mainMenuHeight: 51;
 
 #stickytop{
-  z-index: 1000;
+  position: relative;
+  z-index: 10000;
 
   @include transition(background-color 0.3s, height 0.3s);
   &.stuck{

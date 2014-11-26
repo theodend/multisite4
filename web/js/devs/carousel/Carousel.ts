@@ -7,10 +7,12 @@ class Caroussel{
         duration: 2000,
         fadeTransionTime: 300,
         auto: true,
-        slideContainerClass: "slides",
-        slideClass: "slides",
+        carouselClass: "header-carousel",
+        slideContainerClass: "hc-slides",
+        slideClass: "hc-slide",
         fullWidth: true,
         onInit: function(){},
+        onLoad: function(){},
         onStart: function(){},
         onStop: function(){},
         onNext: function(){},
@@ -28,8 +30,13 @@ class Caroussel{
     private current = 0;
     private width:number;
     private firstImg:JQuery;
+    private imgWidth:number;
     private isStarted = false;
+    private isStopped = false;
     private loaderLayer:JQuery;
+    private isInitialized:boolean;
+
+    private imgs:string[] = [];
 
     private sliderWidth:number;
     private sliderHeight:number;
@@ -37,7 +44,8 @@ class Caroussel{
     constructor(public element:JQuery, options?:any){
 
         this.options = $.extend(true, {}, Caroussel.DEFAULTS, options||{});
-
+        this.isInitialized = false;
+        this.element.addClass(this.getOpt("carouselClass"));
         this.slidesContainer = this.element.find(this.getClass("slideContainerClass"));
         this.slides = this.slidesContainer.find(this.getClass("slideClass"));
         this.numSlides = this.slides.length;
@@ -46,18 +54,72 @@ class Caroussel{
         }
         this.init();
 
-        this.initEvents();
+        //
     }
 
     init():void{
         this.sliderHeight = this.element.height();
-        this.sliderWidth = this.getOpt("fullWidth") === true ? $(window).width() : this.element.width();
+        this.sliderWidth = this.getSliderWidth();
+        for(var i=0; i<this.numSlides;i++){
+            this.imgs.push($(this.slides[i]).find("img").data("src"));
+        }
+
         this.createLoader();
+        this.initLoadImgs();
         this.getOpt("onInit")(this);
+    }
+
+    initLoadImgs():void{
+        var self = this, idx = 0, current = 0;
+        var img = $(this.slides[current]).find("img:first");
+        img.load(function(e){
+            self.loaderLayer.empty();
+            self.imgs.shift();
+            self.getOpt("onLoad")(this, idx);
+            $(self.slides[current]).hide().fadeIn(150, function(){
+                self.firstImg = img;
+                self.imgWidth = img.width();
+                self.position();
+            });
+            if(self.imgs.length>0){
+                idx++;
+
+                self.loadNext(idx);
+            }
+
+
+        }).attr("src", this.imgs[0]);
+    }
+
+    loadNext(idx:number):void{
+        var self = this;
+        var img = $(this.slides[idx]).find("img:first");
+        $(this.slides[idx]).hide();
+        img.load(function(e){
+
+            self.imgs.shift();
+
+
+            self.getOpt("onLoad")(this, idx);
+            if(self.imgs.length>0){
+                idx++;
+
+                self.loadNext(idx);
+            } else {
+                self.start();
+            }
+
+
+        }).attr("src", this.imgs[0]);
     }
 
     start():void {
         var self = this;
+        this.isResizing = null;
+        if(this.isInitialized===false){
+            this.initEvents();
+            this.isInitialized = true;
+        }
         if(this.interval !== null){
             this.stop();
         }
@@ -67,8 +129,11 @@ class Caroussel{
         this.getOpt("onStart")(this);
     }
 
-    stop():void {
+    stop(internal?:boolean):void {
         this.isStarted = false;
+        if(internal === undefined || internal === false){
+            this.isStopped = true;
+        }
         if(this.interval !== null){
             window.clearInterval(this.interval);
             this.interval = null;
@@ -78,7 +143,11 @@ class Caroussel{
     }
 
     next():void {
-
+        $(this.slides.get(this.current++)).fadeOut(this.getOpt("fadeTransionTime"));
+        if(this.current === this.numSlides){
+            this.current = 0;
+        }
+        $(this.slides.get(this.current)).fadeIn(this.getOpt("fadeTransionTime"));
         this.getOpt("onNext")(this);
     }
 
@@ -91,13 +160,15 @@ class Caroussel{
         this.getOpt("onMoveTo")(this);
     }
 
+    getSliderWidth():number{
+        return this.getOpt("fullWidth") === true ? $(window).width() : this.element.width();
+    }
+
     position():void{
-
+        this.slidesContainer.css("left", -((this.imgWidth - this.getSliderWidth())/2) + "px");
     }
 
-    getVisible():void {
 
-    }
 
     createLoader():void {
         var self = this;
@@ -125,8 +196,8 @@ class Caroussel{
         this.loaderLayer.html(tpl);
         this.loaderLayer.css({
             "position": "absolute",
-            "top": ((self.sliderHeight - loaderLayer.height())/2) + "px",
-            "left": ((self.sliderWidth - loaderLayer.width())/2)
+            "top": ((self.sliderHeight - this.loaderLayer.height())/2) + "px",
+            "left": ((self.sliderWidth - this.loaderLayer.width())/2)
         });
         this.element.append(this.loaderLayer);
     }
@@ -135,17 +206,21 @@ class Caroussel{
         var self = this;
         $(window).on("resize", function(){
             if(self.options["auto"] === true){
-                self.stop();
+                self.stop(true);
             }
-            window.clearTimeout(self.isResizing);
+            if(self.isResizing !== null){
+                window.clearTimeout(self.isResizing);
+                self.isResizing = null;
+            }
+
             self.isResizing = window.setTimeout(function(){
-                if(self.options["auto"] === true){
+                self.position();
+                if(self.options["auto"] === true && self.isStopped === false){
                     self.start();
                 }
-            }, 200);
-            self.getVisible();
-            self.width = self.firstImg.width();
-            self.position();
+            }, 300);
+
+
 
         });
     }
