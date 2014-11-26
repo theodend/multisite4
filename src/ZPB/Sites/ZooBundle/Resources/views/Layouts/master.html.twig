@@ -3,3 +3,22 @@
 {% else %}
     {% extends "ZPBSitesZooBundle:Layouts:master.desktop.html.twig" %}
 {% endif %}
+
+{% set active_site = "zoo" %}
+
+
+{% if page != null %}
+    {% block title %}{{ page.title }}{% endblock %}
+    {% if page.description != null %}
+        {% block description %}{{ page.description }}{% endblock %}
+    {% endif %}
+    {% if page.keywords|length > 0 %}
+        {% block keywords %}{{ page.keywords|join(', ') }}{% endblock %}
+    {% endif %}
+
+    {% block metas_fb %}
+        {{ include('ZPBSitesZooBundle:Incs/facebook:metas.html.twig', {title:page.title, description:page.description|default(''), type:'website', imageUrl:null, request: app.request}, with_context = false) }}
+    {% endblock %}
+
+    {% set active_page = page.slug %}
+{% endif %}

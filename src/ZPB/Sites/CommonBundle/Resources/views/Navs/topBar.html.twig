@@ -1,0 +1,24 @@
+<div class="main-top-bar">
+    <div class="container">
+        <div class="navs">
+            <ul>
+                <li class="{% if active == 'zoo' %}active-site{% endif %}"><a href="">ZooParc de Beauval</a></li>
+                <li class="{% if active == 'bn' %}active-site{% endif %}"><a href="">Beauval Nature</a></li>
+                <li class="dropdown {% if active in ['jdb','pdb','hdb'] %}active-site{% endif %}"><a href="">Les hôtels de Beauval</a>
+                    <ul>
+                        <li class="{% if active == 'jdb' %}active-site{% endif %}"><a href="">Les Jardins de Beauval</a></li>
+                        <li class="{% if active == 'pdb' %}active-site{% endif %}"><a href="">Les Pagodes de Beauval</a></li>
+                        <li class="{% if active == 'hdb' %}active-site{% endif %}"><a href="">Les Hameaux de Beauval</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown {% if active in ['groupe','pro','scolaire'] %}active-site{% endif %}"><a href="">Autres publics</a>
+                    <ul>
+                        <li class="{% if active == 'groupe' %}active-site{% endif %}"><a href=""></a>Groupes, CE, Colléctivités</li>
+                        <li class="{% if active == 'pro' %}active-site{% endif %}"><a href=""></a>Professionnels du tourisme</li>
+                        <li class="{% if active == 'scolaire' %}active-site{% endif %}"><a href=""></a>Groupes enfants, scolaires</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -29,6 +29,15 @@ class ZPBController extends Controller
 
     /**
      * @param Request $request
+     * @return \ZPB\AdminBundle\Entity\Page
+     */
+    public function getPage(Request $request)
+    {
+        $page = $this->getRepo('ZPBAdminBundle:Page')->findOneByRoute($this->getRouteName($request));
+        return $page;
+    }
+    /**
+     * @param Request $request
      * @return string
      */
     public function getRouteName(Request $request)

@@ -1,3 +1,4 @@
+{% set active_site = (active_site is defined) ? active_site : null %}
 <!doctype html>
 <html lang="fr">
 <head>
@@ -11,6 +12,8 @@
         <meta name="keywords" content="{{ block('keywords') }}"/>
     {% endif %}
 
+    {% block metas_fb %}{% endblock %}
+
     {% block headLinks %}
 
     {% endblock %}
@@ -22,6 +25,9 @@
 <body>
 
     {% block body %}
+        {% block main_top_bar %}
+            {{ render(controller('ZPBSitesCommonBundle:Navs:topBar', {active_site: active_site})) }}
+        {% endblock %}
         {% block mainHeader%}
 
         {% endblock %}
