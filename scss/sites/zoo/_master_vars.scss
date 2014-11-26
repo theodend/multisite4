@@ -9,5 +9,16 @@ $lineHeight: 1.43 ;
 
 $mainContentMinHeight: 800;
 $mainFooterMinHeight: 400;
-$mainFooterBgColor: #303030;
+$mainFooterBgColor: $grisFonce;
+$mainFooterColor: $blanc;
+
 // ########################## end vars ##########################\\
+
+
+// ########################## common top bar ##########################\\
+$mainTopBarHeight: 40 ;
+$mainTopBarBgColor: $grisFonce;
+$mainTopBarColor: $blanc;
+$mainTopBarFontSize: 14;
+
+// ########################## end common top bar ##########################\\

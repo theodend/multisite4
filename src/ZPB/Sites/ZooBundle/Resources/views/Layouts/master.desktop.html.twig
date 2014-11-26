@@ -1,4 +1,5 @@
 {% set active_site = (active_site is defined) ? active_site : null %}
+{% set active_page = (active_page is defined) ? active_page : null %}
 <!doctype html>
 <html lang="fr">
 <head>
@@ -29,7 +30,11 @@
             {{ render(controller('ZPBSitesCommonBundle:Navs:topBar', {active_site: active_site})) }}
         {% endblock %}
         <div id="main-header">
-        {% block mainHeader%}{% endblock %}
+        {% block mainHeader%}
+            {% block mainNav %}
+                {{ include('ZPBSitesZooBundle:Navs:main_nav.html.twig', {active_page: active_page}, with_context = false) }}
+            {% endblock %}
+        {% endblock %}
         </div>
         <div id="main-content">
         {% block mainContent %}
@@ -39,8 +44,12 @@
         {% endblock %}
         </div>
     {% endblock %}
+
+    {% block mainNavAux %}
+        {{ include('ZPBSitesZooBundle:Navs:main_nav_aux.html.twig', {active_page: active_page}, with_context = false) }}
+    {% endblock %}
     <div id="main-footer">
-    {% block Mainfooter%}
+    {% block mainfooter%}
         {{ include('ZPBSitesZooBundle:Partials:main_footer.html.twig') }}
     {% endblock %}
     </div>
