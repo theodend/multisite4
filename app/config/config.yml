@@ -97,3 +97,16 @@ mobile_detect:
         mobile: ~
         tablet: ~
     switch_device_view: ~
+
+lunetic_locale:
+    allowed_locales:
+        - fr
+        - en
+    strict_mode: false
+    strict_match: true
+    guessing_order:
+        - session
+        - cookie
+        - browser
+        - query
+        - router
