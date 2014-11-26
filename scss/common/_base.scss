@@ -8,7 +8,7 @@ $fontColor: #555 !default;
 $headerFontColor: #555 !default;
 $lineHeight: 1.43 !default;
 
-
+$mainHeaderPadding: 0 0 !default;
 $mainContentMinHeight: 800!default;
 $mainFooterMinHeight: 400!default;
 $mainFooterBgColor: #303030!default;
@@ -25,6 +25,7 @@ body{
 #main-header{
   height: 650px;
   background-color: #000;
+  padding: $mainHeaderPadding;
 }
 
 #main-content{

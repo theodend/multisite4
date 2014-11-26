@@ -1,0 +1,151 @@
+$mainMenuHeight: 51;
+
+#stickytop{
+  z-index: 1000;
+
+  @include transition(background-color 0.3s, height 0.3s);
+  &.stuck{
+    background-color: $ocean;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 10000;
+    height: toUnit($mainMenuHeight);
+    padding: 0;
+    #main-menu{}
+  }
+
+  #main-menu{
+    height: toUnit($mainMenuHeight);
+    font-family: "cooper_hewitt_bold", Arial, Helvetica, sans-serif;
+
+    @include clearfix;
+    #main-menu-logo{
+      float: left;
+      height: 100%;
+      padding: 13px 20px;
+      #Calque_1{
+        width: 200px;
+        height: 25px;
+      }
+    }
+    #menu-toggler{
+      background-color: transparent;
+      border: none;
+      height: 100%;
+      padding: 0 20px;
+      color: $blanc;
+      float: right;
+    }
+    .main-menu-navs{
+      display: none;
+    }
+  }
+}
+
+
+
+
+@media only screen and (min-width: 768px){
+  #stickytop{
+    &.stuck{
+      #main-menu{
+        .main-menu-navs{
+          &>ul{
+            &>li{
+              &.dropdown{
+                ul{
+                  li{
+                    &.active{
+                      a, a:hover{
+                        color: $jaune;
+                        background-color: $ocean;
+                      }
+                    }
+                    a{
+                      &:hover{
+                        background-color: $ocean;
+                        color: $blanc;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #main-menu{
+      #main-menu-logo{}
+      #menu-toggler{
+        display: none;
+      }
+      .main-menu-navs{
+        display: block;
+        float: left;
+        line-height: toUnit($mainMenuHeight);
+        &>ul{
+          @include clearfix;
+          &>li{
+            display: inline-block;
+            color: $blanc;
+            &.active{
+              &>a{
+                color: $jaune;
+              }
+            }
+            &>a{
+              color: inherit;
+              text-decoration: none;
+              display: block;
+              padding: 0 15px 0 0;
+            }
+            &.dropdown{
+              position: relative;
+              &:hover{
+                ul{
+                  display: block;
+                }
+              }
+              ul{
+                display: none;
+                position: absolute;
+                white-space: nowrap;
+                min-width: 100%;
+                z-index: 1000;
+                line-height: normal;
+                background-color: #fff;
+                @include box-shadow(rgba(0,0,0,0.3) 0 0 2px);
+                font-family: "cooper_hewitt_book", Arial, Helvetica, sans-serif;
+                color: $grisFonce;
+                li{
+                  a{
+                    display: block;
+                    padding: 10px 15px;
+                    text-decoration: none;
+                    color: inherit;
+
+                    &:hover{
+                      background-color: $grisFonce;
+                      color: $blanc;
+                    }
+                  }
+                  &.active{
+                    a, a:hover{
+                      color: $jaune;
+                      background-color: $grisFonce;
+                    }
+                  }
+                }
+              }
+
+            }
+          }
+        }
+      }
+    }
+  }
+}
