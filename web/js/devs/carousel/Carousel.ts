@@ -152,11 +152,30 @@ class Caroussel{
     }
 
     prev():void {
-
+        $(this.slides.get(this.current--)).fadeOut(this.getOpt("fadeTransionTime"));
+        if(this.current < 0){
+            this.current = this.numSlides - 1;
+        }
+        $(this.slides.get(this.current)).fadeIn(this.getOpt("fadeTransionTime"));
         this.getOpt("onPrev")(this);
     }
 
     moveTo(index:number):void {
+        if(this.options["auto"] === true){
+            this.stop(true);
+        }
+        $(this.slides.get(this.current)).fadeOut(this.getOpt("fadeTransionTime"));
+        this.current = index;
+        if(this.current === this.numSlides){
+            this.current = 0;
+        }
+        if(this.current < 0){
+            this.current = this.numSlides - 1;
+        }
+        $(this.slides.get(this.current)).fadeIn(this.getOpt("fadeTransionTime"));
+        if(this.options["auto"] === true){
+            this.start();
+        }
         this.getOpt("onMoveTo")(this);
     }
 
