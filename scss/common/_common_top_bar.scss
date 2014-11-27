@@ -127,7 +127,7 @@ $mainTopBarFontSize: 14!default;
           }
           ul{
             display: none;
-            background-color: #fff;
+            background-color: $grisFonce;
             position: absolute;
             white-space: nowrap;
             min-width: 100%;
@@ -140,10 +140,10 @@ $mainTopBarFontSize: 14!default;
 
                 padding: 15px;
                 text-decoration: none;
-                color: $mainTopBarBgColor;
+                color: #fff;
                 &:hover{
-                  background-color: $mainTopBarBgColor;
-                  color: #fff;
+                  background-color: #fff;
+                  color: $mainTopBarBgColor;
                 }
               }
             }
