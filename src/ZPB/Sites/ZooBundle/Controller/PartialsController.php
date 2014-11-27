@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Nicolas Canfrère
- * Date: 25/11/2014
- * Time: 16:54
+ * Date: 27/11/2014
+ * Time: 16:21
  */
   /*
            ____________________
@@ -21,14 +21,12 @@
 namespace ZPB\Sites\ZooBundle\Controller;
 
 
-
-use Symfony\Component\HttpFoundation\Request;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class IndexController extends ZPBController
+class PartialsController extends ZPBController
 {
-    public function indexAction(Request $request)
+    public function mainFooterAction()
     {
-        return $this->getView('ZPBSitesZooBundle:Index:index.html.twig', $request);
+        return $this->getView('ZPBSitesZooBundle:Partials:main_footer.html.twig');
     }
-}
+} 

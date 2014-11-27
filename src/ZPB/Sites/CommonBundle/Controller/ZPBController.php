@@ -65,4 +65,22 @@ class ZPBController extends Controller
 
         return $this->getDoctrine()->getRepository($repo);
     }
+
+    /**
+     * @param string $view
+     * @param Request $request
+     * @param array $datas
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getView($view = '', Request $request = null, $datas = [])
+    {
+        if(array_key_exists('page', $datas)){
+            throw new \RuntimeException('page already existe !');
+        }
+        if($request !== null){
+            $datas['page'] = $this->getPage($request);
+        }
+
+        return $this->render($view, $datas);
+    }
 }

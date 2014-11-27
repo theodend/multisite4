@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Nicolas Canfrère
- * Date: 25/11/2014
- * Time: 16:54
+ * Date: 27/11/2014
+ * Time: 16:25
  */
   /*
            ____________________
@@ -21,14 +21,23 @@
 namespace ZPB\Sites\ZooBundle\Controller;
 
 
-
 use Symfony\Component\HttpFoundation\Request;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class IndexController extends ZPBController
+class UtilsController extends ZPBController
 {
-    public function indexAction(Request $request)
+    public function accessAction(Request $request)
     {
-        return $this->getView('ZPBSitesZooBundle:Index:index.html.twig', $request);
+        return $this->getView('ZPBSitesZooBundle:Utils:access.html.twig', $request);
     }
-}
+
+    public function schedulesAndPricesAction(Request $request)
+    {
+        return $this->getView('ZPBSitesZooBundle:Utils:horaires_tarifs.html.twig', $request);
+    }
+
+    public function animationsAndShowsAction(Request $request)
+    {
+        return $this->getView('ZPBSitesZooBundle:Utils:animations_shows.html.twig', $request);
+    }
+} 

@@ -2,3 +2,7 @@ zpb_sites_zoo_homepage:
     path:     /
     defaults: { _controller: ZPBSitesZooBundle:Index:index }
     methods: ["GET"]
+
+zpb_sites_zoo_utils:
+    prefix:     /pratique
+    resource: "@ZPBSitesZooBundle/Resources/config/routing/utils.yml"

@@ -75,7 +75,7 @@
     {% endblock %}
     <div id="main-footer">
     {% block mainfooter%}
-        {{ include('ZPBSitesZooBundle:Partials:main_footer.html.twig') }}
+        {{ render(controller('ZPBSitesZooBundle:Partials:mainFooter')) }}
     {% endblock %}
     </div>
     {% block footScripts %}{% endblock %}
