@@ -6,3 +6,16 @@ zpb_sites_zoo_homepage:
 zpb_sites_zoo_utils:
     prefix:     /pratique
     resource: "@ZPBSitesZooBundle/Resources/config/routing/utils.yml"
+
+zpb_sites_zoo_zooparc:
+    prefix:     /zooparc
+    resource: "@ZPBSitesZooBundle/Resources/config/routing/zooparc.yml"
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,34 @@
+zpb_sites_zoo_zooparc_animals:
+    path: /animaux
+    defaults: { _controller: ZPBSitesZooBundle:ZooParc:animals }
+    methods: ["GET"]
+
+zpb_sites_zoo_zooparc_history:
+    path: /histoire
+    defaults: { _controller: ZPBSitesZooBundle:ZooParc:history }
+    methods: ["GET"]
+
+zpb_sites_zoo_zooparc_missions:
+    path: /missions
+    defaults: { _controller: ZPBSitesZooBundle:ZooParc:missions }
+    methods: ["GET"]
+
+zpb_sites_zoo_zooparc_concerns:
+    path: /developpement-durable
+    defaults: { _controller: ZPBSitesZooBundle:ZooParc:concerns }
+    methods: ["GET"]
+
+zpb_sites_zoo_zooparc_gallery:
+    path: /galerie-photo
+    defaults: { _controller: ZPBSitesZooBundle:ZooParc:gallery }
+    methods: ["GET"]
+
+
+
+
+
+
+
+
+
+
