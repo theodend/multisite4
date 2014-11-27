@@ -38,31 +38,41 @@ class loadPage extends AbstractFixture implements OrderedFixtureInterface, Conta
     {
         $this->container = $container;
     }
-    
+
     public function load(ObjectManager $manager)
     {
         $page1 = new Page();
-        $page1->setName('homepage')->setTitle('Accueil')->setRoute('/');
+        $page1->setName('homepage')->setTitle('Accueil')->setRoute('zpb_sites_zoo_homepage');
+        $manager->persist($page1);
+        $manager->flush();
 
         $page2 = new Page();
-        $page1->setName('homepage')->setTitle('')->setRoute('');
+        $page2->setName('pratique:acces')->setTitle('Accès')->setRoute('zpb_sites_zoo_utils_access')->setParent($page1);
+        $manager->persist($page2);
 
         $page3 = new Page();
-        $page1->setName('homepage')->setTitle('')->setRoute('');
+        $page3->setName('pratique:horaires')->setTitle('Horaires et tarifs')->setRoute('zpb_sites_zoo_utils_schedules_prices')->setParent($page1);
+        $manager->persist($page3);
 
         $page4 = new Page();
-        $page1->setName('homepage')->setTitle('')->setRoute('');
+        $page4->setName('pratique:animations')->setTitle('Animations et spectacles')->setRoute('zpb_sites_zoo_utils_animations_shows')->setParent($page1);
+        $manager->persist($page4);
 
         $page5 = new Page();
-        $page1->setName('homepage')->setTitle('')->setRoute('');
+        $page5->setName('pratique:plan')->setTitle('Plan de visite')->setRoute('zpb_sites_zoo_utils_map')->setParent($page1);
+        $manager->persist($page5);
 
         $page6 = new Page();
-        $page1->setName('homepage')->setTitle('')->setRoute('');
+        $page6->setName('pratique:restauration')->setTitle('Restauration')->setRoute('zpb_sites_zoo_utils_restos')->setParent($page1);
+        $manager->persist($page6);
 
         $page7 = new Page();
-        $page1->setName('homepage')->setTitle('')->setRoute('');
+        $page7->setName('pratique:services')->setTitle('Services')->setRoute('zpb_sites_zoo_utils_services')->setParent($page1);
+        $manager->persist($page7);
+
+        $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 1;

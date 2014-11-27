@@ -58,7 +58,7 @@ class Page
     private $route;
 
     /**
-     * @ORM\ManyToMany(targetEntity="ZPB\AdminBundle\Entity\PageKeyword", inversedBy="page")
+     * @ORM\ManyToMany(targetEntity="ZPB\AdminBundle\Entity\PageKeyword", inversedBy="pages")
      * @ORM\JoinTable(name="zpb_pages_keywords")
      */
     private $keywords;
