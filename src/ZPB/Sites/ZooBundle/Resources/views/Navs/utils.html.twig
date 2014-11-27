@@ -1,9 +1,8 @@
 <ul>
     <li class="{% if active_page == 'access' %}active{% endif %}"><a href="{{ path("zpb_sites_zoo_utils_access") }}">Accès</a></li>
-    <li class="{% if active_page == 'price' %}active{% endif %}"><a href="">Horaires et tarifs</a></li>
-    <li class="{% if active_page == 'shows' %}active{% endif %}"><a href="">Animations et spectacles</a></li>
-    <li class="{% if active_page == 'map' %}active{% endif %}"><a href="">Plan de visite</a></li>
-    <li class="{% if active_page == 'restos' %}active{% endif %}"><a href="">Restauration</a></li>
-    <li class="{% if active_page == 'services' %}active{% endif %}"><a href="">Services</a></li>
-
+    <li class="{% if active_page == 'price' %}active{% endif %}"><a href="{{ path("zpb_sites_zoo_utils_animations_shows") }}">Horaires et tarifs</a></li>
+    <li class="{% if active_page == 'shows' %}active{% endif %}"><a href="{{ path("zpb_sites_zoo_utils_schedules_prices") }}">Animations et spectacles</a></li>
+    <li class="{% if active_page == 'map' %}active{% endif %}"><a href="{{ path("zpb_sites_zoo_utils_map") }}">Plan de visite</a></li>
+    <li class="{% if active_page == 'restos' %}active{% endif %}"><a href="{{ path("zpb_sites_zoo_utils_restos") }}">Restauration</a></li>
+    <li class="{% if active_page == 'services' %}active{% endif %}"><a href="{{ path("zpb_sites_zoo_utils_services") }}">Services</a></li>
 </ul>

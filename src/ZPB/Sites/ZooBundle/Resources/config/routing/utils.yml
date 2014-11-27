@@ -2,3 +2,38 @@ zpb_sites_zoo_utils_access:
     path: /acces
     defaults: { _controller: ZPBSitesZooBundle:Utils:access }
     methods: ["GET"]
+
+zpb_sites_zoo_utils_animations_shows:
+    path: /animations-spectacles
+    defaults: { _controller: ZPBSitesZooBundle:Utils:animationsAndShows }
+    methods: ["GET"]
+
+zpb_sites_zoo_utils_schedules_prices:
+    path: /horaires-tarifs
+    defaults: { _controller: ZPBSitesZooBundle:Utils:schedulesAndPrices }
+    methods: ["GET"]
+
+zpb_sites_zoo_utils_map:
+    path: /plan-de-visite
+    defaults: { _controller: ZPBSitesZooBundle:Utils:map }
+    methods: ["GET"]
+
+zpb_sites_zoo_utils_restos:
+    path: /restauration
+    defaults: { _controller: ZPBSitesZooBundle:Utils:restos }
+    methods: ["GET"]
+
+zpb_sites_zoo_utils_services:
+    path: /services
+    defaults: { _controller: ZPBSitesZooBundle:Utils:services }
+    methods: ["GET"]
+
+
+
+
+
+
+
+
+
+

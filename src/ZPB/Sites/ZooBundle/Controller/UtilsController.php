@@ -40,4 +40,19 @@ class UtilsController extends ZPBController
     {
         return $this->getView('ZPBSitesZooBundle:Utils:animations_shows.html.twig', $request);
     }
+
+    public function mapAction(Request $request)
+    {
+        return $this->getView('ZPBSitesZooBundle:Utils:map.html.twig', $request);
+    }
+
+    public function restosAction(Request $request)
+    {
+        return $this->getView('ZPBSitesZooBundle:Utils:restos.html.twig', $request);
+    }
+
+    public function servicesAction(Request $request)
+    {
+        return $this->getView('ZPBSitesZooBundle:Utils:services.html.twig', $request);
+    }
 } 
