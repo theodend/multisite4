@@ -1,0 +1,21 @@
+zpb_sites_zoo_children_game_pad:
+    path: /carnet-de-jeux
+    defaults: { _controller: ZPBSitesZooBundle:Children:gamePad }
+    methods: ["GET"]
+
+zpb_sites_zoo_children_junior_keeper:
+    path: /soigneurs-juniors
+    defaults: { _controller: ZPBSitesZooBundle:Children:juniorKeeper }
+    methods: ["GET"]
+
+zpb_sites_zoo_children_child_journey:
+    path: /parcours-enfants
+    defaults: { _controller: ZPBSitesZooBundle:Children:childJourney }
+    methods: ["GET"]
+
+
+
+
+
+
+

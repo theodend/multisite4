@@ -11,7 +11,9 @@ zpb_sites_zoo_zooparc:
     prefix:     /zooparc
     resource: "@ZPBSitesZooBundle/Resources/config/routing/zooparc.yml"
 
-
+zpb_sites_zoo_children:
+    prefix:     /enfants
+    resource: "@ZPBSitesZooBundle/Resources/config/routing/children.yml"
 
 
 
