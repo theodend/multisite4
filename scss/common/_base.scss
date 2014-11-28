@@ -61,6 +61,20 @@ h5{
   }
 }
 
+.text-center{
+  text-align: center;
+}
+
+ul.inline{
+  li{
+    display: inline;
+    a, span.alike{
+      display: inline-block;
+      margin: 0 12px;
+    }
+  }
+}
+
 .page-header{
   width: 100%;
   padding: toUnit($pageHeaderPadding) 0;

@@ -1,0 +1,61 @@
+$footerBgColor: "none" !default;
+$footerBgImage: "none" !default;
+$footerBgImageRepeat: null !default;
+$footerBgImagePosition: null !default;
+$footerColor: #000 !default;
+$footerLinkFontFamily: Arial, Helvetica, sans-serif !default;
+$footerLinkColor: inherit !default;
+$footerLinkHoverColor: $bleu !default;
+$footerLegalsBorderColor: #4b4b4f !default;
+
+
+
+
+#main-footer{
+  margin-top: toUnit($fontSize);
+  @if $footerBgColor != "non" {
+    background-color: $footerBgColor;
+  }
+  @if $footerBgImage != "none" {
+    background-image: $footerBgImage;
+    @if $footerBgImageRepeat != null{
+      background-repeat: $footerBgImageRepeat
+    } @else {
+      background-repeat: no-repeat;
+    }
+    @if $footerBgImagePosition != null {
+      background-position: $footerBgImagePosition;
+    } @else {
+      background-position: center center;
+    }
+  }
+  min-height: 300px;
+  color: $footerColor;
+  .row{
+    padding-top: toUnit($fontSize);
+    padding-bottom: toUnit($fontSize);
+  }
+  a{
+    @include nakedLink;
+    color: inherit;
+    font-family: $footerLinkFontFamily;
+    &:hover{
+      color: $linkHoverColor;
+    }
+  }
+  .socials{
+    text-align: center;
+    a{
+      font-size: toUnit($fontSize * 3);
+      &:hover{
+        color: $footerLinkHoverColor;
+      }
+    }
+  }
+  .legals{
+    text-align: center;
+    font-size: toUnit($fontSize * 0.66);
+    padding-top: toUnit($fontSize);
+    border-top: 1px solid $footerLegalsBorderColor;
+  }
+}

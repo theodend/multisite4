@@ -128,7 +128,7 @@ $mainMenuHeight: 51;
                     padding: 10px 15px;
                     text-decoration: none;
                     color: inherit;
-
+                    font-size: toUnit($fontSize * 0.8);
                     &:hover{
                       background-color: $grisFonce;
                       color: $blanc;

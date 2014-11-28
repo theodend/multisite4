@@ -15,6 +15,11 @@
   }
 }
 
+@mixin nakedLink{
+  outline: none;
+  text-decoration: none;
+}
+
 *,*:before,*:after{
   @include box-sizing(border-box);
 }
