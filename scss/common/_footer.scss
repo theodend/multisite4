@@ -12,7 +12,7 @@ $footerLegalsBorderColor: #4b4b4f !default;
 
 
 #main-footer{
-  margin-top: toUnit($fontSize);
+
   @if $footerBgColor != "non" {
     background-color: $footerBgColor;
   }
@@ -31,7 +31,7 @@ $footerLegalsBorderColor: #4b4b4f !default;
   }
   min-height: 300px;
   color: $footerColor;
-  .row{
+  .footer-row{
     padding-top: toUnit($fontSize);
     padding-bottom: toUnit($fontSize);
   }
@@ -45,6 +45,7 @@ $footerLegalsBorderColor: #4b4b4f !default;
   }
   .socials{
     text-align: center;
+    padding-top: 15px;
     a{
       font-size: toUnit($fontSize * 3);
       &:hover{

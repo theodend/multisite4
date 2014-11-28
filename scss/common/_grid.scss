@@ -33,6 +33,7 @@ $containerMaxWidth: toUnit(1200)!default;
 }
 
 .row{
+  @include row;
   .row{
     [class^="col-xs-"]:first-child, [class*=" col-xs"]:first-child,
     [class^="col-sm-"]:first-child, [class*=" col-sm"]:first-child,

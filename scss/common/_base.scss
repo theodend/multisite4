@@ -15,6 +15,7 @@ $pageHeaderPadding: 20!default;
 
 $mainHeaderPadding: 0 0 !default;
 $mainContentMinHeight: 800!default;
+$mainContentPadingBottom: 30!default;
 $mainFooterMinHeight: 400!default;
 $mainFooterBgColor: #303030!default;
 $mainFooterColor: #fff!default;
@@ -90,6 +91,7 @@ ul.inline{
 
 #main-content{
   min-height: toUnit($mainContentMinHeight);
+  padding-bottom: toUnit($mainContentPadingBottom);
 }
 
 #main-footer{
