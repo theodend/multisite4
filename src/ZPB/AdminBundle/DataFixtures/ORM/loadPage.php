@@ -90,7 +90,6 @@ class loadPage extends AbstractFixture implements OrderedFixtureInterface, Conta
         $page12->setName('zooparc:galerie')->setTitle('Galerie photos')->setRoute('zpb_sites_zoo_zooparc_gallery')->setParent($page1);
         $manager->persist($page12);
 
-
         $page13 = new Page();
         $page13->setName('enfants:carnet')->setTitle('Carnet de jeux')->setRoute('zpb_sites_zoo_children_game_pad')->setParent($page1);
         $manager->persist($page13);
@@ -103,7 +102,21 @@ class loadPage extends AbstractFixture implements OrderedFixtureInterface, Conta
         $page15->setName('enfants:parcours')->setTitle('Parcours enfants')->setRoute('zpb_sites_zoo_children_child_journey')->setParent($page1);
         $manager->persist($page15);
 
+        $page16 = new Page();
+        $page16->setName('actualite:actualite')->setTitle('Actualité')->setRoute('zpb_sites_zoo_news_news')->setParent($page1);
+        $manager->persist($page16);
 
+        $page17 = new Page();
+        $page17->setName('actualite:nouveautes')->setTitle('Nouveautés')->setRoute('zpb_sites_zoo_news_nouveautes')->setParent($page1);
+        $manager->persist($page17);
+
+        $page18 = new Page();
+        $page18->setName('fans:fans')->setTitle('Fans')->setRoute('zpb_sites_zoo_social')->setParent($page1);
+        $manager->persist($page18);
+
+        $page19 = new Page();
+        $page19->setName('boutique:boutique')->setTitle('Boutique')->setRoute('zpb_sites_zoo_shop')->setParent($page1);
+        $manager->persist($page19);
 
         $manager->flush();
     }

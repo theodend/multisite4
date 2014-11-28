@@ -1,9 +1,9 @@
 {% set utils_pages = ['pratique-acces','pratique-horaires','pratique-animations','pratique-plan','pratique-restauration','pratique-services'] %}
 {% set zooparc_pages = ['zooparc-animaux','zooparc-histoire','zooparc-missions','zooparc-dev','zooparc-galerie'] %}
 {% set children_pages = ['enfants-carnet','enfants-soigneurs','enfants-parcours'] %}
-{% set news_pages = ['newthings','posts'] %}
-{% set fans_pages = [] %}
-{% set shop_pages = [] %}
+{% set news_pages = ['actualite-nouveautes','actualite-actualite'] %}
+{% set fans_pages = ['fans-fans'] %}
+{% set shop_pages = ['boutique-boutique'] %}
 
 
 
@@ -28,8 +28,8 @@
                     <li class="dropdown{% if active_page in news_pages %} active{% endif %}"><a href="javascript:void(0)">Actualité</a>
                         {{ include("ZPBSitesZooBundle:Navs:news.html.twig") }}
                     </li>
-                    <li class="{% if active_page in fans_pages %}active{% endif %}"><a href="">Fans</a></li>
-                    <li class="{% if active_page in shop_pages %}active{% endif %}"><a href="">Boutique</a></li>
+                    <li class="{% if active_page in fans_pages %}active{% endif %}"><a href="{{ path("zpb_sites_zoo_social") }}">Fans</a></li>
+                    <li class="{% if active_page in shop_pages %}active{% endif %}"><a href="{{ path("zpb_sites_zoo_shop") }}">Boutique</a></li>
                 </ul>
             </div>
         </div>

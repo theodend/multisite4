@@ -15,9 +15,17 @@ zpb_sites_zoo_children:
     prefix:     /enfants
     resource: "@ZPBSitesZooBundle/Resources/config/routing/children.yml"
 
+zpb_sites_zoo_news:
+    prefix:     /actualité
+    resource: "@ZPBSitesZooBundle/Resources/config/routing/news.yml"
 
+zpb_sites_zoo_social:
+    path: /reseaux-sociaux
+    defaults: { _controller: ZPBSitesZooBundle:Social:social }
+    methods: ["GET"]
 
-
-
-
+zpb_sites_zoo_shop:
+    path: /boutique
+    defaults: { _controller: ZPBSitesZooBundle:Shop:shop }
+    methods: ["GET"]
 

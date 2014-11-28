@@ -1,0 +1,17 @@
+zpb_sites_zoo_news_news:
+    path: /
+    defaults: { _controller: ZPBSitesZooBundle:News:news }
+    methods: ["GET"]
+
+zpb_sites_zoo_news_nouveautes:
+    path: /nouveautes
+    defaults: { _controller: ZPBSitesZooBundle:News:nouveautes }
+    methods: ["GET"]
+
+
+
+
+
+
+
+
