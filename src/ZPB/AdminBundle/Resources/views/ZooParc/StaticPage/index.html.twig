@@ -1,0 +1,76 @@
+{% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
+
+{% block title %}Pages statiques | ZooParc{% endblock %}
+{% block content %}
+    <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
+
+    <div class="row placeholders">
+        <div class="col-sm-3 col-md-3">
+            <a class="btn btn-success" href="#add-page">Ajouter une page</a>
+        </div>
+        <div class="col-sm-3 col-md-3"></div>
+        <div class="col-sm-3 col-md-3"></div>
+        <div class="col-sm-3 col-md-3"></div>
+    </div>
+
+    <h2 class="sub-header">Pages enregistrées</h2>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>url</th>
+                            <th>route</th>
+                            <th>slug</th>
+                            <th>titre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for page in pages %}
+                        <tr>
+                            <td>{{ page.name }}</td>
+                            <td>{{ path(page.route, {}, false) }}</td>
+                            <td>{{ page.route }}</td>
+                            <td>{{ page.slug }}</td>
+                            <td>{{ page.title }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="sub-header" id="add-page">Ajouter une page</h2>
+
+    <div class="row">
+        <div class="col-sm-4 col-md-4">
+            <form class="form">
+                <div class="form-group">
+                    <label for="">nom de la page</label>
+                    <input type="text" id="" class="form-control" placeholder="nom de la page"/>
+                </div>
+                <div class="form-group">
+                    <label for="">route associée</label>
+                    <input type="text" id="" class="form-control" placeholder="route associée"/>
+                </div>
+                <div class="form-group">
+                    <label for="">titre</label>
+                    <input type="text" id="" class="form-control" placeholder="titre"/>
+                </div>
+                <div class="form-group">
+                    <label for="">description</label>
+                    <textarea class="form-control" id=""></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </form>
+        </div>
+        <div class="col-sm-8 col-md-8"></div>
+    </div>
+{% endblock %}
+
+{% block footScripts %}
+    <script src="/js/admin/zooparc/staticpage.js"></script>{% endblock %}

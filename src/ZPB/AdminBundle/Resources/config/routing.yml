@@ -1,3 +1,35 @@
 zpb_admin_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: ZPBAdminBundle:Default:index }
+    path:     /
+    defaults: { _controller: ZPBAdminBundle:Index:index }
+    methods: ["GET"]
+
+
+
+zpb_admin_zooparc_staticpage_routes:
+    prefix: /zooparc/pages-statiques
+    resource: "@ZPBAdminBundle/Resources/config/routing/zooparc/staticpage.yml"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

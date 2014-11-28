@@ -1,0 +1,4 @@
+zpb_admin_zooparc_staticpage_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ZooParc/StaticPage:index }
+    methods: ["GET"]
