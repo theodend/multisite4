@@ -118,6 +118,13 @@ class loadPage extends AbstractFixture implements OrderedFixtureInterface, Conta
         $page19->setName('boutique:boutique')->setTitle('Boutique')->setRoute('zpb_sites_zoo_shop')->setParent($page1);
         $manager->persist($page19);
 
+        $page20 = new Page();
+        $page20->setName('contact:contact')->setTitle('Contact')->setRoute('zpb_sites_zoo_contact')->setParent($page1);
+        $manager->persist($page20);
+
+        $page21 = new Page();
+        $page21->setName('faq:faq')->setTitle('Questions fréquentes')->setRoute('zpb_sites_zoo_faq')->setParent($page1);
+        $manager->persist($page21);
         $manager->flush();
     }
 

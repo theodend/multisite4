@@ -29,3 +29,12 @@ zpb_sites_zoo_shop:
     defaults: { _controller: ZPBSitesZooBundle:Shop:shop }
     methods: ["GET"]
 
+zpb_sites_zoo_contact:
+    path: /contact
+    defaults: { _controller: ZPBSitesZooBundle:Contact:index }
+    methods: ["GET"]
+
+zpb_sites_zoo_faq:
+    path: /questions-frequentes
+    defaults: { _controller: ZPBSitesZooBundle:FAQ:index }
+    methods: ["GET"]
