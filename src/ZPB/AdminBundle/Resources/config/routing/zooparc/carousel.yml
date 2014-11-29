@@ -4,9 +4,11 @@ zpb_admin_zooparc_carousel_homepage:
     methods: ["GET"]
 
 zpb_admin_zooparc_carousel_xhr_upload_image:
-    path: /image-upload
+    path: /{id}/image-upload
     defaults: { _controller: ZPBAdminBundle:ZooParc/Carousel:xhrImageUpload }
     methods: ["POST"]
+    requirements:
+        id: \d+
 
 
 

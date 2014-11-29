@@ -16,6 +16,15 @@ module.exports = function(grunt){
                             "web/js/devs/static_page_delete.js"
                         ]
                 }
+            },
+            uploadimage:{
+                files:{
+                    "web/js/admin/common/jquery.imgUpload.min.js":
+                        [
+                            "web/js/devs/images_upload.js",
+                            "web/js/devs/jquery.imgUpload.js"
+                        ]
+                }
             }
         },
         concat:{

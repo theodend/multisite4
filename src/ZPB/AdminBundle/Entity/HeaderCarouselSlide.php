@@ -2,8 +2,8 @@
 
 namespace ZPB\AdminBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * HeaderCarouselSlide
@@ -54,7 +54,7 @@ class HeaderCarouselSlide implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
@@ -65,6 +65,25 @@ class HeaderCarouselSlide implements \JsonSerializable
      */
     private $slider;
 
+
+    public function __construct()
+    {
+        $this->isActive = false;
+
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->getId(),
+            "title" => $this->getTitle(),
+            "isActive" => $this->getIsActive(),
+            "position" => $this->getPosition(),
+            "rootDir" => $this->getRootDir(),
+            "webRoot" => $this->getWebRoot(),
+            "slider" => $this->getSlider()->getId()
+        ];
+    }
 
     /**
      * Get id
@@ -77,95 +96,13 @@ class HeaderCarouselSlide implements \JsonSerializable
     }
 
     /**
-     * Set rootDir
-     *
-     * @param string $rootDir
-     * @return HeaderCarouselSlide
-     */
-    public function setRootDir($rootDir)
-    {
-        $this->rootDir = $rootDir;
-
-        return $this;
-    }
-
-    /**
-     * Get rootDir
+     * Get title
      *
      * @return string
      */
-    public function getRootDir()
+    public function getTitle()
     {
-        return $this->rootDir;
-    }
-
-    /**
-     * Set webRoot
-     *
-     * @param string $webRoot
-     * @return HeaderCarouselSlide
-     */
-    public function setWebRoot($webRoot)
-    {
-        $this->webRoot = $webRoot;
-
-        return $this;
-    }
-
-    /**
-     * Get webRoot
-     *
-     * @return string
-     */
-    public function getWebRoot()
-    {
-        return $this->webRoot;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     * @return HeaderCarouselSlide
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * Set position
-     *
-     * @param integer $position
-     * @return HeaderCarouselSlide
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * Get position
-     *
-     * @return integer
-     */
-    public function getPosition()
-    {
-        return $this->position;
+        return $this->title;
     }
 
     /**
@@ -182,24 +119,93 @@ class HeaderCarouselSlide implements \JsonSerializable
     }
 
     /**
-     * Get title
+     * Get isActive
      *
-     * @return string
+     * @return boolean
      */
-    public function getTitle()
+    public function getIsActive()
     {
-        return $this->title;
+        return $this->isActive;
     }
 
     /**
-     * Set slider
+     * Set isActive
      *
-     * @param HeaderCarousel $slider
+     * @param boolean $isActive
      * @return HeaderCarouselSlide
      */
-    public function setSlider(HeaderCarousel $slider = null)
+    public function setIsActive($isActive)
     {
-        $this->slider = $slider;
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return integer
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param integer $position
+     * @return HeaderCarouselSlide
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get rootDir
+     *
+     * @return string
+     */
+    public function getRootDir()
+    {
+        return $this->rootDir;
+    }
+
+    /**
+     * Set rootDir
+     *
+     * @param string $rootDir
+     * @return HeaderCarouselSlide
+     */
+    public function setRootDir($rootDir)
+    {
+        $this->rootDir = $rootDir;
+
+        return $this;
+    }
+
+    /**
+     * Get webRoot
+     *
+     * @return string
+     */
+    public function getWebRoot()
+    {
+        return $this->webRoot;
+    }
+
+    /**
+     * Set webRoot
+     *
+     * @param string $webRoot
+     * @return HeaderCarouselSlide
+     */
+    public function setWebRoot($webRoot)
+    {
+        $this->webRoot = $webRoot;
 
         return $this;
     }
@@ -215,22 +221,15 @@ class HeaderCarouselSlide implements \JsonSerializable
     }
 
     /**
-     * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
+     * Set slider
+     *
+     * @param HeaderCarousel $slider
+     * @return HeaderCarouselSlide
      */
-    function jsonSerialize()
+    public function setSlider(HeaderCarousel $slider = null)
     {
-        return [
-            "id" => $this->getId(),
-            "title" => $this->getTitle(),
-            "isActive" => $this->getIsActive(),
-            "position" => $this->getPosition(),
-            "rootDir" => $this->getRootDir(),
-            "webRoot" => $this->getWebRoot(),
-            "slider" => $this->getSlider()->getId()
-        ];
+        $this->slider = $slider;
+
+        return $this;
     }
 }

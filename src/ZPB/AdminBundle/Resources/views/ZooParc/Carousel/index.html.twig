@@ -1,23 +1,47 @@
 {% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
 
-{% block title %}Carousel | ZooParc{% endblock %}
+{% block title %}Carousel d'entête | ZooParc{% endblock %}
 
 {% block headLinks %}
     {{ parent() }}
-    <link rel="stylesheet" href="/js/vendor/ui/jquery-ui.min.js"/>
+    <link rel="stylesheet" href="/js/vendor/ui/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="/css/admin/master_carousel.css"/>
 {% endblock %}
+
+
 
 {% block content %}
 
     <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
 
-    <div class="row placeholders">
-        <div class="col-sm-3 col-md-3">
-            {#<a class="btn btn-success" href=""></a>#}
+
+
+    <h2 class="sub-header">Les Slides</h2>
+
+    <div class="row">
+        <div class="col-sm-8 col-md-8">
+            <h3>Liste ordonnée</h3>
+            <div id="slides">
+                {% for slide in slides %}
+                <div class="slide" id="slide_{{ slide.id }}">
+                    <table>
+                        <tr>
+                            <td class="slide-handle"></td>
+                            <td class="slide-img"><img src="{{ slide.webRoot }}" alt=""/></td>
+                            <td class="slide-activation"><label for="active_slide_{{ slide.id }}"><input type="checkbox" id="active_slide_{{ slide.id }}" {% if slide.isActive == true %}checked="checked" {% endif %}/> activée</label></td>
+                            <td class="slide-title"><input type="text" value="{{ slide.title }}"/></td>
+                            <td class="slide-delete"><button type="button" class="btn btn-default delete-btn" data-slide="{{ slide.id }}"><i class="fa fa-trash-o"></i></button><span class="loader">  </span></td>
+                        </tr>
+                    </table>
+                </div>
+                {% endfor %}
+
+            </div>
         </div>
-        <div class="col-sm-3 col-md-3"></div>
-        <div class="col-sm-3 col-md-3"></div>
-        <div class="col-sm-3 col-md-3"></div>
+        <div class="col-sm-4 col-md-4">
+            <h3>Upload</h3>
+            <div class="dropzone"><div class="loader"></div></div>
+        </div>
     </div>
 
 {% endblock %}
@@ -27,6 +51,7 @@
     {{ parent() }}
 
     <script src="/js/vendor/ui/jquery-ui.min.js"></script>
+    <script src="/js/admin/common/jquery.imgUpload.min.js"></script>
     <script>
         var carousel = {{ carousel|json_encode(constant("JSON_PRETTY_PRINT"))|raw }};
         var slides = [
@@ -34,5 +59,25 @@
             {{ slide|json_encode(constant("JSON_PRETTY_PRINT"))|raw }}{% if loop.last != true %},{% endif %}
             {% endfor %}
         ];
+
+        $(function(){
+            var dropzone = $(".dropzone");
+            var uploadLoader = $(".loader", dropzone);
+            uploadLoader.hide();
+
+            var dropOptions = {
+                uploadUrl:"{{ path("zpb_admin_zooparc_carousel_xhr_upload_image", {id: carousel.id}) }}",
+                onDropped: function(el){
+                    el.$element.find(".loader").show();
+                },
+                always: function(el){
+                    console.log(el);
+                    el.$element.find(".loader").hide();
+                }
+            };
+
+            dropzone.imgUpload(dropOptions);
+        })
     </script>
+
 {% endblock %}

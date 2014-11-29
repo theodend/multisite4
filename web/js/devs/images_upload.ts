@@ -7,18 +7,23 @@ class ImageUpload{
 
     static DEFAULTS = {
         hoverClass: "hover",
+        dropClass: "dropped",
         uploadUrl: "",
         fileMaxSize: 1000000,
         allowedTypes: ['image/jpeg', 'image/gif', 'image/png'],
+        onProgress:function(){},
         onDone: function(){},
+        onDropped: function(){},
         onFail: function(){},
-        sendMsg: function(){}
+        onLoad: function(){},
+        always: function(){},
+        onError: function(){}
 
     };
     private options = {};
     private $element:JQuery;
     private isDroppable:boolean;
-    private xhr:XMLHttpRequest;
+
 
     constructor(public element:HTMLElement, options?:any){
         this.options = $.extend(true, {}, ImageUpload.DEFAULTS, options||{});
@@ -44,11 +49,74 @@ class ImageUpload{
     onDrop(e:any):void{
         e.preventDefault();
         var self = $(this).data("uploader");
+        console.log("self", self);
         $(this).removeClass(self.options["hoverClass"]);
-    }
-    upload(files:any[]):void{
 
-        this.xhr = new XMLHttpRequest();
+        if(self.isDroppable){
+            self.options["onDropped"](self);
+            self.isDroppable = false;
+            self.upload(e.dataTransfer.files);
+        }
+    }
+    upload(files:any[]):any{
+        var file = files[0], self = this, xhr:XMLHttpRequest = null;
+
+        if(!('size' in file)){
+            self.options["onError"]("Ce n'est pas un fichier");
+            return false;
+        }
+
+        if(file.size > this.options["fileMaxSize"]){
+            self.options["onError"]("Taille maiximun de fichier dépassé");
+            return false;
+        }
+
+        if(this.options["allowedTypes"].indexOf(file.type) < 0){
+            self.options["onError"]("Type de fichier non reconnu");
+            return false;
+        }
+
+
+        xhr = new XMLHttpRequest();
+
+        xhr.upload.addEventListener("progress", function(e){
+            if(e.lengthComputable){
+                var percent = Math.round((e.loaded/ e.total) * 100) + "%";
+                self.options["onProgress"](percent);
+            }
+        }, false);
+
+        xhr.open("post", this.options["uploadUrl"], true);
+
+        xhr.onreadystatechange = function(e){
+            if(xhr.readyState === 4){
+                self.isDroppable = false;
+                if(xhr.status >= 200 && xhr.status < 400){
+                    var response = $.parseJSON(e.target["responseText"]);
+                    if(response.hasOwnProperty("error")){
+                        if(response.error === false){
+                            self.options["onDone"](response, self);
+                        } else {
+                            self.options["onFail"](response, self);
+                        }
+                    } else {
+                        self.options["onLoad"](response, self);
+                    }
+                    self.isDroppable = true;
+                    self.options["always"](self);
+                } else {
+                    self.options["onError"](xhr.status + " " + xhr.statusText,self);
+                    self.options["always"](self);
+                }
+            }
+        };
+
+        xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
+        xhr.setRequestHeader('Content-Type','multipart/form-data');
+        xhr.setRequestHeader('X-File-Name',file.name);
+        xhr.setRequestHeader('X-File-Type',file.type);
+        xhr.setRequestHeader('X-File-Size',file.size);
+        xhr.send(file);
     }
 
     initEvents():void{
