@@ -1,0 +1,47 @@
+{% set active_site = (active_site is defined) ? active_site : null %}
+{% set active_page = (active_page is defined) ? active_page : null %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% if block('title') %}{{ block('title') }} {% else %}Bienvenue {% endif %}| Beauval Nature | ZooParc de Beauval</title>
+    {% if block('description') %}
+        <meta name="description" content="{{ block('description') }}"/>
+    {% endif %}
+    {% if block('keywords') %}
+        <meta name="keywords" content="{{ block('keywords') }}"/>
+    {% endif %}
+
+    {% block metas_fb %}{% endblock %}
+
+    {% block headLinks %}
+        <link rel="stylesheet" href="/css/sites/bn/master.mobile.css"/>
+    {% endblock %}
+
+    {% block headStyles %}{% endblock %}
+
+    {% block headScripts %}
+        <script src="/js/vendor/jquery-2.1.1.min.js"></script>
+        <script src="/js/sites/bn/main.mobile.js"></script>
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    {% block main_top_bar %}
+        {{ render(controller('ZPBSitesCommonBundle:Navs:topBar', {active_site: active_site})) }}
+    {% endblock %}
+    <div id="main-content">
+        {% block mainContent %}
+            <div id="content">
+                {% block content %}{% endblock %}
+            </div>
+        {% endblock %}
+    </div>
+    <div id="main-footer">
+        {% block mainfooter%}{% endblock %}
+    </div>
+{% endblock %}
+
+</body>
+</html>

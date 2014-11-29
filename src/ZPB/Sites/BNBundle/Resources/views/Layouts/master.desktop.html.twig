@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% if block('title') %}{{ block('title') }} {% else %}Bienvenue {% endif %}| ZooParc de Beauval</title>
+    <title>{% if block('title') %}{{ block('title') }} {% else %}Bienvenue {% endif %}| Beauval Nature | ZooParc de Beauval</title>
     {% if block('description') %}
         <meta name="description" content="{{ block('description') }}"/>
     {% endif %}
@@ -78,7 +78,7 @@
 {% endblock %}
 <div id="main-footer">
     {% block mainfooter%}
-        {{ render(controller('ZPBSitesZooBundle:Partials:mainFooter')) }}
+        {{ render(controller('ZPBSitesBNBundle:Partials:mainFooter')) }}
     {% endblock %}
 </div>
 {% block footScripts %}{% endblock %}
