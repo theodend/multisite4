@@ -2,3 +2,36 @@ zpb_admin_zooparc_carousel_homepage:
     path: /
     defaults: { _controller: ZPBAdminBundle:ZooParc/Carousel:index }
     methods: ["GET"]
+
+zpb_admin_zooparc_carousel_xhr_upload_image:
+    path: /image-upload
+    defaults: { _controller: ZPBAdminBundle:ZooParc/Carousel:xhrImageUpload }
+    methods: ["POST"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
