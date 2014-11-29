@@ -13,4 +13,10 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
  */
 class PageRepository extends NestedTreeRepository
 {
+    public function hasPageNamed($name)
+    {
+        $qb = $this->createQueryBuilder("p");
+        $qb->select("COUNT(p)")->where($qb->expr()->eq("p.name",":name"))->setParameter("name", $name);
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

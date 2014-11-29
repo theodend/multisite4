@@ -23,6 +23,7 @@ namespace ZPB\AdminBundle\Controller\ZooParc;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use ZPB\AdminBundle\Entity\Page;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
 class StaticPageController extends ZPBController
@@ -31,6 +32,55 @@ class StaticPageController extends ZPBController
     {
         $pages = $this->getRepo('ZPBAdminBundle:Page')->findBy([], ['name'=>'ASC']);
         return $this->render('ZPBAdminBundle:ZooParc/StaticPage:index.html.twig', ['pages'=>$pages]);
+    }
+
+    public function xhrAddPageAction(Request $request)
+    {
+        if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $datas = [
+            "name" => $request->request->get("name", false),
+            "title" => $request->request->get("title", false),
+            "route" => $request->request->get("route", false),
+            "description" => $request->request->get("description", ""),
+            "parent" => $request->request->get("parent", null),
+            "keywords" => $request->request->get("keywords", ""),
+        ];
+
+        $response = ["error"=>true, "msg"=>"", "datas"=>$datas];
+        $router = $this->container->get('router');
+        if(!$datas["name"] || !$datas["title"] || !$datas["route"]){
+            $response["msg"] = "Données manquantes";
+        } elseif(!$router->getRouteCollection()->get($datas["route"])){
+            $response["msg"] = "Route inconnue";
+        } else {
+            $testName = $this->getRepo('ZPBAdminBundle:Page')->hasPageNamed($datas["name"]);
+            if($testName>0){
+                $response["msg"] = "Une page porte déjà ce nom";
+            } else {
+                $page = new Page();
+                $page->setName($datas["name"])
+                    ->setTitle($datas["title"])
+                    ->setRoute($datas["route"])
+                    ->setUrl($router->generate($datas["route"], [] , false))
+                    ->setDescription($datas["description"])->setKeywords($datas["keywords"]);
+                if($datas["parent"] != null){
+                    $parent = $this->getRepo('ZPBAdminBundle:Page')->find(intval($datas["parent"]));
+                    if($parent){
+                        $page->setParent($parent);
+                    }
+                }
+                $this->getManager()->persist($page);
+                $this->getManager()->flush();
+                $response["error"] = false;
+                $response["msg"] = "Données bien enregistrées";
+                $response["datas"] = $page;
+            }
+        }
+
+        return new JsonResponse($response);
+
     }
 
     public function xhrUpdatePageAction(Request $request)
@@ -70,7 +120,7 @@ class StaticPageController extends ZPBController
                 $this->getManager()->persist($page);
                 $this->getManager()->flush();
                 $response["error"] = false;
-                $response["msg"] = "OK";
+                $response["msg"] = "Données bien enregistrées";
                 $response["datas"] = $page;
             }
         }

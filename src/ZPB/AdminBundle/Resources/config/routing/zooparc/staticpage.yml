@@ -3,6 +3,15 @@ zpb_admin_zooparc_staticpage_homepage:
     defaults: { _controller: ZPBAdminBundle:ZooParc/StaticPage:index }
     methods: ["GET"]
 
+
+zpb_admin_zooparc_staticpage_xhr_add:
+    path: /xhr/add
+    defaults: { _controller: ZPBAdminBundle:ZooParc/StaticPage:xhrAddPage }
+    methods: ["POST"]
+
+
+
+
 zpb_admin_zooparc_staticpage_xhr_update:
     path: /xhr/update
     defaults: { _controller: ZPBAdminBundle:ZooParc/StaticPage:xhrUpdatePage }

@@ -26,7 +26,7 @@ class Page implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=100, nullable=false)
+     * @ORM\Column(name="name", type="string", length=100, nullable=false, unique=true)
      */
     private $name;
 

@@ -17,7 +17,10 @@ class StaticPageModifier{
         ipt_keywords:"#spm-keywords",
         buttonClass: ".display-page",
         saveBtnId: "#save-modif-btn",
-        saveUrl: ""
+        saveUrl: "",
+        dangerClass: "alert-danger",
+        successClass: "alert-success",
+        alertHTML: "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>"
     };
 
     private options = {};
@@ -28,16 +31,17 @@ class StaticPageModifier{
     private saveBtn:JQuery;
     private container:JQuery;
     private loader:JQuery;
+    private messenger:JQuery;
 
 
     constructor(public pages:any[], options?:any){
         this.options = $.extend(true, {}, StaticPageModifier.DEFAULTS, options||{});
         this.container = $(this.options["containerId"]);
+        this.messenger = this.container.find(".messenger");
         this.form = $(this.options["formId"]);
         this.saveBtn = $(this.options["saveBtnId"]);
         this.loader = this.form.find(".loader");
         this.loader.hide();
-        console.log(this.loader);
         this.initEvents();
     }
 
@@ -56,7 +60,6 @@ class StaticPageModifier{
         var prop;
         this.clearForm();
         this.currentPage = this.getPage(this.currentPageId);
-        console.log(this.currentPage);
         for(prop in this.currentPage){
             if(this.currentPage.hasOwnProperty(prop) && this.currentPage[prop] != null){
                 $(this.options["ipt_" + prop]).val(this.currentPage[prop] + "");
@@ -82,8 +85,16 @@ class StaticPageModifier{
         return result;
     }
 
+    modifyTable():void{
+        var row, id="#page_row_" + this.currentPageId;
+        row = $(id);
+        $("td.page_cell_title", row).text(this.currentPage.title);
+        $("td.page_cell_name", row).text(this.currentPage.name);
+        $("td.page_cell_url", row).text(this.currentPage.url);
+    }
+
     savePage():void{
-        var self = this;
+        var self = this, title="Problème !", msg, message;
         var datas = {
             id: this.currentPageId,
             name: $(this.options["ipt_name"]).val(),
@@ -96,6 +107,7 @@ class StaticPageModifier{
 
         this.saveBtn.hide();
         this.loader.show();
+        message = this.options["alertHTML"];
         $.ajax(
             {
                 url: this.options["saveUrl"],
@@ -104,17 +116,26 @@ class StaticPageModifier{
             }
         )
             .done(function(response){
+
                 if(response["error"] == false){
                     self.pages[self.index] = response["datas"];
                     self.currentPage = response["datas"];
                     self.formFill();
+                    title = "Succès !";
+                    message = message.replace("[[type]]", self.options["successClass"]);
+                    self.modifyTable();
                 } else {
-
+                    message = message.replace("[[type]]", self.options["alertClass"]);
                 }
+                message = message.replace("[[title]]", title).replace("[[msg]]", response["msg"]);
+                self.messenger.html(message);
+
                 self.saveBtn.show();
                 self.loader.hide();
             })
             .fail(function(xhr){
+                message = message.replace("[[type]]", self.options["alertClass"]).replace("[[title]]", title).replace("[[msg]]", xhr.statusCode + " " + xhr.statusText);
+                self.messenger.html(message);
                 self.saveBtn.show();
                 self.loader.hide();
             });
@@ -125,7 +146,6 @@ class StaticPageModifier{
         $(document).on("click", this.options["buttonClass"], function(e){
             e.preventDefault();
             self.currentPageId = $(this).data("page");
-            console.log($(this), self.currentPageId);
             self.formFill();
 
         });

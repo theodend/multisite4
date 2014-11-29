@@ -22,7 +22,7 @@
 
     <div class="row placeholders">
         <div class="col-sm-3 col-md-3">
-            <a class="btn btn-success" href="#add-page">Ajouter une page</a>
+            <a class="btn btn-success" href="#add-page-section">Ajouter une page</a>
         </div>
         <div class="col-sm-3 col-md-3"></div>
         <div class="col-sm-3 col-md-3"></div>
@@ -44,15 +44,15 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="pages-list">
                     {% for page in pages %}
                         <tr id="page_row_{{ page.id }}">
                             <td class="page_cell_title">{{ page.title }}</td>
                             <td class="page_cell_name">{{ page.name }}</td>
-                            <td class="page_cell_route">{{ path(page.route) }}</td>
-                            <td><button class="btn btn-default display-page" id="page_{{ page.id }}" data-page="{{ page.id }}"><i class="fa fa-plus"></i></button></td>
+                            <td class="page_cell_url">{{ path(page.route) }}</td>
+                            <td><button class="btn btn-default display-page" id="dis_page_{{ page.id }}" data-page="{{ page.id }}"><i class="fa fa-plus"></i></button></td>
                             <td>
-                                <button class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
+                                <button class="btn btn-default delete-page" data-page="{{ page.id }}" id="del_page_{{ page.id }}"><i class="fa fa-trash-o"></i></button></td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -98,40 +98,52 @@
                         <label for="spm-keywords">Mots-clés</label>
                         <textarea class="form-control" id="spm-keywords"></textarea>
                     </div>
-                    <button class="btn btn-success" id="save-modif-btn">Enregistrer</button><span class="loader"></span>
+                    <button class="btn btn-success" id="save-modif-btn" type="button">Enregistrer</button><span class="loader"></span>
                 </form>
+
+                <div class="messenger"></div>
             </div>
         </div>
     </div>
 
-    <h2 class="sub-header" id="add-page">Ajouter une page</h2>
+    <h2 class="sub-header" id="add-page-section">Ajouter une page</h2>
 
     <div class="row">
         <div class="col-sm-4 col-md-4">
-            <div id="add-page-form-msg"></div>
-            <form class="form" id="add-page">
-                <div class="form-group">
-                    <label for="">nom de la page</label>
-                    <input type="text" id="" class="form-control" placeholder="nom de la page"/>
-                </div>
-                <div class="form-group">
-                    <label for="">route associée</label>
-                    <input type="text" id="" class="form-control" placeholder="route associée"/>
-                </div>
-                <div class="form-group">
-                    <label for="">titre</label>
-                    <input type="text" id="" class="form-control" placeholder="titre"/>
-                </div>
-                <div class="form-group">
-                    <label for="">description</label>
-                    <textarea class="form-control" id=""></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="">mots-clés (liste de mots séparés par une virgule)</label>
-                    <textarea class="form-control" id=""></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" id="add-page-btn">Enregistrer</button>
-            </form>
+            <div id="add-page">
+                <form class="form" id="add-page-form">
+                    <div class="form-group">
+                        <label for="spa-name">nom de la page *</label>
+                        <input type="text" id="spa-name" class="form-control" placeholder="nom de la page"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="spa-route">route associée *</label>
+                        <input type="text" id="spa-route" class="form-control" placeholder="route associée"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="spa-title">titre *</label>
+                        <input type="text" id="spa-title" class="form-control" placeholder="titre"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="spa-description">description</label>
+                        <textarea class="form-control" id="spa-description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="spa-parent">Page parente</label>
+                        <select id="spa-parent" class="form-control">
+                            {% for page in pages %}
+                                <option value="{{ page.id }}">{{ page.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="spa-keywords">mots-clés (liste de mots séparés par une virgule)</label>
+                        <textarea class="form-control" id="spa-keywords"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="add-page-btn">Enregistrer</button><span class="loader"></span>
+                </form>
+                <div class="messenger"></div>
+            </div>
         </div>
         <div class="col-sm-8 col-md-8"></div>
     </div>
@@ -145,8 +157,10 @@
             {{ page|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}{% if loop.last != true %},{% endif %}
             {% endfor %}
         ];
+        var addPageUrl = "{{ path("zpb_admin_zooparc_staticpage_xhr_add") }}";
         var saveModifUrl = "{{ path("zpb_admin_zooparc_staticpage_xhr_update") }}";
     </script>
+    <script src="/js/devs/static_page_add.js"></script>
     <script src="/js/devs/static_page_modifier.js"></script>
     <script src="/js/admin/zooparc/staticpage.js"></script>
 {% endblock %}
