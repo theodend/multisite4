@@ -1,0 +1,3 @@
+zpb_sites_bn_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: ZPBSitesBNBundle:Default:index }
