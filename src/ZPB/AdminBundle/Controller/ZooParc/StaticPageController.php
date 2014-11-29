@@ -127,4 +127,30 @@ class StaticPageController extends ZPBController
 
        return new JsonResponse($response);
     }
+
+    public function xhrDeletePageAction(Request $request)
+    {
+        if(!$request->isMethod("DELETE") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        parse_str($request->getContent(), $datas);
+        $response = ["error"=>true, "msg"=>"", "datas"=>$datas];
+
+        if(!$datas["id"]){
+            $response["msg"] = "Données manquantes";
+        } else {
+            /** @var \ZPB\AdminBundle\Entity\Page $page */
+            $page = $this->getRepo('ZPBAdminBundle:Page')->find($datas["id"]);
+            if(!$page){
+                $response["msg"] = "Données introuvables";
+            } else {
+                $this->getManager()->remove($page);
+                $this->getManager()->flush();
+                $response["error"] = false;
+                $response["msg"] = "Données bien supprimées";
+                $response["datas"] = $page;
+            }
+        }
+        return new JsonResponse($response);
+    }
 }

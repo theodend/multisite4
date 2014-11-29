@@ -71,6 +71,7 @@ var StaticPageModifier = (function () {
             parent: $(this.options["ipt_parent"]).val(),
             keywords: $(this.options["ipt_keywords"]).val()
         };
+        this.messenger.empty();
         this.saveBtn.hide();
         this.loader.show();
         message = this.options["alertHTML"];

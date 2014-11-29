@@ -6,6 +6,16 @@ module.exports = function(grunt){
                 files:{
                     "web/js/sites/common/Carousel.min.js":"web/js/devs/carousel/Carousel.js"
                 }
+            },
+            staticpage:{
+                files:{
+                    "web/js/admin/zooparc/static_page_actions.min.js":
+                        [
+                            "web/js/devs/static_page_add.js",
+                            "web/js/devs/static_page_modifier.js",
+                            "web/js/devs/static_page_delete.js"
+                        ]
+                }
             }
         },
         concat:{
@@ -33,5 +43,6 @@ module.exports = function(grunt){
     });
 
     grunt.registerTask('carousel', ["uglify:carousel"]);
+    grunt.registerTask('staticpage', ["uglify:staticpage"]);
     grunt.registerTask('lib', ["concat:lib"]);
 };

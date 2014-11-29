@@ -9,7 +9,10 @@ zpb_admin_zooparc_staticpage_xhr_add:
     defaults: { _controller: ZPBAdminBundle:ZooParc/StaticPage:xhrAddPage }
     methods: ["POST"]
 
-
+zpb_admin_zooparc_staticpage_xhr_delete:
+    path: /xhr/delete
+    defaults: { _controller: ZPBAdminBundle:ZooParc/StaticPage:xhrDeletePage }
+    methods: ["DELETE"]
 
 
 zpb_admin_zooparc_staticpage_xhr_update:

@@ -33,7 +33,10 @@
 
     <div class="row">
         <div class="col-sm-6 col-md-6">
-            <div class="table-responsive">
+            <div id="pages">
+                <div class="loader"></div>
+                <div class="messenger"></div>
+                <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -57,6 +60,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
+            </div>
             </div>
         </div>
         <div class="col-sm-6 col-md-6">
@@ -159,8 +163,11 @@
         ];
         var addPageUrl = "{{ path("zpb_admin_zooparc_staticpage_xhr_add") }}";
         var saveModifUrl = "{{ path("zpb_admin_zooparc_staticpage_xhr_update") }}";
+        var deletePageUrl = "{{ path("zpb_admin_zooparc_staticpage_xhr_delete") }}";
     </script>
-    <script src="/js/devs/static_page_add.js"></script>
+    {#<script src="/js/devs/static_page_add.js"></script>
     <script src="/js/devs/static_page_modifier.js"></script>
+    <script src="/js/devs/static_page_delete.js"></script>#}
+    <script src="/js/admin/zooparc/static_page_actions.min.js"></script>
     <script src="/js/admin/zooparc/staticpage.js"></script>
 {% endblock %}
