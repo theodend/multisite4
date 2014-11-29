@@ -1,6 +1,6 @@
 {% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
 
-{% block title %}Pages statiques | ZooParc{% endblock %}
+{% block title %}Pages statiques | Beauval Nature{% endblock %}
 
 {% block headStyles %}
     <style>
@@ -37,8 +37,8 @@
                 <div class="loader"></div>
                 <div class="messenger"></div>
                 <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
+                    <table class="table table-striped">
+                        <thead>
                         <tr>
                             <th>titre</th>
                             <th>Nom</th>
@@ -46,21 +46,21 @@
                             <th></th>
                             <th></th>
                         </tr>
-                    </thead>
-                    <tbody id="pages-list">
-                    {% for page in pages %}
-                        <tr id="page_row_{{ page.id }}">
-                            <td class="page_cell_title">{{ page.title }}</td>
-                            <td class="page_cell_name">{{ page.name }}</td>
-                            <td class="page_cell_url">{{ path(page.route) }}</td>
-                            <td><button class="btn btn-default display-page" id="dis_page_{{ page.id }}" data-page="{{ page.id }}"><i class="fa fa-plus"></i></button></td>
-                            <td>
-                                <button class="btn btn-default delete-page" data-page="{{ page.id }}" id="del_page_{{ page.id }}"><i class="fa fa-trash-o"></i></button></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody id="pages-list">
+                        {% for page in pages %}
+                            <tr id="page_row_{{ page.id }}">
+                                <td class="page_cell_title">{{ page.title }}</td>
+                                <td class="page_cell_name">{{ page.name }}</td>
+                                <td class="page_cell_url">{{ path(page.route) }}</td>
+                                <td><button class="btn btn-default display-page" id="dis_page_{{ page.id }}" data-page="{{ page.id }}"><i class="fa fa-plus"></i></button></td>
+                                <td>
+                                    <button class="btn btn-default delete-page" data-page="{{ page.id }}" id="del_page_{{ page.id }}"><i class="fa fa-trash-o"></i></button></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="col-sm-6 col-md-6">
@@ -94,7 +94,6 @@
                         <label for="spm-description">description</label>
                         <textarea class="form-control" id="spm-description"></textarea>
                     </div>
-
                     <div class="form-group">
                         <label for="spm-parent">Page parente</label>
                         <select id="spm-parent" class="form-control">
@@ -166,13 +165,11 @@
             {{ page|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}{% if loop.last != true %},{% endif %}
             {% endfor %}
         ];
-        var addPageUrl = "{{ path("zpb_admin_zooparc_staticpage_xhr_add") }}";
-        var saveModifUrl = "{{ path("zpb_admin_zooparc_staticpage_xhr_update") }}";
-        var deletePageUrl = "{{ path("zpb_admin_zooparc_staticpage_xhr_delete") }}";
+        var addPageUrl = "{{ path("zpb_admin_bn_staticpage_xhr_add") }}";
+        var saveModifUrl = "{{ path("zpb_admin_bn_staticpage_xhr_update") }}";
+        var deletePageUrl = "{{ path("zpb_admin_bn_staticpage_xhr_delete") }}";
     </script>
-    {#<script src="/js/devs/static_page_add.js"></script>
-    <script src="/js/devs/static_page_modifier.js"></script>
-    <script src="/js/devs/static_page_delete.js"></script>#}
+
     <script src="/js/admin/zooparc/static_page_actions.min.js"></script>
     <script src="/js/admin/zooparc/staticpage.js"></script>
 {% endblock %}

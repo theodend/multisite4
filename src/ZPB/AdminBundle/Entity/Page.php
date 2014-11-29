@@ -113,6 +113,12 @@ class Page implements \JsonSerializable
     private $root;
 
     /**
+     * @var string
+     * @ORM\Column(name="site", type="string", length=50, nullable=false)
+     */
+    private $site;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -434,6 +440,26 @@ class Page implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getSite()
+    {
+        return $this->site;
+    }
+
+    /**
+     * @param string $site
+     * @return Page
+     */
+    public function setSite($site)
+    {
+        $this->site = $site;
+        return $this;
+    }
+
+
+
 
 
     /**
@@ -456,6 +482,7 @@ class Page implements \JsonSerializable
             "description"=> $this->description,
             "keywords"=> $this->keywords,
             "parent"=> $parent,
+            "site"=> $this->site,
         ];
     }
 }

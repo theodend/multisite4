@@ -4,16 +4,20 @@ zpb_admin_homepage:
     methods: ["GET"]
 
 
-
+############################################# zoo
 zpb_admin_zooparc_staticpage_routes:
     prefix: /zooparc/pages-statiques
     resource: "@ZPBAdminBundle/Resources/config/routing/zooparc/staticpage.yml"
 
+zpb_admin_zooparc_carousel_routes:
+    prefix: /zooparc/carousel
+    resource: "@ZPBAdminBundle/Resources/config/routing/zooparc/carousel.yml"
 
 
-
-
-
+############################################# bn
+zpb_admin_bn_staticpage_routes:
+    prefix: /beauvalnature/pages-statiques
+    resource: "@ZPBAdminBundle/Resources/config/routing/bn/staticpage.yml"
 
 
 

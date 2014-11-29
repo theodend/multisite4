@@ -23,6 +23,7 @@ var StaticPageModifier = (function () {
         $(this.options["ipt_slug"]).val("");
         $(this.options["ipt_route"]).val("");
         $(this.options["ipt_url"]).val("");
+        $(this.options["ipt_site"]).val("");
         $(this.options["ipt_title"]).val("");
         $(this.options["ipt_description"]).val("");
         $(this.options["ipt_keywords"]).val("");
@@ -124,6 +125,7 @@ var StaticPageModifier = (function () {
         ipt_title: "#spm-title",
         ipt_description: "#spm-description",
         ipt_parent: "#spm-parent",
+        ipt_site: "#spm-site",
         ipt_keywords: "#spm-keywords",
         buttonClass: ".display-page",
         saveBtnId: "#save-modif-btn",

@@ -1,11 +1,11 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Nicolas Canfrère
- * Date: 28/11/2014
- * Time: 11:23
+ * User: Nicolas Canfrere
+ * Date: 29/11/2014
+ * Time: 16:05
  */
-  /*
+ /*
            ____________________
   __      /     ______         \
  {  \ ___/___ /       }         \
@@ -18,7 +18,7 @@
       (__<  |mm_|mm_|  |mm_|mm_|
 */
 
-namespace ZPB\AdminBundle\Controller\ZooParc;
+namespace ZPB\AdminBundle\Controller\BN;
 
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,11 +27,10 @@ use ZPB\AdminBundle\Entity\Page;
 
 class StaticPageController extends BaseController
 {
-
     public function indexAction()
     {
         $pages = $this->getRepo('ZPBAdminBundle:Page')->findBy(['site'=>$this->defaultSite], ['name'=>'ASC']);
-        return $this->render('ZPBAdminBundle:ZooParc/StaticPage:index.html.twig', ['pages'=>$pages]);
+        return $this->render('ZPBAdminBundle:BN/StaticPage:index.html.twig', ['pages'=>$pages]);
     }
 
     public function xhrAddPageAction(Request $request)
@@ -127,7 +126,7 @@ class StaticPageController extends BaseController
             }
         }
 
-       return new JsonResponse($response);
+        return new JsonResponse($response);
     }
 
     public function xhrDeletePageAction(Request $request)
@@ -155,4 +154,7 @@ class StaticPageController extends BaseController
         }
         return new JsonResponse($response);
     }
+
+
+
 }
