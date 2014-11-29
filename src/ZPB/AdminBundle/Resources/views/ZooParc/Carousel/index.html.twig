@@ -27,4 +27,12 @@
     {{ parent() }}
 
     <script src="/js/vendor/ui/jquery-ui.min.js"></script>
+    <script>
+        var carousel = {{ carousel|json_encode(constant("JSON_PRETTY_PRINT"))|raw }};
+        var slides = [
+            {% for slide in slides %}
+            {{ slide|json_encode(constant("JSON_PRETTY_PRINT"))|raw }}{% if loop.last != true %},{% endif %}
+            {% endfor %}
+        ];
+    </script>
 {% endblock %}

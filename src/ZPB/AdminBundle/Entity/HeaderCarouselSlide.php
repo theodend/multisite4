@@ -229,7 +229,8 @@ class HeaderCarouselSlide implements \JsonSerializable
             "isActive" => $this->getIsActive(),
             "position" => $this->getPosition(),
             "rootDir" => $this->getRootDir(),
-            "webRoot" => $this->getWebRoot()
+            "webRoot" => $this->getWebRoot(),
+            "slider" => $this->getSlider()->getId()
         ];
     }
 }
