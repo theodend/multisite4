@@ -1,7 +1,23 @@
 {% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
 
 {% block title %}Pages statiques | ZooParc{% endblock %}
+
+{% block headStyles %}
+    <style>
+        #static-page-modifier{
+            display: none;
+        }
+        .loader{
+            width: 20px;
+            height: 20px;
+            background: transparent url("/img/sites/common/ajax-loader.gif") no-repeat center center;
+
+            display: block;
+        }
+    </style>
+{% endblock %}
 {% block content %}
+
     <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
 
     <div class="row placeholders">
@@ -16,30 +32,74 @@
     <h2 class="sub-header">Pages enregistrées</h2>
 
     <div class="row">
-        <div class="col-sm-12 col-md-12">
+        <div class="col-sm-6 col-md-6">
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>titre</th>
                             <th>Nom</th>
                             <th>url</th>
-                            <th>route</th>
-                            <th>slug</th>
-                            <th>titre</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for page in pages %}
-                        <tr>
-                            <td>{{ page.name }}</td>
-                            <td>{{ path(page.route, {}, false) }}</td>
-                            <td>{{ page.route }}</td>
-                            <td>{{ page.slug }}</td>
-                            <td>{{ page.title }}</td>
+                        <tr id="page_row_{{ page.id }}">
+                            <td class="page_cell_title">{{ page.title }}</td>
+                            <td class="page_cell_name">{{ page.name }}</td>
+                            <td class="page_cell_route">{{ path(page.route) }}</td>
+                            <td><button class="btn btn-default display-page" id="page_{{ page.id }}" data-page="{{ page.id }}"><i class="fa fa-plus"></i></button></td>
+                            <td>
+                                <button class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <div id="static-page-modifier">
+                <form class="form" id="static-page-modifier-form">
+                    <div class="form-group">
+                        <label for="spm-name">nom de la page</label>
+                        <input type="text" id="spm-name" class="form-control" placeholder="nom de la page"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="spm-slug">slug</label>
+                        <input type="text" id="spm-slug" class="form-control" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="spm-route">route associée</label>
+                        <input type="text" id="spm-route" class="form-control" placeholder="route associée"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="spm-url">url associée</label>
+                        <input type="text" id="spm-url" class="form-control" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="spm-title">titre</label>
+                        <input type="text" id="spm-title" class="form-control" placeholder="titre"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="spm-description">description</label>
+                        <textarea class="form-control" id="spm-description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="spm-parent">Page parente</label>
+                        <select id="spm-parent" class="form-control">
+                            {% for page in pages %}
+                                <option value="{{ page.id }}">{{ page.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="spm-keywords">Mots-clés</label>
+                        <textarea class="form-control" id="spm-keywords"></textarea>
+                    </div>
+                    <button class="btn btn-success" id="save-modif-btn">Enregistrer</button><span class="loader"></span>
+                </form>
             </div>
         </div>
     </div>
@@ -66,6 +126,10 @@
                     <label for="">description</label>
                     <textarea class="form-control" id=""></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="">mots-clés (liste de mots séparés par une virgule)</label>
+                    <textarea class="form-control" id=""></textarea>
+                </div>
                 <button type="submit" class="btn btn-primary" id="add-page-btn">Enregistrer</button>
             </form>
         </div>
@@ -75,5 +139,14 @@
 
 {% block footScripts %}
     {{ parent() }}
+    <script>
+        var pages = [
+            {% for page in pages %}
+            {{ page|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}{% if loop.last != true %},{% endif %}
+            {% endfor %}
+        ];
+        var saveModifUrl = "{{ path("zpb_admin_zooparc_staticpage_xhr_update") }}";
+    </script>
+    <script src="/js/devs/static_page_modifier.js"></script>
     <script src="/js/admin/zooparc/staticpage.js"></script>
 {% endblock %}

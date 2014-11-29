@@ -1,5 +1,7 @@
 $(function(){
 
+    var spm = new StaticPageModifier(pages, {saveUrl: saveModifUrl});
+
     function displayFormMsg(msg, target){
 
     }

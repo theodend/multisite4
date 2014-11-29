@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="zpb_pages")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\PageRepository")
  */
-class Page
+class Page implements \JsonSerializable
 {
     /**
      * @var integer
@@ -58,8 +58,14 @@ class Page
     private $route;
 
     /**
-     * @ORM\ManyToMany(targetEntity="ZPB\AdminBundle\Entity\PageKeyword", inversedBy="pages")
-     * @ORM\JoinTable(name="zpb_pages_keywords")
+     * @var string
+     * @ORM\Column(name="url", type="string", length=255, nullable=false)
+     */
+    private $url;
+
+    /**
+     *
+     * @ORM\Column(name="keywords", type="text", nullable=true)
      */
     private $keywords;
 
@@ -111,7 +117,6 @@ class Page
      */
     public function __construct()
     {
-        $this->keywords = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
 
@@ -310,32 +315,22 @@ class Page
     }
 
     /**
-     * Add keywords
+     * Set keywords
      *
-     * @param PageKeyword $keywords
+     * @param string $keywords
      * @return Page
      */
-    public function addKeyword(PageKeyword $keywords)
+    public function setKeywords($keywords)
     {
-        $this->keywords[] = $keywords;
+        $this->keywords = $keywords;
 
         return $this;
     }
 
     /**
-     * Remove keywords
-     *
-     * @param PageKeyword $keywords
-     */
-    public function removeKeyword(PageKeyword $keywords)
-    {
-        $this->keywords->removeElement($keywords);
-    }
-
-    /**
      * Get keywords
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return string
      */
     public function getKeywords()
     {
@@ -419,5 +414,48 @@ class Page
     public function getRoute()
     {
         return $this->route;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     * @return Page
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+
+
+    /**
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     */
+    function jsonSerialize()
+    {
+        $parent = ($this->parent === null) ? '' : $this->parent->getId();
+        return [
+            "id"=> $this->id,
+            "name"=> $this->name,
+            "slug"=> $this->slug,
+            "title"=> $this->title,
+            "route"=> $this->route,
+            "url"=>$this->url,
+            "description"=> $this->description,
+            "keywords"=> $this->keywords,
+            "parent"=> $parent,
+        ];
     }
 }

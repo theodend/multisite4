@@ -16,7 +16,7 @@ zpb_sites_zoo_children:
     resource: "@ZPBSitesZooBundle/Resources/config/routing/children.yml"
 
 zpb_sites_zoo_news:
-    prefix:     /actualité
+    prefix:     /actualite
     resource: "@ZPBSitesZooBundle/Resources/config/routing/news.yml"
 
 zpb_sites_zoo_social:

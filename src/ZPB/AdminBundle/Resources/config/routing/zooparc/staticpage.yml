@@ -2,3 +2,8 @@ zpb_admin_zooparc_staticpage_homepage:
     path: /
     defaults: { _controller: ZPBAdminBundle:ZooParc/StaticPage:index }
     methods: ["GET"]
+
+zpb_admin_zooparc_staticpage_xhr_update:
+    path: /xhr/update
+    defaults: { _controller: ZPBAdminBundle:ZooParc/StaticPage:xhrUpdatePage }
+    methods: ["PUT"]

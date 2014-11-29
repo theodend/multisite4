@@ -4,7 +4,7 @@
 
 {% block title %}{% if page!=null %}{{ page.title }}{% endif %}{% endblock %}
 {% block description %}{% if page!=null and page.description != null %}{{ page.description }}{% endif %}{% endblock %}
-{% block keywords %}{% if page!=null and page.keywords|length > 0 %}{{ page.keywords|join(', ') }}{% endif %}{% endblock %}
+{% block keywords %}{% if page!=null %}{{ page.keywords }}{% endif %}{% endblock %}
 {% block metas_fb %}{% if page!=null %}{{ include('ZPBSitesZooBundle:Incs/facebook:metas.html.twig', {title:page.title, description:page.description|default(''), type:'website', imageUrl:null, request: app.request}, with_context = false) }}{% endif %}{% endblock %}
 {% if page!=null %}{% set active_page = page.slug %}{% endif %}
 
