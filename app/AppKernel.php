@@ -24,6 +24,9 @@ class AppKernel extends Kernel
             new ZPB\Sites\CommonBundle\ZPBSitesCommonBundle(),
             new ZPB\AdminBundle\ZPBAdminBundle(),
             new ZPB\Sites\BNBundle\ZPBSitesBNBundle(),
+            new ZPB\Sites\CEBundle\ZPBSitesCEBundle(),
+            new ZPB\Sites\ProBundle\ZPBSitesProBundle(),
+            new ZPB\Sites\ScoBundle\ZPBSitesScoBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,0 +1,4 @@
+zpb_sites_ce_homepage:
+    path:     /
+    defaults: { _controller: ZPBSitesCEBundle:Index:index }
+    methods: ["GET"]

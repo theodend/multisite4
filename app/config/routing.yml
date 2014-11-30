@@ -1,3 +1,21 @@
+zpb_sites_sco:
+    resource: "@ZPBSitesScoBundle/Resources/config/routing.yml"
+    prefix:   /
+    host: new.scolaires.zoobeauval.com
+    schemes: ["http"]
+
+zpb_sites_pro:
+    resource: "@ZPBSitesProBundle/Resources/config/routing.yml"
+    prefix:   /
+    host: new.pro.zoobeauval.com
+    schemes: ["http"]
+
+zpb_sites_ce:
+    resource: "@ZPBSitesCEBundle/Resources/config/routing.yml"
+    prefix:   /
+    host: new.ce.zoobeauval.com
+    schemes: ["http"]
+
 zpb_sites_bn:
     resource: "@ZPBSitesBNBundle/Resources/config/routing.yml"
     prefix:   /

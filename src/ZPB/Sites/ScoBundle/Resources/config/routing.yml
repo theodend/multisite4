@@ -1,0 +1,3 @@
+zpb_sites_sco_homepage:
+    path:     /
+    defaults: { _controller: ZPBSitesScoBundle:Index:index }
