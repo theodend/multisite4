@@ -1,3 +1,23 @@
 @import "compass";
 
 @import "dashboard";
+
+.dropzone{
+  width: 100%;
+  height: 300px;
+  border: 2px dashed #039BE5;
+  position: relative;
+  &.hover{
+    background-color: #b5dbf8;
+  }
+  & > .loader{
+    margin: 140px auto;
+
+  }
+}
+.loader{
+  width: 20px;
+  height: 20px;
+  background: transparent url("/img/sites/common/ajax-loader.gif") no-repeat center center;
+  display: block;
+}

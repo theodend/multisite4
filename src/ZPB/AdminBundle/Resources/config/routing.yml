@@ -13,6 +13,13 @@ zpb_admin_zooparc_carousel_routes:
     prefix: /zooparc/carousel
     resource: "@ZPBAdminBundle/Resources/config/routing/zooparc/carousel.yml"
 
+zpb_admin_zooparc_restauration_routes:
+    prefix: /zooparc/restauration
+    resource: "@ZPBAdminBundle/Resources/config/routing/zooparc/restauration.yml"
+
+
+
+
 
 ############################################# bn
 zpb_admin_bn_staticpage_routes:

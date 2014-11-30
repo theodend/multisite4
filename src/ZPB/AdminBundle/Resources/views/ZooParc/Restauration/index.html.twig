@@ -1,0 +1,78 @@
+{% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
+
+{% block title %}Gestion des restaurants | ZooParc{% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">Dashboard | {{ block('title') }}</h1>
+
+<div class="row">
+    <h3>Gestion</h3>
+    <div class="col-sm-8 col-md-8">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>image</th>
+                    <th>Nom</th>
+                    <th>Status</th>
+                    <th colspan="3">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if restaurants|length > 0 %}
+                {% for resto in restaurants %}
+                    <tr>
+                        <td>{% if resto.image != null %}<button type="button" class="btn btn-default"><i class="fa fa-eye"></i></button><img src="{{ resto.image }}" alt=""/>{% endif %}</td>
+                        <td>{{ resto.name }}</td>
+                        <td>{% if resto.isOpen == true %}Ouvert{% else %}Fermé{% endif %}</td>
+                        <td><button class="btn btn-default" type="button">{% if resto.isOpen == true %}Fermer{% else %}Ouvrir{% endif %}</button></td>
+                        <td><button type="button" class="btn btn-default"><i class="fa fa-edit"></i></button></td>
+                        <td><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
+
+                    </tr>
+                {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">Aucun restaurant dans la base de données</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-4 col-md-4"></div>
+</div>
+<div class="row">
+    <div class="col-sm-8 col-md-8">
+        <h3>Ajouter un restaurant</h3>
+        <div class="row">
+            <div class="col-sm-8 col-md-8">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="">Nom</label>
+                        <input type="text" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Description</label>
+                        <textarea id="" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Numéro sur le plan</label>
+                        <input type="text" class="form-control"/>
+                    </div>
+                    <input type="hidden" id="image" value=""/>
+                    <button type="button" class="btn btn-primary">Enregistrer</button>
+                </form>
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <h4>Image d'illustration</h4>
+                <p>Glissez-déposez une image dans la zone ci-dessous.</p>
+                <div class="dropzone"><div class="loader"></div></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-4 col-md-4"></div>
+</div>
+{% endblock %}
