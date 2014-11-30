@@ -10,10 +10,19 @@ zpb_admin_zooparc_carousel_xhr_upload_image:
     requirements:
         id: \d+
 
+zpb_admin_zooparc_carousel_xhr_delete_slide:
+    path: /{id}/slide
+    defaults: { _controller: ZPBAdminBundle:ZooParc/Carousel:xhrDeleteSlide }
+    methods: ["DELETE"]
+    requirements:
+        id: \d+
 
-
-
-
+zpb_admin_zooparc_carousel_xhr_change_position:
+    path: /{id}/slide/change-position
+    defaults: { _controller: ZPBAdminBundle:ZooParc/Carousel:xhrChangePosition }
+    methods: ["PUT"]
+    requirements:
+        id: \d+
 
 
 

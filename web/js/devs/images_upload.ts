@@ -49,7 +49,6 @@ class ImageUpload{
     onDrop(e:any):void{
         e.preventDefault();
         var self = $(this).data("uploader");
-        console.log("self", self);
         $(this).removeClass(self.options["hoverClass"]);
 
         if(self.isDroppable){

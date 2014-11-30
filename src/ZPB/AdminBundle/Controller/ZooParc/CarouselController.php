@@ -42,6 +42,75 @@ class CarouselController extends BaseController
         return $this->render('ZPBAdminBundle:ZooParc/Carousel:index.html.twig', ['carousel'=>$carousel, 'slides'=>$slides]);
     }
 
+    public function xhrChangePositionAction($id, Request $request)
+    {
+        if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        $carousel = $this->getRepo("ZPBAdminBundle:HeaderCarousel")->find($id);
+        if(!$carousel){
+            $response["msg"] = "Données incorrectes.";
+        } else {
+            $datas = [];
+            parse_str($request->getContent(), $datas);
+            if(empty($datas["id"]) || empty($datas["position"])){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                $id = intval($datas["id"]);
+                /** @var $slide \ZPB\AdminBundle\Entity\HeaderCarouselSlide */
+                $slide = $this->getRepo("ZPBAdminBundle:HeaderCarouselSlide")->find($id);
+                if(!$slide){
+                    $response["msg"] = "Données incomplètes.";
+                } else {
+                    $slide->setPosition(intval($datas["position"]));
+                    $this->getManager()->persist($slide);
+                    $this->getManager()->flush();
+                    $response['error'] = false;
+                    $response['datas'] = $slide;
+                    $response['msg'] = 'Image repositionnée.';
+                }
+            }
+        }
+
+        return new JsonResponse($response);
+    }
+
+    public function xhrDeleteSlideAction($id, Request $request)
+    {
+        if(!$request->isMethod("DELETE") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        $carousel = $this->getRepo("ZPBAdminBundle:HeaderCarousel")->find($id);
+        if(!$carousel){
+            $response["msg"] = "Données incorrectes.";
+        } else {
+            $datas = [];
+            parse_str($request->getContent(), $datas);
+            if(empty($datas["id"])){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                $id = intval($datas["id"]);
+                /** @var $slide \ZPB\AdminBundle\Entity\HeaderCarouselSlide */
+                $slide = $this->getRepo("ZPBAdminBundle:HeaderCarouselSlide")->find($id);
+                if(!$slide){
+                    $response["msg"] = "Données incorrectes.";
+                } else {
+                    $fs = $this->get('filesystem');
+                    $fs->remove($slide->getRootDir());
+                    $this->getManager()->remove($slide);
+                    $this->getManager()->flush();
+                    $response['error'] = false;
+                    $response['datas'] = $slide;
+                    $response['msg'] = 'Image supprimée.';
+                }
+            }
+
+        }
+        return new JsonResponse($response);
+    }
+
     public function xhrImageUploadAction($id, Request $request)
     {
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
@@ -87,11 +156,6 @@ class CarouselController extends BaseController
                 }
             }
         }
-
-
-
-
-
         return new JsonResponse($response);
     }
 }

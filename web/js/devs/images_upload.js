@@ -28,7 +28,6 @@ var ImageUpload = (function () {
     ImageUpload.prototype.onDrop = function (e) {
         e.preventDefault();
         var self = $(this).data("uploader");
-        console.log("self", self);
         $(this).removeClass(self.options["hoverClass"]);
         if (self.isDroppable) {
             self.options["onDropped"](self);
