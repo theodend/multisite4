@@ -14,6 +14,31 @@
 
     <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
 
+    <h2>Le carousel</h2>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+
+            <div class="row">
+                <div class="col-sm-3 col-md-3">
+                    <h3>Modifié la durée d'affichage des slides</h3>
+                    <div id="slider-duration">
+                        <form class="form">
+                            <div class="form-group">
+                                <label for="slider-change-duration-ipt">Durée en millisecondes</label>
+                                <input class="form-control" id="slider-change-duration-ipt" type="text" value="{{ carousel.duration }}"/>
+                            </div>
+                            <button type="button" class="btn btn-primary " id="slider-change-duration-btn">Enregistrer</button><div class="loader slider-change-duration-btn"></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3"></div>
+                <div class="col-sm-3 col-md-3"></div>
+                <div class="col-sm-3 col-md-3"></div>
+            </div>
+
+        </div>
+    </div>
 
 
     <h2 class="sub-header">Les Slides</h2>
@@ -42,6 +67,8 @@
         </div>
         <div class="col-sm-4 col-md-4">
             <h3>Upload</h3>
+            <p>Pour ajouter une nouvelle image au carousel, glissez-déposez une image dans le cadre ci-dessous</p>
+            <p>Votre image doit avoir une largeur de 2560px et une hauteur de 750px, et ne doit pas dépasser 250ko</p>
             <div class="dropzone"><div class="loader"></div></div>
         </div>
     </div>
@@ -62,94 +89,72 @@
             {{ slide|json_encode(constant("JSON_PRETTY_PRINT"))|raw }}{% if loop.last != true %},{% endif %}
             {% endfor %}
         ];
+        var changeSliderDurationUrl= "{{ path("zpb_admin_zooparc_carousel_xhr_change_duration", {id: carousel.id}) }}";
         var changePositionUrl = "{{ path("zpb_admin_zooparc_carousel_xhr_change_position", {id: carousel.id}) }}";
         var deleteSlideUrl = "{{ path("zpb_admin_zooparc_carousel_xhr_delete_slide", {id: carousel.id}) }}";
         var changeActiveStateUrl = "{{ path("zpb_admin_zooparc_carousel_xhr_change_active_state" , {id: carousel.id}) }}";
         var uploadUrl = "{{ path("zpb_admin_zooparc_carousel_xhr_upload_image", {id: carousel.id}) }}";
 
-        var slidesMsg = $("#slides-msg"),sortableSlides = $("#slides");
 
-        function showMsg(msg, success){
-
-            if(arguments.length <1){
-                slidesMsg.empty();
-                return false;
-            }
-            var type, title;
-            var html =  "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>";
-
-            if(success === true){
-                type = "alert-success";
-                title = "Succès !";
-            } else {
-                type = "alert-danger";
-                title = "Echec !";
-            }
-
-            html = html.replace("[[type]]", type).replace("[[title]]", title).replace("[[msg]]", msg);
-            slidesMsg.append($(html));
-
-        }
-
-        var carouselManagerOptions = {
-            deleteSlideUrl: deleteSlideUrl,
-            changeActiveStateUrl: changeActiveStateUrl,
-            showMsg: showMsg
-        };
-
-        var slidesManager = new CarouselSlidesManager(sortableSlides, slides, carouselManagerOptions);
-
-        function updateSortable(evt,ui){
-            var slide = ui.item;
-            var slides = slide.parent("#slides");
-            var id = parseInt(slide.attr("id").replace("slide_",""));
-            var pos = 0;
-            console.log(id);
-            slides.find(".slide").each(function(i,e){
-                $(this).find("td.slide-position").text(pos++);
-            });
-            var position = parseInt(slide.find("td.slide-position").text());
-            sortableSlides.sortable("disable");
-            //
-            showMsg();
-            $.ajax({
-                url: changePositionUrl,
-                type: "PUT",
-                data: {id: id, position: position}
-            })
-                .done(function(response){
-                    if(response.error == false){
-                        showMsg(response.msg, true);
-                    } else {
-                        showMsg(response.msg, false);
-                    }
-                })
-                .fail(function(xhr){
-                    showMsg(xhr.statusCode+" "+xhr.statusText, false);
-                })
-                .always(function(){
-                    sortableSlides.sortable("enable");
-                });
-        }
-
-        sortableSlides.sortable(
-                {
-                    handle: ".slide-handle",
-                    cursor: "move",
-                    placeholder: "phantom",
-                    update: updateSortable
-                }
-        );
-
-        function onDone(response, uploader){
-            slidesManager.addSlide(response.datas);
-        }
 
         $(function(){
+            var showMsg = function(msg, success){
+                if(arguments.length <1){
+                    slidesMsg.empty();
+                    return false;
+                }
+                var type, title;
+                var html =  "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>";
+                if(success === true){
+                    type = "alert-success";
+                    title = "Succès !";
+                } else {
+                    type = "alert-danger";
+                    title = "Echec !";
+                }
+                html = html.replace("[[type]]", type).replace("[[title]]", title).replace("[[msg]]", msg);
+                slidesMsg.append($(html));
+            };
+
+            var updateSortable = function(evt,ui){
+                var slide = ui.item;
+                var slides = slide.parent("#slides");
+                var id = parseInt(slide.attr("id").replace("slide_",""));
+                var pos = 0;
+                console.log(id);
+                slides.find(".slide").each(function(i,e){
+                    $(this).find("td.slide-position").text(pos++);
+                });
+                var position = parseInt(slide.find("td.slide-position").text());
+                sortableSlides.sortable("disable");
+                showMsg();
+                $.ajax({
+                    url: changePositionUrl,
+                    type: "PUT",
+                    data: {id: id, position: position}
+                })
+                        .done(function(response){
+                            if(response.error == false){
+                                showMsg(response.msg, true);
+                            } else {
+                                showMsg(response.msg, false);
+                            }
+                        })
+                        .fail(function(xhr){
+                            showMsg(xhr.statusCode+" "+xhr.statusText, false);
+                        })
+                        .always(function(){
+                            sortableSlides.sortable("enable");
+                        });
+            };
+
+            var onDone = function(response, uploader){
+                slidesManager.addSlide(response.datas);
+            };
+            var slidesMsg = $("#slides-msg"), sortableSlides = $("#slides");
             var dropzone = $(".dropzone");
             var uploadLoader = $(".loader", dropzone);
             uploadLoader.hide();
-
             var dropOptions = {
                 uploadUrl: uploadUrl,
                 onDropped: function(el){
@@ -160,8 +165,22 @@
                 },
                 onDone: onDone
             };
-
             dropzone.imgUpload(dropOptions);
+            var carouselManagerOptions = {
+                changeSliderDurationUrl: changeSliderDurationUrl,
+                deleteSlideUrl: deleteSlideUrl,
+                changeActiveStateUrl: changeActiveStateUrl,
+                showMsg: showMsg
+            };
+            var slidesManager = new CarouselSlidesManager(sortableSlides, slides, carouselManagerOptions);
+            sortableSlides.sortable(
+                    {
+                        handle: ".slide-handle",
+                        cursor: "move",
+                        placeholder: "phantom",
+                        update: updateSortable
+                    }
+            );
         })
     </script>
 

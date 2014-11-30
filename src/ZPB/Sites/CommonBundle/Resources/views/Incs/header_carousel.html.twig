@@ -1,0 +1,12 @@
+<script>
+    var sliderDuration = {{ slider.duration }} || 3000;
+</script>
+<div id="carousel">
+    <div class="hc-slides">
+        {% for slide in slides %}
+            <div class="hc-slide">
+                <img src="" alt="" data-src="{{ slide.webRoot }}" title="{{ slide.title }}"/>
+            </div>
+        {% endfor %}
+    </div>
+</div>

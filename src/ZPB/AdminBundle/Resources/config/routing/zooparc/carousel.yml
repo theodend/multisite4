@@ -31,7 +31,12 @@ zpb_admin_zooparc_carousel_xhr_change_active_state:
     requirements:
         id: \d+
 
-
+zpb_admin_zooparc_carousel_xhr_change_duration:
+    path: /{id}/slider/change-duration
+    defaults: { _controller: ZPBAdminBundle:ZooParc/Carousel:xhrCarouselChangeDuration}
+    methods: ["PUT"]
+    requirements:
+        id: \d+
 
 
 

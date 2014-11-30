@@ -1,4 +1,0 @@
-services:
-#    zpb_sites_common.example:
-#        class: ZPB\Sites\CommonBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]

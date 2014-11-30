@@ -33,6 +33,9 @@
   height: 20px;
   background: transparent url("/img/sites/common/ajax-loader.gif") no-repeat center center;
   display: block;
+  &.slider-change-duration-btn{
+    display: none;
+  }
 }
 
 #slides{

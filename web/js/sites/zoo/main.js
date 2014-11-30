@@ -3,7 +3,7 @@ $(function(){
 
 
     var carousel = new Caroussel($("#carousel"),{
-        duration: 7000,
+        duration: sliderDuration || 3000,
         fadeTransionTime: 500
     });
 });

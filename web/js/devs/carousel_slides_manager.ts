@@ -17,8 +17,11 @@ class CarouselSlidesManager{
         deleteMessage: "Attention! cette action est irréversible. Vous confirmez la suppression ?",
         deleteSlideUrl: "",
         changeActiveStateUrl: "",
+        changeSliderDurationUrl: "",
         rowPrefix: "slide_",
         checkboxIdPrefix: "active_slide_",
+        btnChangeDurationId: "#slider-change-duration-btn",
+        iptChangeDurationId: "#slider-change-duration-ipt",
         showMsg: function(){},
         rowTmpl: "<div class=\'slide\' id=\'slide_[[id]]\'><table><tr><td class=\'slide-handle\'></td><td class=\'slide-position\'>[[position]]</td><td class=\'slide-img\'><img src=\'[[webRoot]]\' /></td><td class=\"slide-activation\"><label for=\"active_slide_[[id]]\"><input type=\"checkbox\" id=\"active_slide_[[id]]\"  data-activation=\'\'/> activer</label></td><td class=\"slide-title\"><input type=\"text\" value=\'[[title]]\'/></td><td class=\"slide-delete\"><button type=\'button\' class=\'btn btn-default slide-delete-btn\' data-slide=\'[[id]]\'><i class=\"fa fa-trash-o\"></i><div class=\"loader\"></div></button></td></tr></table></div>"
     };
@@ -131,6 +134,36 @@ class CarouselSlidesManager{
         }
 
     }
+    changeSliderDuration(duration:number, btn:JQuery):boolean{
+        if(duration <= 0 || this.options["changeSliderDurationUrl"] == ""){
+            return false;
+        }
+        var loader = btn.next(".loader");
+
+        btn.hide();
+        loader.show();
+
+        $.ajax({
+            type: "PUT",
+            url: this.options["changeSliderDurationUrl"],
+            data: {duration: duration}
+        })
+            .done(function(response){
+                if(response.error == false){
+
+                } else {
+
+                }
+            })
+            .fail(function(xhr){
+
+            })
+            .always(function(){
+                btn.show();
+                loader.hide();
+            });
+        return true;
+    }
 
     confirm(msg?:string):boolean{
         return window.confirm(msg);
@@ -150,6 +183,11 @@ class CarouselSlidesManager{
             e.preventDefault();
             var id = parseInt($(this).attr("id").replace(self.options["checkboxIdPrefix"], ""));
             self.changeActiveState(id, $(this));
+        });
+
+        $(this.options["btnChangeDurationId"]).on("click", function(e){
+            e.preventDefault();
+            self.changeSliderDuration(parseInt($(self.options["iptChangeDurationId"]).val()), $(this));
         });
     }
 

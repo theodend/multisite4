@@ -42,6 +42,33 @@ class CarouselController extends BaseController
         return $this->render('ZPBAdminBundle:ZooParc/Carousel:index.html.twig', ['carousel'=>$carousel, 'slides'=>$slides]);
     }
 
+    public function xhrCarouselChangeDurationAction($id, Request $request)
+    {
+        if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        /** @var $carousel \ZPB\AdminBundle\Entity\HeaderCarousel */
+        $carousel = $this->getRepo("ZPBAdminBundle:HeaderCarousel")->find($id);
+        if(!$carousel){
+            $response["msg"] = "Données incorrectes.";
+        } else {
+            $datas = [];
+            parse_str($request->getContent(), $datas);
+            if(empty($datas["duration"])){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                $carousel->setDuration(intval($datas["duration"]));
+                $this->getManager()->persist($carousel);
+                $this->getManager()->flush();
+                $response['error'] = false;
+                $response['datas'] = $carousel;
+                $response['msg'] = "Durée modifiée." ;
+            }
+        }
+        return new JsonResponse($response);
+    }
+
     public function xhrChangeActiveStateAction($id, Request $request)
     {
         if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
@@ -87,7 +114,7 @@ class CarouselController extends BaseController
         } else {
             $datas = [];
             parse_str($request->getContent(), $datas);
-            if(empty($datas["id"]) || empty($datas["position"])){
+            if(empty($datas["id"]) || !isset($datas["position"])){
                 $response["msg"] = "Données incomplètes.";
             } else {
                 $id = intval($datas["id"]);
