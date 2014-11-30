@@ -65,6 +65,36 @@ var CarouselSlidesManager = (function () {
             });
         }
     };
+    CarouselSlidesManager.prototype.changeActiveState = function (id, checkbox) {
+        var slide, loader, self = this;
+        slide = this.$element.find("#" + this.options["rowPrfix"] + id);
+        var btn = slide.find("button.slide-delete-btn");
+        loader = btn.next(".loader");
+        btn.hide();
+        loader.show();
+        if (slide != null) {
+            self.options["showMsg"]();
+            $.ajax({
+                type: "PUT",
+                url: this.options["changeActiveStateUrl"],
+                data: { id: id }
+            }).done(function (response) {
+                if (response.error == false) {
+                    slide.isActive = !slide.isActive;
+                    self.options["showMsg"](response.msg, true);
+                }
+                else {
+                    self.options["showMsg"](response.msg, false);
+                }
+                btn.show();
+                loader.hide();
+            }).fail(function (xhr) {
+                btn.show();
+                loader.hide();
+                self.options["showMsg"](xhr.statusCode + " " + xhr.statusText, false);
+            });
+        }
+    };
     CarouselSlidesManager.prototype.confirm = function (msg) {
         return window.confirm(msg);
     };
@@ -76,6 +106,11 @@ var CarouselSlidesManager = (function () {
                 self.removeSlide($(this), $(this).data("slide"));
             }
             return false;
+        });
+        $(document).on("change", "[data-activation='']", function (e) {
+            e.preventDefault();
+            var id = parseInt($(this).attr("id").replace(self.options["checkboxIdPrefix"], ""));
+            self.changeActiveState(id, $(this));
         });
     };
     CarouselSlidesManager.prototype.createRow = function (slide) {
@@ -92,10 +127,12 @@ var CarouselSlidesManager = (function () {
     CarouselSlidesManager.DEFAULTS = {
         deleteMessage: "Attention! cette action est irréversible. Vous confirmez la suppression ?",
         deleteSlideUrl: "",
+        changeActiveStateUrl: "",
         rowPrefix: "slide_",
+        checkboxIdPrefix: "active_slide_",
         showMsg: function () {
         },
-        rowTmpl: "<div class=\'slide\' id=\'slide_[[id]]\'><table><tr><td class=\'slide-handle\'></td><td class=\'slide-position\'>[[position]]</td><td class=\'slide-img\'><img src=\'[[webRoot]]\' /></td><td class=\"slide-activation\"><label for=\"active_slide_[[id]]\"><input type=\"checkbox\" id=\"active_slide_[[id]]\"/> activer</label></td><td class=\"slide-title\"><input type=\"text\" value=\'[[title]]\'/></td><td class=\"slide-delete\"><button type=\'button\' class=\'btn btn-default slide-delete-btn\' data-slide=\'[[id]]\'><i class=\"fa fa-trash-o\"></i><div class=\"loader\"></div></button></td></tr></table></div>"
+        rowTmpl: "<div class=\'slide\' id=\'slide_[[id]]\'><table><tr><td class=\'slide-handle\'></td><td class=\'slide-position\'>[[position]]</td><td class=\'slide-img\'><img src=\'[[webRoot]]\' /></td><td class=\"slide-activation\"><label for=\"active_slide_[[id]]\"><input type=\"checkbox\" id=\"active_slide_[[id]]\"  data-activation=\'\'/> activer</label></td><td class=\"slide-title\"><input type=\"text\" value=\'[[title]]\'/></td><td class=\"slide-delete\"><button type=\'button\' class=\'btn btn-default slide-delete-btn\' data-slide=\'[[id]]\'><i class=\"fa fa-trash-o\"></i><div class=\"loader\"></div></button></td></tr></table></div>"
     };
     return CarouselSlidesManager;
 })();

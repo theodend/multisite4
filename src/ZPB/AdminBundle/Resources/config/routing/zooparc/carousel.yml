@@ -24,6 +24,12 @@ zpb_admin_zooparc_carousel_xhr_change_position:
     requirements:
         id: \d+
 
+zpb_admin_zooparc_carousel_xhr_change_active_state:
+    path: /{id}/slide/change-active-state
+    defaults: { _controller: ZPBAdminBundle:ZooParc/Carousel:xhrChangeActiveState }
+    methods: ["PUT"]
+    requirements:
+        id: \d+
 
 
 

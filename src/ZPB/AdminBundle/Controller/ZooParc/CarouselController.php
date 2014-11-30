@@ -38,8 +38,41 @@ class CarouselController extends BaseController
             $this->getManager()->persist($carousel);
             $this->getManager()->flush();
         }
-        $slides = $this->getRepo("ZPBAdminBundle:HeaderCarouselSlide")->findBySlider($carousel);
+        $slides = $this->getRepo("ZPBAdminBundle:HeaderCarouselSlide")->findBy(["slider"=>$carousel], ["position"=>"ASC"]);
         return $this->render('ZPBAdminBundle:ZooParc/Carousel:index.html.twig', ['carousel'=>$carousel, 'slides'=>$slides]);
+    }
+
+    public function xhrChangeActiveStateAction($id, Request $request)
+    {
+        if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+                throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        $carousel = $this->getRepo("ZPBAdminBundle:HeaderCarousel")->find($id);
+        if(!$carousel){
+            $response["msg"] = "Données incorrectes.";
+        } else {
+            $datas = [];
+            parse_str($request->getContent(), $datas);
+            if(empty($datas["id"])){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                $id = intval($datas["id"]);
+                /** @var $slide \ZPB\AdminBundle\Entity\HeaderCarouselSlide */
+                $slide = $this->getRepo("ZPBAdminBundle:HeaderCarouselSlide")->find($id);
+                if(!$slide){
+                    $response["msg"] = "Données incomplètes.";
+                } else {
+                    $slide->setIsActive(!$slide->getIsActive());
+                    $this->getManager()->persist($slide);
+                    $this->getManager()->flush();
+                    $response['error'] = false;
+                    $response['datas'] = $slide;
+                    $response['msg'] = ($slide->getIsActive() == true) ? 'Image activée.' : 'Image désactivée.' ;
+                }
+            }
+        }
+        return new JsonResponse($response);
     }
 
     public function xhrChangePositionAction($id, Request $request)

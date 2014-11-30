@@ -30,7 +30,7 @@
                             <td class="slide-handle"></td>
                             <td class="slide-position">{{ slide.position }}</td>
                             <td class="slide-img"><img src="{{ slide.webRoot }}" alt=""/></td>
-                            <td class="slide-activation"><label for="active_slide_{{ slide.id }}"><input type="checkbox" id="active_slide_{{ slide.id }}" {% if slide.isActive == true %}checked="checked" {% endif %}/> activer</label></td>
+                            <td class="slide-activation"><label for="active_slide_{{ slide.id }}"><input type="checkbox" id="active_slide_{{ slide.id }}" {% if slide.isActive == true %}checked="checked" {% endif %} data-activation=''/> activer</label></td>
                             <td class="slide-title"><input type="text" value="{{ slide.title }}"/></td>
                             <td class="slide-delete"><button type="button" class="btn btn-default slide-delete-btn" data-slide="{{ slide.id }}"><i class="fa fa-trash-o"></i></button><div class="loader"></div></td>
                         </tr>
@@ -64,12 +64,17 @@
         ];
         var changePositionUrl = "{{ path("zpb_admin_zooparc_carousel_xhr_change_position", {id: carousel.id}) }}";
         var deleteSlideUrl = "{{ path("zpb_admin_zooparc_carousel_xhr_delete_slide", {id: carousel.id}) }}";
+        var changeActiveStateUrl = "{{ path("zpb_admin_zooparc_carousel_xhr_change_active_state" , {id: carousel.id}) }}";
         var uploadUrl = "{{ path("zpb_admin_zooparc_carousel_xhr_upload_image", {id: carousel.id}) }}";
 
         var slidesMsg = $("#slides-msg"),sortableSlides = $("#slides");
 
         function showMsg(msg, success){
-            slidesMsg.empty();
+
+            if(arguments.length <1){
+                slidesMsg.empty();
+                return false;
+            }
             var type, title;
             var html =  "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>";
 
@@ -88,6 +93,7 @@
 
         var carouselManagerOptions = {
             deleteSlideUrl: deleteSlideUrl,
+            changeActiveStateUrl: changeActiveStateUrl,
             showMsg: showMsg
         };
 
@@ -105,7 +111,7 @@
             var position = parseInt(slide.find("td.slide-position").text());
             sortableSlides.sortable("disable");
             //
-
+            showMsg();
             $.ajax({
                 url: changePositionUrl,
                 type: "PUT",
