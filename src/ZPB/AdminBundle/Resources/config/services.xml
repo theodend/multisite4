@@ -12,7 +12,7 @@
 
         <!-- bn spesific -->
         <parameter key="zpb.carousel.bn.img_base_dir">%kernel.root_dir%/../web/</parameter>
-        <parameter key="zpb.carousel.bbn.img_web_dir">img/sites/bn/headers/</parameter>
+        <parameter key="zpb.carousel.bn.img_web_dir">img/sites/bn/headers/</parameter>
 
     </parameters>
 <!--

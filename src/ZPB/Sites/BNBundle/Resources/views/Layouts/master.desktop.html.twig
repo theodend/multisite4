@@ -24,7 +24,7 @@
 
     {% block headScripts %}
         <script src="/js/vendor/lib.js"></script>
-        <script src="/js/sites/bn/main.js"></script>
+
     {% endblock %}
 </head>
 <body>
@@ -39,25 +39,7 @@
                 {{ include('ZPBSitesBNBundle:Navs:main_nav.html.twig', {active_page: active_page}, with_context = false) }}
             {% endblock %}
 
-            <div id="carousel">
-                <div class="hc-slides">
-                    <div class="hc-slide">
-                        <img src="" alt="" data-src="/img/sites/zoo/headers/header_01.jpg"/>
-                    </div>
-                    <div class="hc-slide">
-                        <img src="" alt="" data-src="/img/sites/zoo/headers/header_02.jpg"/>
-                    </div>
-                    <div class="hc-slide">
-                        <img src="" alt="" data-src="/img/sites/zoo/headers/header_03.jpg"/>
-                    </div>
-                    <div class="hc-slide">
-                        <img src="" alt="" data-src="/img/sites/zoo/headers/header_04.jpg"/>
-                    </div>
-                    <div class="hc-slide">
-                        <img src="" alt="" data-src="/img/sites/zoo/headers/header_05.jpg"/>
-                    </div>
-                </div>
-            </div>
+            {{ header_carousel('ZPBSitesCommonBundle:Incs:header_carousel.html.twig', 'bn') }}
 
         {% endblock %}
     </div>
@@ -81,6 +63,8 @@
         {{ render(controller('ZPBSitesBNBundle:Partials:mainFooter')) }}
     {% endblock %}
 </div>
-{% block footScripts %}{% endblock %}
+{% block footScripts %}
+    <script src="/js/sites/bn/main.js"></script>
+{% endblock %}
 </body>
 </html>

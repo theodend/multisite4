@@ -45,6 +45,7 @@ class LoadHeaderCarouselSlides  extends AbstractFixture implements OrderedFixtur
 
     public function load(ObjectManager $manager)
     {
+        // ##################################### zoo
         $slide1 = new HeaderCarouselSlide();
         $slide1->setSlider($this->getReference('zoo-carousel'))
             ->setIsActive(true)
@@ -79,6 +80,44 @@ class LoadHeaderCarouselSlides  extends AbstractFixture implements OrderedFixtur
             ->setRootDir("/var/www/vhosts/multisite4/app/../web/img/sites/zoo/headers/1417355291.jpg")
             ->setWebRoot("/img/sites/zoo/headers/1417355291.jpg");
         $manager->persist($slide5);
+
+        // ############################################# bn
+        $slide6 = new HeaderCarouselSlide();
+        $slide6->setSlider($this->getReference('bn-carousel'))
+            ->setIsActive(true)
+            ->setRootDir("/var/www/vhosts/multisite4/app/../web/img/sites/bn/headers/1417363072.jpg")
+            ->setWebRoot("/img/sites/bn/headers/1417363072.jpg");
+        $manager->persist($slide6);
+
+        $slide7 = new HeaderCarouselSlide();
+        $slide7->setSlider($this->getReference('bn-carousel'))
+            ->setIsActive(true)
+            ->setRootDir("/var/www/vhosts/multisite4/app/../web/img/sites/bn/headers/1417363083.jpg")
+            ->setWebRoot("/img/sites/bn/headers/1417363083.jpg");
+        $manager->persist($slide7);
+
+        $slide8 = new HeaderCarouselSlide();
+        $slide8->setSlider($this->getReference('bn-carousel'))
+            ->setIsActive(true)
+            ->setRootDir("/var/www/vhosts/multisite4/app/../web/img/sites/bn/headers/1417363090.jpg")
+            ->setWebRoot("/img/sites/bn/headers/1417363090.jpg");
+        $manager->persist($slide8);
+
+        $slide9 = new HeaderCarouselSlide();
+        $slide9->setSlider($this->getReference('bn-carousel'))
+            ->setIsActive(true)
+            ->setRootDir("/var/www/vhosts/multisite4/app/../web/img/sites/bn/headers/1417363096.jpg")
+            ->setWebRoot("/img/sites/bn/headers/1417363096.jpg");
+        $manager->persist($slide9);
+
+        $slide10 = new HeaderCarouselSlide();
+        $slide10->setSlider($this->getReference('bn-carousel'))
+            ->setIsActive(true)
+            ->setRootDir("/var/www/vhosts/multisite4/app/../web/img/sites/bn/headers/1417363101.jpg")
+            ->setWebRoot("/img/sites/bn/headers/1417363101.jpg");
+        $manager->persist($slide10);
+
+
 
         $manager->flush();
 

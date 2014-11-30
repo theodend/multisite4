@@ -4,7 +4,7 @@ $(function(){
 
 
     var carousel = new Caroussel($("#carousel"),{
-        duration: 7000,
+        duration: sliderDuration || 10000,
         fadeTransionTime: 500
     });
 });

@@ -23,7 +23,6 @@ namespace ZPB\AdminBundle\Controller\BN;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\AdminBundle\Controller\ZooParc\BaseController;
 use ZPB\AdminBundle\Entity\HeaderCarousel;
 use ZPB\AdminBundle\Entity\HeaderCarouselSlide;
 
@@ -31,7 +30,7 @@ class CarouselController extends BaseController
 {
     public function indexAction()
     {
-        $carousel = $this->getRepo("ZPBAdminBundle:HeaderCarousel")->findOneBySite($this->defaultSite);
+        $carousel = $this->getRepo("ZPBAdminBundle:HeaderCarousel")->findOneBy(["site"=>$this->defaultSite]);
         if(!$carousel){
             $carousel = new HeaderCarousel();
             $carousel->setSite($this->defaultSite);

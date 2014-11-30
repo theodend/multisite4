@@ -47,14 +47,17 @@ class LoaderCarouselHeaders  extends AbstractFixture implements OrderedFixtureIn
     {
 
         $zooSlider = new HeaderCarousel();
-        $zooSlider->setSite("zoo")->setDuration(10000);
+        $zooSlider->setSite("zoo")->setDuration(7000);
         $manager->persist($zooSlider);
 
-
+        $bnSlider = new HeaderCarousel();
+        $bnSlider->setSite("bn")->setDuration(7000);
+        $manager->persist($bnSlider);
         $manager->flush();
 
 
         $this->addReference('zoo-carousel', $zooSlider);
+        $this->addReference('bn-carousel', $bnSlider);
     }
 
     public function getOrder()
