@@ -1,0 +1,187 @@
+{% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
+
+{% block title %}Carousel d'entête | Beauval Nature{% endblock %}
+
+{% block headLinks %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/js/vendor/ui/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="/css/admin/master_carousel.css"/>
+{% endblock %}
+
+
+
+{% block content %}
+
+    <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
+
+    <h2>Le carousel</h2>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+
+            <div class="row">
+                <div class="col-sm-3 col-md-3">
+                    <h3>Modifié la durée d'affichage des slides</h3>
+                    <div id="slider-duration">
+                        <form class="form">
+                            <div class="form-group">
+                                <label for="slider-change-duration-ipt">Durée en millisecondes</label>
+                                <input class="form-control" id="slider-change-duration-ipt" type="text" value="{{ carousel.duration }}"/>
+                            </div>
+                            <button type="button" class="btn btn-primary " id="slider-change-duration-btn">Enregistrer</button><div class="loader slider-change-duration-btn"></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3"></div>
+                <div class="col-sm-3 col-md-3"></div>
+                <div class="col-sm-3 col-md-3"></div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <h2 class="sub-header">Les Slides</h2>
+
+    <div class="row">
+        <div class="col-sm-8 col-md-8">
+            <h3>Liste ordonnée</h3>
+            <div id="slides-msg"></div>
+            <div id="slides">
+                {% for slide in slides %}
+                    <div class="slide" id="slide_{{ slide.id }}">
+                        <table>
+                            <tr>
+                                <td class="slide-handle"></td>
+                                <td class="slide-position">{{ slide.position }}</td>
+                                <td class="slide-img"><img src="{{ slide.webRoot }}" alt=""/></td>
+                                <td class="slide-activation"><label for="active_slide_{{ slide.id }}"><input type="checkbox" id="active_slide_{{ slide.id }}" {% if slide.isActive == true %}checked="checked" {% endif %} data-activation=''/> activer</label></td>
+                                <td class="slide-title"><input type="text" value="{{ slide.title }}"/></td>
+                                <td class="slide-delete"><button type="button" class="btn btn-default slide-delete-btn" data-slide="{{ slide.id }}"><i class="fa fa-trash-o"></i></button><div class="loader"></div></td>
+                            </tr>
+                        </table>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <h3>Upload</h3>
+            <p>Pour ajouter une nouvelle image au carousel, glissez-déposez une image dans le cadre ci-dessous</p>
+            <p>Votre image doit avoir une largeur de 2560px et une hauteur de 750px, et ne doit pas dépasser 250ko</p>
+            <div class="dropzone"><div class="loader"></div></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block footScripts %}
+    {{ parent() }}
+
+    <script src="/js/vendor/ui/jquery-ui.min.js"></script>
+    <script src="/js/devs/carousel_slides_manager.js"></script>
+    <script src="/js/admin/common/jquery.imgUpload.min.js"></script>
+    <script>
+        var carousel = {{ carousel|json_encode(constant("JSON_PRETTY_PRINT"))|raw }};
+        var slides = [
+            {% for slide in slides %}
+            {{ slide|json_encode(constant("JSON_PRETTY_PRINT"))|raw }}{% if loop.last != true %},{% endif %}
+            {% endfor %}
+        ];
+        var changeSliderDurationUrl= "{{ path("zpb_admin_bn_carousel_xhr_change_duration", {id: carousel.id}) }}";
+        var changePositionUrl = "{{ path("zpb_admin_bn_carousel_xhr_change_position", {id: carousel.id}) }}";
+        var deleteSlideUrl = "{{ path("zpb_admin_bn_carousel_xhr_delete_slide", {id: carousel.id}) }}";
+        var changeActiveStateUrl = "{{ path("zpb_admin_bn_carousel_xhr_change_active_state" , {id: carousel.id}) }}";
+        var uploadUrl = "{{ path("zpb_admin_bn_carousel_xhr_upload_image", {id: carousel.id}) }}";
+
+
+
+        $(function(){
+            var showMsg = function(msg, success){
+                if(arguments.length <1){
+                    slidesMsg.empty();
+                    return false;
+                }
+                var type, title;
+                var html =  "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>";
+                if(success === true){
+                    type = "alert-success";
+                    title = "Succès !";
+                } else {
+                    type = "alert-danger";
+                    title = "Echec !";
+                }
+                html = html.replace("[[type]]", type).replace("[[title]]", title).replace("[[msg]]", msg);
+                slidesMsg.append($(html));
+            };
+
+            var updateSortable = function(evt,ui){
+                var slide = ui.item;
+                var slides = slide.parent("#slides");
+                var id = parseInt(slide.attr("id").replace("slide_",""));
+                var pos = 0;
+                console.log(id);
+                slides.find(".slide").each(function(i,e){
+                    $(this).find("td.slide-position").text(pos++);
+                });
+                var position = parseInt(slide.find("td.slide-position").text());
+                sortableSlides.sortable("disable");
+                showMsg();
+                $.ajax({
+                    url: changePositionUrl,
+                    type: "PUT",
+                    data: {id: id, position: position}
+                })
+                        .done(function(response){
+                            if(response.error == false){
+                                showMsg(response.msg, true);
+                            } else {
+                                showMsg(response.msg, false);
+                            }
+                        })
+                        .fail(function(xhr){
+                            showMsg(xhr.statusCode+" "+xhr.statusText, false);
+                        })
+                        .always(function(){
+                            sortableSlides.sortable("enable");
+                        });
+            };
+
+            var onDone = function(response, uploader){
+                slidesManager.addSlide(response.datas);
+            };
+            var slidesMsg = $("#slides-msg"), sortableSlides = $("#slides");
+            var dropzone = $(".dropzone");
+            var uploadLoader = $(".loader", dropzone);
+            uploadLoader.hide();
+            var dropOptions = {
+                uploadUrl: uploadUrl,
+                onDropped: function(el){
+                    el.$element.find(".loader").show();
+                },
+                always: function(el){
+                    el.$element.find(".loader").hide();
+                },
+                onDone: onDone
+            };
+            dropzone.imgUpload(dropOptions);
+            var carouselManagerOptions = {
+                changeSliderDurationUrl: changeSliderDurationUrl,
+                deleteSlideUrl: deleteSlideUrl,
+                changeActiveStateUrl: changeActiveStateUrl,
+                showMsg: showMsg
+            };
+            var slidesManager = new CarouselSlidesManager(sortableSlides, slides, carouselManagerOptions);
+            sortableSlides.sortable(
+                    {
+                        handle: ".slide-handle",
+                        cursor: "move",
+                        placeholder: "phantom",
+                        update: updateSortable
+                    }
+            );
+        })
+    </script>
+
+{% endblock %}

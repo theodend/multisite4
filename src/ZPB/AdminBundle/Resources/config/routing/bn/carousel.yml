@@ -1,0 +1,39 @@
+zpb_admin_bn_carousel_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:BN/Carousel:index }
+    methods: ["GET"]
+
+zpb_admin_bn_carousel_xhr_upload_image:
+    path: /{id}/image-upload
+    defaults: { _controller: ZPBAdminBundle:BN/Carousel:xhrImageUpload }
+    methods: ["POST"]
+    requirements:
+        id: \d+
+
+zpb_admin_bn_carousel_xhr_delete_slide:
+    path: /{id}/slide
+    defaults: { _controller: ZPBAdminBundle:BN/Carousel:xhrDeleteSlide }
+    methods: ["DELETE"]
+    requirements:
+        id: \d+
+
+zpb_admin_bn_carousel_xhr_change_position:
+    path: /{id}/slide/change-position
+    defaults: { _controller: ZPBAdminBundle:BN/Carousel:xhrChangePosition }
+    methods: ["PUT"]
+    requirements:
+        id: \d+
+
+zpb_admin_bn_carousel_xhr_change_active_state:
+    path: /{id}/slide/change-active-state
+    defaults: { _controller: ZPBAdminBundle:BN/Carousel:xhrChangeActiveState }
+    methods: ["PUT"]
+    requirements:
+        id: \d+
+
+zpb_admin_bn_carousel_xhr_change_duration:
+    path: /{id}/slider/change-duration
+    defaults: { _controller: ZPBAdminBundle:BN/Carousel:xhrCarouselChangeDuration}
+    methods: ["PUT"]
+    requirements:
+        id: \d+

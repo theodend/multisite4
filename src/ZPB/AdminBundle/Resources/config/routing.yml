@@ -19,7 +19,9 @@ zpb_admin_bn_staticpage_routes:
     prefix: /beauvalnature/pages-statiques
     resource: "@ZPBAdminBundle/Resources/config/routing/bn/staticpage.yml"
 
-
+zpb_admin_bn_carousel_routes:
+    prefix: /beauvalnature/carousel
+    resource: "@ZPBAdminBundle/Resources/config/routing/bn/carousel.yml"
 
 
 
