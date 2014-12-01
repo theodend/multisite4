@@ -52,22 +52,43 @@
             <h2 class="sub-header">Liste des images</h2>
             <div id="images">
                 {% for img in gallery.images %}
-                <div class="image">
+                <div class="image" id="img_{{ img.id }}">
                     <table>
-
-                            <tr id="img_{{ img.id }}">
-                                <td class="img-handle"></td>
-                                <td class="img-position"></td>
-                                <td class="img-img"><img src="{{ img.webroot }}" alt=""/></td>
-                                <td class="img-activation"><label for=""><input type="checkbox" name="" id=""/> Activer</label></td>
-                                <td class="img-title"><input type="text"/></td>
-                                <td class="img-delete"><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
-                            </tr>
-
-
+                        <tr>
+                            <td class="img-handle"></td>
+                            <td class="img-position"></td>
+                            <td class="img-img"><img src="{{ img.webroot }}" alt=""/></td>
+                            <td class="img-activation"><label for=""><input type="checkbox" name="" id=""/> Activer</label></td>
+                            <td class="img-title"><input type="text"/></td>
+                            <td class="img-delete"><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
+                        </tr>
                     </table>
                 </div>
                 {% endfor %}
+                <div class="image" id="img_1">
+                    <table>
+                        <tr>
+                            <td class="img-handle"></td>
+                            <td class="img-position"></td>
+                            <td class="img-img"><img src="" alt=""/></td>
+                            <td class="img-activation"><label for=""><input type="checkbox" name="" id=""/> Activer</label></td>
+                            <td class="img-title"><input type="text"/></td>
+                            <td class="img-delete"><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="image" id="img_1">
+                    <table>
+                        <tr>
+                            <td class="img-handle"></td>
+                            <td class="img-position"></td>
+                            <td class="img-img"><img src="" alt=""/></td>
+                            <td class="img-activation"><label for=""><input type="checkbox" name="" id=""/> Activer</label></td>
+                            <td class="img-title"><input type="text"/></td>
+                            <td class="img-delete"><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
         </div>
@@ -79,4 +100,98 @@
             <div class="dropzone"></div>
         </div>
     </div>
+{% endblock %}
+
+{% block footScripts %}
+    {{ parent() }}
+    <script src="/js/vendor/ui/jquery-ui.min.js"></script>
+    <script src="/js/admin/common/jquery.imgUpload.min.js"></script>
+    <script src="/js/devs/gallery_manager.js"></script>
+    <script>
+        var uploadUrl = "";
+        var updatePositionUrl = "";
+    </script>
+    <script>
+        $(function(){
+            var galleryManager,galleryManagerOptions,uploadImgOptions,sortableImg, dropZone,messenger;
+            sortableImgs = $("#images");
+            dropZone = $(".dropzone");
+            messenger = $("#messenger");
+
+            galleryManagerOptions = {
+
+            };
+            uploadImgOptions = {
+                uploadUrl: "",
+                onDropped : function(){},
+                always: function(){},
+                onDone: onDone
+            };
+
+            galleryManager = new GalleryManager(galleryManagerOptions);
+
+            var showMsg = function(msg, success){
+                if(arguments.length <1){
+                    messenger.empty();
+                    return false;
+                }
+                var type, title;
+                var html =  "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>";
+                if(success === true){
+                    type = "alert-success";
+                    title = "Succès !";
+                } else {
+                    type = "alert-danger";
+                    title = "Echec !";
+                }
+                html = html.replace("[[type]]", type).replace("[[title]]", title).replace("[[msg]]", msg);
+                messenger.append($(html));
+            };
+
+            var onDone = function(response, uploader){
+
+            };
+
+            var updateSortable = function(evt, ui){
+                var img = ui.item;
+                var imgs = img.parent("#slides");
+                var id = parseInt(img.attr("id").replace("img_",""));
+                var pos = 0;
+                imgs.find(".slide").each(function(i,e){
+                    $(this).find("td.img-position").text(pos++);
+                });
+                var position = parseInt(img.find("td.img-position").text());
+                sortableImgs.sortable("disable");
+                showMsg();
+                $.ajax(
+                        {
+                            url: updatePositionUrl,
+                            type: "PUT",
+                            data: {id: id, position: position}
+                        }
+                )
+                        .done(function(response){
+                            if(response.error == false){
+                                showMsg(response.msg, true);
+                            } else {
+                                showMsg(response.msg, false);
+                            }
+                        })
+                        .fail(function(xhr){
+                            showMsg(xhr.statusCode+" "+xhr.statusText, false);
+                        }).always(function(){
+                            sortableImgs.sortable("enable");
+                        });
+            };
+
+            dropZone.imgUpload(uploadImgOptions);
+
+            sortableImgs.sortable({
+                handle: ".img-handle",
+                cursor: "move",
+                placeholder: "phantom",
+                update: updateSortable
+            });
+        });
+    </script>
 {% endblock %}

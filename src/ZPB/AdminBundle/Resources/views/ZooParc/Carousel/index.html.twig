@@ -121,7 +121,6 @@
                 var slides = slide.parent("#slides");
                 var id = parseInt(slide.attr("id").replace("slide_",""));
                 var pos = 0;
-                console.log(id);
                 slides.find(".slide").each(function(i,e){
                     $(this).find("td.slide-position").text(pos++);
                 });
