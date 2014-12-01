@@ -18,7 +18,7 @@
       (__<  |mm_|mm_|  |mm_|mm_|
 */
 
-namespace ZPB\Sites\PROBundle\Controller;
+namespace ZPB\Sites\ProBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;

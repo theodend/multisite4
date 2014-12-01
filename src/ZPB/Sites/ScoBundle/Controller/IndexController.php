@@ -18,7 +18,7 @@
       (__<  |mm_|mm_|  |mm_|mm_|
 */
 
-namespace ZPB\Sites\ScoBundle\Bundle\Controller;
+namespace ZPB\Sites\ScoBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
