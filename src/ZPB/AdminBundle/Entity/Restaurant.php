@@ -213,4 +213,27 @@ class Restaurant
     {
         return $this->isOpen;
     }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     * @return Restaurant
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string 
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
 }
