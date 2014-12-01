@@ -2,11 +2,7 @@
 
 {% block title %}Galeries d'images{% endblock %}
 
-{% block headLinks %}
-    {{ parent() }}
-    <link rel="stylesheet" href="/js/vendor/ui/jquery-ui.min.css"/>
 
-{% endblock %}
 
 {% block headStyles %}
     {{ parent() }}
@@ -27,60 +23,66 @@
     </div>
 
     <div class="row">
-    <div class="col-sm-12 col-md-12">
-
-        <ul class="nav nav-tabs" role="tablist" id="galleries-tabs">
-            {% for gallery in galleries %}
-                <li role="presentation"><a href="#{{ gallery.slug }}" data-toggle="tab" aria-controls="{{ gallery.slug }}" role="tab">{{ gallery.name }}</a></li>
-            {% endfor %}
-            <li role="presentation"><a href="#create-gallery" data-toggle="tab" aria-controls="create-gallery" role="tab"><i class="fa fa-plus"></i></a></li>
-        </ul>
-
-        <div class="tab-content" id="tab-content">
-            {% for gallery in galleries %}
-                <div role="tabpanel" class="tab-pane" id="{{ gallery.slug }}">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-8 col-md-8 tab-inner">
-                                <h3>Infos</h3>
-
-                                <form class="form" id="gallery_form_{{ gallery.id }}">
-                                    <div class="form-group">
-                                        <label for="gallery-name-ipt_{{ gallery.id }}">Nom de la galerie</label>
-                                        <input type="text" id="gallery-name-ipt_{{ gallery.id }}" class="form-control" value="{{ gallery.name }}"/>
-                                    </div>
-                                    <button class="btn btn-primary update-gallery" type="button" id="new-gallery-btn_{{ gallery.id }}" data-gallery="{{ gallery.id }}">Mettre à jour</button><div class="loader"></div>
-                                </form>
-
-                                <h3>Images</h3>
-                            </div>
-                            <div class="col-sm-4 col-md-4"></div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            <div role="tabpanel" class="tab-pane" id="create-gallery">
-                <div class="container-fluid">
-                    <div class="row">
-
-                        <div class="col-sm-6 col-md-6">
-                            <h3 class="sub-header">Nouvelle galerie</h3>
-                            <form class="form" id="new-gallery-form">
-                                <div class="form-group">
-                                    <label for="new-gallery-name-ipt">Nom de la galerie</label>
-                                    <input type="text" id="new-gallery-name-ipt" class="form-control"/>
-                                </div>
-                                <button class="btn btn-primary" type="button" id="new-gallery-btn">Créer</button><div class="loader" id="new-gallery-loader"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
+        <div class="col-sm-8 col-md-8">
+            <h2 class="sub-header">Toutes les galeries</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Status</th>
+                        <th colspan="2">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if galleries|length>0 %}
+                    {% for gallery in galleries %}
+                    <tr>
+                        <td>{{ gallery.name }}</td>
+                        <td>{% if gallery.isPrivate == true %}privée{% else %}public{% endif %}</td>
+                        <td><a class="btn btn-default" href=""><i class="fa fa-edit"></i></a></td>
+                        <td><a class="btn btn-default" href=""><i class="fa fa-trash-o"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4">Pas de galeries enregistrées</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
             </div>
+        </div>
+        <div class="col-sm-4 col-md-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div id="messenger"></div>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-sm-8 col-md-8">
+            <h2 class="sub-header">Créer une galerie</h2>
+            <form class="form" id="new-gallery-form">
+                <div class="form-group">
+                    <label for="new-gallery-name-ipt">Nom de la galerie</label>
+                    <input type="text" id="new-gallery-name-ipt" class="form-control"/>
+                </div>
+                <div class="checkbox">
+                    <label for="new-gallery-private-ipt">
+                    <input type="checkbox" id="new-gallery-private-ipt"/> Galerie privée ?
+                    </label>
+                </div>
+
+                <button class="btn btn-primary" type="button" id="new-gallery-btn">Créer</button><div class="loader" id="new-gallery-loader"></div>
+            </form>
+        </div>
+        <div class="col-sm-4 col-md-4"></div>
     </div>
+
+
 
 
 {% endblock %}
@@ -99,10 +101,11 @@
     <script>
         $(function(){
             // #################################################### vars
-            var messenger, newGalNameIpt, newGalBtn, newGalLoader;
+            var messenger, newGalNameIpt,newGalPrivateIpt, newGalBtn, newGalLoader;
 
             messenger = $("#messenger");
             newGalNameIpt = $("#new-gallery-name-ipt");
+            newGalPrivateIpt = $("#new-gallery-private-ipt");
             newGalBtn = $("#new-gallery-btn");
             newGalLoader = $("#new-gallery-loader");
 
@@ -128,18 +131,19 @@
 
             // #################################################### actions
 
-            $('#galleries-tabs a:first').tab('show');
+
 
             newGalBtn.on("click", function(e){
                 e.preventDefault();
                 var name = newGalNameIpt.val();
+                var isPrivate = newGalPrivateIpt.is(":checked") ? "private" : "public";
                 if(name == ""){
                     return false;
                 }
                 newGalBtn.hide();
                 newGalLoader.show();
                 showMsg();
-                $.post(newGalUrl, {name: name})
+                $.post(newGalUrl, {name: name, isPrivate: isPrivate})
                         .done(function(response){
                             if(response.error == false){
                                 location.reload(true);

@@ -51,11 +51,17 @@ class ImageGallery implements \JsonSerializable
     private $images;
 
     /**
+     * @ORM\Column(name="is_private", type="boolean")
+     */
+    private $isPrivate;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->isPrivate = false;
     }
 
     /**
@@ -179,4 +185,24 @@ class ImageGallery implements \JsonSerializable
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIsPrivate()
+    {
+        return $this->isPrivate;
+    }
+
+    /**
+     * @param mixed $isPrivate
+     * @return ImageGallery
+     */
+    public function setIsPrivate($isPrivate)
+    {
+        $this->isPrivate = $isPrivate;
+        return $this;
+    }
+
+
 }

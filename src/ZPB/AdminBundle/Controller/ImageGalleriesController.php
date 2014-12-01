@@ -34,6 +34,16 @@ class ImageGalleriesController extends ZPBController
         return $this->render('ZPBAdminBundle:ImageGalleries:index.html.twig', ["galleries"=>$galleries]);
     }
 
+    public function updateAction($id, Request $request)
+    {
+        $gallery = $this->getRepo("ZPBAdminBundle:ImageGallery")->find($id);
+        if(!$gallery){
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render('ZPBAdminBundle:ImageGalleries:update.html.twig', ["gallery"=>$gallery]);
+    }
+
     public function xhrNewGalleryAction(Request $request)
     {
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
@@ -41,11 +51,17 @@ class ImageGalleriesController extends ZPBController
         }
         $response = ["error"=>true, "msg"=>"", "datas"=>[]];
         $name = $request->request->get("name", false);
-        if(!$name){
+        $isPrivate = $request->request->get("isPrivate", false);
+        if(!$name || !$isPrivate){
             $response["msg"] = "Données incomplètes.";
         } else {
             $gallery = new ImageGallery();
             $gallery->setName($name);
+            if($isPrivate == "private"){
+                $gallery->setIsPrivate(true);
+            } else {
+                $gallery->setIsPrivate(false);
+            }
             $this->getManager()->persist($gallery);
             $this->getManager()->flush();
             $response["error"] = false;

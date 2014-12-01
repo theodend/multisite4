@@ -1,0 +1,39 @@
+{% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
+
+{% block title %}Mise à jour | Galeries d'images{% endblock %}
+
+{% block headLinks %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/js/vendor/ui/jquery-ui.min.css"/>
+
+{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div id="messenger"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8 col-md-8">
+            <h2 class="sub-header">Mise à jour</h2>
+            <form class="form" id="new-gallery-form">
+                <div class="form-group">
+                    <label for="new-gallery-name-ipt">Nom de la galerie</label>
+                    <input type="text" id="new-gallery-name-ipt" class="form-control"/>
+                </div>
+                <div class="checkbox">
+                    <label for="new-gallery-private-ipt">
+                        <input type="checkbox" id="new-gallery-private-ipt"/> Galerie privée ?
+                    </label>
+                </div>
+
+                <button class="btn btn-primary" type="button" id="new-gallery-btn">Créer</button><div class="loader" id="new-gallery-loader"></div>
+            </form>
+        </div>
+        <div class="col-sm-4 col-md-4"></div>
+    </div>
+{% endblock %}
