@@ -31,7 +31,7 @@ use ZPB\AdminBundle\Entity\HeaderCarouselSlide;
  * Class LoadHeaderCarouselSlides
  * @package ZPB\AdminBundle\DataFixtures\ORM
  */
-class LoadHeaderCarouselSlides  extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadHeaderCarouselSlides21  extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface

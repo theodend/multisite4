@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Nicolas Canfrere
- * Date: 30/11/2014
- * Time: 14:50
+ * Date: 01/12/2014
+ * Time: 01:17
  */
  /*
            ____________________
@@ -25,13 +25,13 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use ZPB\AdminBundle\Entity\HeaderCarousel;
+use ZPB\AdminBundle\Entity\Restaurant;
 
 /**
- * Class LoaderCarouselHeaders
- * @package ZPB\AdminBundle\DataFixtures\ORM
+ * Class LoadZooRestaurants
+ * @package
  */
-class LoaderCarouselHeaders  extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadZooRestaurants30  extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -46,22 +46,14 @@ class LoaderCarouselHeaders  extends AbstractFixture implements OrderedFixtureIn
     public function load(ObjectManager $manager)
     {
 
-        $zooSlider = new HeaderCarousel();
-        $zooSlider->setSite("zoo")->setDuration(7000);
-        $manager->persist($zooSlider);
 
-        $bnSlider = new HeaderCarousel();
-        $bnSlider->setSite("bn")->setDuration(7000);
-        $manager->persist($bnSlider);
-        $manager->flush();
+        // $manager->flush();
 
-
-        $this->addReference('zoo-carousel', $zooSlider);
-        $this->addReference('bn-carousel', $bnSlider);
+        // $this->addReference('', );
     }
 
     public function getOrder()
     {
-        return 20;
+        return 30;
     }
 }

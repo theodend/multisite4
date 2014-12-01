@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use ZPB\AdminBundle\Entity\Page;
 
-class loadPageZoo extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class loadPageZoo1 extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
     * @var \Symfony\Component\DependencyInjection\ContainerInterface

@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use ZPB\AdminBundle\Entity\Page;
 
-class loadPageCE extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class loadPageCE5 extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
     * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -53,6 +53,6 @@ class loadPageCE extends AbstractFixture implements OrderedFixtureInterface, Con
 
     public function getOrder()
     {
-        return 1;
+        return 5;
     }
 }

@@ -1,11 +1,11 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Nicolas Canfrère
- * Date: 27/11/2014
- * Time: 17:08
+ * User: Nicolas Canfrere
+ * Date: 29/11/2014
+ * Time: 15:57
  */
-  /*
+ /*
            ____________________
   __      /     ______         \
  {  \ ___/___ /       }         \
@@ -27,11 +27,15 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use ZPB\AdminBundle\Entity\Page;
 
-class loadPageSco extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+/**
+ * Class LoadPageBn
+ * @package ZPB\AdminBundle\DataFixtures\ORM
+ */
+class LoadPageBn2  extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
-    * @var \Symfony\Component\DependencyInjection\ContainerInterface
-    */
+     * @var ContainerInterface
+     */
     private $container;
 
     public function setContainer(ContainerInterface $container=null)
@@ -42,17 +46,21 @@ class loadPageSco extends AbstractFixture implements OrderedFixtureInterface, Co
     public function load(ObjectManager $manager)
     {
         $page1 = new Page();
-        $page1->setName('sco:homepage')->setSite('sco')->setTitle('Accueil')->setRoute('zpb_sites_sco_homepage')->setUrl($this->container->get('router')->generate('zpb_sites_sco_homepage',[],false));
+        $page1->setName('bn:homepage')->setSite('bn')->setTitle('Accueil')->setRoute('zpb_sites_bn_homepage')->setUrl($this->container->get('router')->generate('zpb_sites_bn_homepage',[],false));
         $manager->persist($page1);
         $manager->flush();
 
-        //autres
+        // $page2 = new Page();
+        // $page2->setName('zoo:pratique:acces')->setTitle('Accès')->setRoute('zpb_sites_zoo_utils_access')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_zoo_utils_access',[],false));
+        // $manager->persist($page2);
 
-        //$manager->flush();
+        // $manager->flush();
+
+        // $this->addReference('', );
     }
 
     public function getOrder()
     {
-        return 4;
+        return 2;
     }
 }
