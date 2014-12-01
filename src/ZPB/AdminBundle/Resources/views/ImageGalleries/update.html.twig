@@ -5,8 +5,18 @@
 {% block headLinks %}
     {{ parent() }}
     <link rel="stylesheet" href="/js/vendor/ui/jquery-ui.min.css"/>
-
+    <link rel="stylesheet" href="/css/admin/master_image_gallery.css"/>
 {% endblock %}
+
+{% block headStyles %}
+    {{ parent() }}
+    <style>
+        .loader{
+            display: none;
+        }
+    </style>
+{% endblock %}
+
 
 {% block content %}
     <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
@@ -23,11 +33,11 @@
             <form class="form" id="new-gallery-form">
                 <div class="form-group">
                     <label for="new-gallery-name-ipt">Nom de la galerie</label>
-                    <input type="text" id="new-gallery-name-ipt" class="form-control"/>
+                    <input type="text" id="new-gallery-name-ipt" class="form-control" value="{{ gallery.name }}"/>
                 </div>
                 <div class="checkbox">
                     <label for="new-gallery-private-ipt">
-                        <input type="checkbox" id="new-gallery-private-ipt"/> Galerie privée ?
+                        <input type="checkbox" id="new-gallery-private-ipt" {% if gallery.isPrivate == true %}checked="checked" {% endif %}/> Galerie privée ?
                     </label>
                 </div>
 
@@ -35,5 +45,38 @@
             </form>
         </div>
         <div class="col-sm-4 col-md-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8 col-md-8">
+            <h2 class="sub-header">Liste des images</h2>
+            <div id="images">
+                {% for img in gallery.images %}
+                <div class="image">
+                    <table>
+
+                            <tr id="img_{{ img.id }}">
+                                <td class="img-handle"></td>
+                                <td class="img-position"></td>
+                                <td class="img-img"><img src="{{ img.webroot }}" alt=""/></td>
+                                <td class="img-activation"><label for=""><input type="checkbox" name="" id=""/> Activer</label></td>
+                                <td class="img-title"><input type="text"/></td>
+                                <td class="img-delete"><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
+                            </tr>
+
+
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <h2 class="sub-header">Nouvelle image</h2>
+            <p>Glissez-déposez une image ci-dessous pour l'ajouter à la galerie</p>
+            <p></p> <!-- TODO dimensions/taille image -->
+
+            <div class="dropzone"></div>
+        </div>
     </div>
 {% endblock %}

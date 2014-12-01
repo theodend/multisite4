@@ -44,6 +44,34 @@ class ImageGalleriesController extends ZPBController
         return $this->render('ZPBAdminBundle:ImageGalleries:update.html.twig', ["gallery"=>$gallery]);
     }
 
+    public function deleteGalleryAction($id, Request $request)
+    {
+        if(!$request->isMethod("DELETE") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>false, "msg"=>"", "datas"=>[]];
+        /** @var \ZPB\AdminBundle\Entity\ImageGallery $gallery */
+        $gallery = $this->getRepo("ZPBAdminBundle:ImageGallery")->find($id);
+        if(!$gallery){
+            throw $this->createNotFoundException();
+        }
+        $images = $gallery->getImages();
+        $fs = $this->container->get('filesystem');
+        foreach($images as $img){
+            /** @var \ZPB\AdminBundle\Entity\ImageGalleryImage $img */
+            if($fs->exists($img->getRoot())){
+                $fs->remove($img->getRoot());
+            }
+            $this->getManager()->remove($img);
+        }
+        $this->getManager()->remove($gallery);
+        $this->getManager()->flush();
+        $response["error"] = false;
+        $response["msg"] = "Galerie et photos associées effacées.";
+        $response["datas"] = $gallery;
+        return new JsonResponse($response);
+    }
+
     public function xhrNewGalleryAction(Request $request)
     {
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){

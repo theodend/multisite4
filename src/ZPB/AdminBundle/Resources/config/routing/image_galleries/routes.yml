@@ -10,7 +10,14 @@ zpb_image_galleries_xhr_create:
 
 zpb_image_galleries_update:
     path: /gallery/{id}
-    defaults: {}
+    defaults: { _controller: ZPBAdminBundle:ImageGalleries:update }
     methods: ["GET"]
+    requirements:
+        id: \d+
+
+zpb_image_galleries_delete:
+    path: /gallery/{id}
+    defaults: { _controller: ZPBAdminBundle:ImageGalleries:deleteGallery }
+    methods: ["DELETE"]
     requirements:
         id: \d+

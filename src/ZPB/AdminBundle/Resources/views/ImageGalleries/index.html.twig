@@ -40,8 +40,8 @@
                     <tr>
                         <td>{{ gallery.name }}</td>
                         <td>{% if gallery.isPrivate == true %}privée{% else %}public{% endif %}</td>
-                        <td><a class="btn btn-default" href=""><i class="fa fa-edit"></i></a></td>
-                        <td><a class="btn btn-default" href=""><i class="fa fa-trash-o"></i></a></td>
+                        <td><a class="btn btn-default" href="{{ path("zpb_image_galleries_update", {id: gallery.id}) }}"><i class="fa fa-edit"></i></a></td>
+                        <td><button class="btn btn-default delete-gallery-btn" data-url="{{ path("zpb_image_galleries_delete", {id: gallery.id}) }}"><i class="fa fa-trash-o"></i></button><div class="loader"></div></td>
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -144,20 +144,52 @@
                 newGalLoader.show();
                 showMsg();
                 $.post(newGalUrl, {name: name, isPrivate: isPrivate})
-                        .done(function(response){
-                            if(response.error == false){
-                                location.reload(true);
-                            } else {
-                                newGalBtn.show();
-                                newGalLoader.hide();
-                                showMsg(response.msg, false);
-                            }
-                        })
-                        .fail(function(xhr){
+                    .done(function(response){
+                        if(response.error == false){
+                            location.reload(true);
+                        } else {
                             newGalBtn.show();
                             newGalLoader.hide();
-                            showMsg(xhr.statusCode+" "+xhr.statusText, false);
-                        });
+                            showMsg(response.msg, false);
+                        }
+                    })
+                    .fail(function(xhr){
+                        newGalBtn.show();
+                        newGalLoader.hide();
+                        showMsg(xhr.statusCode+" "+xhr.statusText, false);
+                    });
+            });
+
+            $(document).on("click", "button.delete-gallery-btn", function(e){
+                var self = $(this);
+                var url = $(this).data("url");
+                var loader = $(this).next(".loader");
+                var parent = $(this).parents("tr:first");
+                showMsg();
+                if( window.confirm("Attention cette action est irréversible. Vous confirmez ?")){
+                    self.hide();
+                    loader.show();
+                    $.ajax({
+                        url: url,
+                        type: "DELETE"
+                    })
+                        .done(function(response){
+                                if(response.error == false){
+                                    showMsg(response.msg, true);
+                                    parent.remove();
+                                } else {
+                                    showMsg(response.msg, false);
+                                }
+                                self.show();
+                                loader.hide();
+                            })
+                        .fail(function(xhr){
+                                showMsg(xhr.statusCode+" "+xhr.statusText, false);
+                                self.show();
+                                loader.hide();
+                            });
+                }
+
             });
 
         });
