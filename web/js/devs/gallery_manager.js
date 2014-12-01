@@ -50,6 +50,7 @@ var GalleryManager = (function () {
             loader = btn.next(".loader");
             btn.hide();
             loader.show();
+            self.options["showMsg"]();
             $.ajax({
                 type: "DELETE",
                 url: this.options["deleteImgUrl"],

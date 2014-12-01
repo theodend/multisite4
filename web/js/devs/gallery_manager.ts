@@ -76,6 +76,7 @@ class GalleryManager{
             loader = btn.next(".loader");
             btn.hide();
             loader.show();
+            self.options["showMsg"]();
             $.ajax(
                 {
                     type: "DELETE",
