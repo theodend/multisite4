@@ -1,0 +1,162 @@
+{% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
+
+{% block title %}Galeries d'images{% endblock %}
+
+{% block headLinks %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/js/vendor/ui/jquery-ui.min.css"/>
+
+{% endblock %}
+
+{% block headStyles %}
+    {{ parent() }}
+    <style>
+        .loader{
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div id="messenger"></div>
+        </div>
+    </div>
+
+    <div class="row">
+    <div class="col-sm-12 col-md-12">
+
+        <ul class="nav nav-tabs" role="tablist" id="galleries-tabs">
+            {% for gallery in galleries %}
+                <li role="presentation"><a href="#{{ gallery.slug }}" data-toggle="tab" aria-controls="{{ gallery.slug }}" role="tab">{{ gallery.name }}</a></li>
+            {% endfor %}
+            <li role="presentation"><a href="#create-gallery" data-toggle="tab" aria-controls="create-gallery" role="tab"><i class="fa fa-plus"></i></a></li>
+        </ul>
+
+        <div class="tab-content" id="tab-content">
+            {% for gallery in galleries %}
+                <div role="tabpanel" class="tab-pane" id="{{ gallery.slug }}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-8 col-md-8 tab-inner">
+                                <h3>Infos</h3>
+
+                                <form class="form" id="gallery_form_{{ gallery.id }}">
+                                    <div class="form-group">
+                                        <label for="gallery-name-ipt_{{ gallery.id }}">Nom de la galerie</label>
+                                        <input type="text" id="gallery-name-ipt_{{ gallery.id }}" class="form-control" value="{{ gallery.name }}"/>
+                                    </div>
+                                    <button class="btn btn-primary update-gallery" type="button" id="new-gallery-btn_{{ gallery.id }}" data-gallery="{{ gallery.id }}">Mettre à jour</button><div class="loader"></div>
+                                </form>
+
+                                <h3>Images</h3>
+                            </div>
+                            <div class="col-sm-4 col-md-4"></div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div role="tabpanel" class="tab-pane" id="create-gallery">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="col-sm-6 col-md-6">
+                            <h3 class="sub-header">Nouvelle galerie</h3>
+                            <form class="form" id="new-gallery-form">
+                                <div class="form-group">
+                                    <label for="new-gallery-name-ipt">Nom de la galerie</label>
+                                    <input type="text" id="new-gallery-name-ipt" class="form-control"/>
+                                </div>
+                                <button class="btn btn-primary" type="button" id="new-gallery-btn">Créer</button><div class="loader" id="new-gallery-loader"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+
+{% endblock %}
+{% block footScripts %}
+    {{ parent() }}
+    <script src="/js/vendor/ui/jquery-ui.min.js"></script>
+    <script>
+        var newGalUrl = "{{ path("zpb_image_galleries_xhr_create") }}";
+
+        var galleries = [
+            {%- for gallery in galleries -%}
+            {{ gallery|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}{%- if loop.last != true -%},{%- endif -%}
+            {%- endfor -%}
+        ];
+    </script>
+    <script>
+        $(function(){
+            // #################################################### vars
+            var messenger, newGalNameIpt, newGalBtn, newGalLoader;
+
+            messenger = $("#messenger");
+            newGalNameIpt = $("#new-gallery-name-ipt");
+            newGalBtn = $("#new-gallery-btn");
+            newGalLoader = $("#new-gallery-loader");
+
+            // #################################################### functions
+
+            var showMsg = function(msg, success){
+                if(arguments.length <1){
+                    messenger.empty();
+                    return false;
+                }
+                var type, title;
+                var html =  "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>";
+                if(success === true){
+                    type = "alert-success";
+                    title = "Succès !";
+                } else {
+                    type = "alert-danger";
+                    title = "Echec !";
+                }
+                html = html.replace("[[type]]", type).replace("[[title]]", title).replace("[[msg]]", msg);
+                messenger.append($(html));
+            };
+
+            // #################################################### actions
+
+            $('#galleries-tabs a:first').tab('show');
+
+            newGalBtn.on("click", function(e){
+                e.preventDefault();
+                var name = newGalNameIpt.val();
+                if(name == ""){
+                    return false;
+                }
+                newGalBtn.hide();
+                newGalLoader.show();
+                showMsg();
+                $.post(newGalUrl, {name: name})
+                        .done(function(response){
+                            if(response.error == false){
+                                location.reload(true);
+                            } else {
+                                newGalBtn.show();
+                                newGalLoader.hide();
+                                showMsg(response.msg, false);
+                            }
+                        })
+                        .fail(function(xhr){
+                            newGalBtn.show();
+                            newGalLoader.hide();
+                            showMsg(xhr.statusCode+" "+xhr.statusText, false);
+                        });
+            });
+
+        });
+    </script>
+
+{% endblock %}

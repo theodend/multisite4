@@ -1,0 +1,8 @@
+zpb_image_galleries_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ImageGalleries:index }
+    methods: ["GET"]
+zpb_image_galleries_xhr_create:
+    path: /gallery/create
+    defaults: { _controller: ZPBAdminBundle:ImageGalleries:xhrNewGallery }
+    methods: ["POST"]

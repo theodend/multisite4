@@ -94,7 +94,12 @@ class ImageGalleryImage implements \JsonSerializable
         return $this;
     }
 
-    function jsonSerialize()
+    public function __construct()
+    {
+        $this->isActive = false;
+    }
+
+    public function jsonSerialize()
     {
         return [
             "id" => $this->getId(),

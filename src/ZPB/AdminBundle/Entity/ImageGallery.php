@@ -33,7 +33,7 @@ class ImageGallery implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="template", type="string", length=255)
+     * @ORM\Column(name="template", type="string", length=255, nullable=true)
      */
     private $template;
 
