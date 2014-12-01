@@ -7,6 +7,16 @@ module.exports = function(grunt){
                     "web/js/sites/common/Carousel.min.js":"web/js/devs/carousel/Carousel.js"
                 }
             },
+            carouselSlideManager:{
+                files:{
+                    "web/js/admin/common/carousel_slides_manager.min.js":"web/js/devs/carousel_slides_manager.js"
+                }
+            },
+            galleryManager:{
+                files:{
+                    "web/js/admin/common/gallery_manager.min.js":"web/js/devs/gallery_manager.js"
+                }
+            },
             staticpage:{
                 files:{
                     "web/js/admin/zooparc/static_page_actions.min.js":

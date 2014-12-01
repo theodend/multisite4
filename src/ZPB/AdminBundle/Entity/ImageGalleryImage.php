@@ -39,14 +39,14 @@ class ImageGalleryImage implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="copyright", type="string", length=255)
+     * @ORM\Column(name="copyright", type="string", length=255, nullable=true)
      */
     private $copyright;
 
@@ -103,12 +103,13 @@ class ImageGalleryImage implements \JsonSerializable
     {
         return [
             "id" => $this->getId(),
-            "webroot" => $this->getWebRoot(),
+            "webRoot" => $this->getWebRoot(),
             "root" => $this->getRoot(),
-            "gallery" => $this->getGallery(),
-            "position" => $this->getPosition(),
             "title" => $this->getTitle(),
-            "copyright" => $this->getCopyright()
+            "copyright" => $this->getCopyright(),
+            "isActive"=>$this->getIsActive(),
+            "position" => $this->getPosition(),
+            "gallery" => $this->getGallery()->getId(),
         ];
     }
 

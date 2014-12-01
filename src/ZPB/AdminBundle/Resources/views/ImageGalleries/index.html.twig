@@ -31,6 +31,7 @@
                     <tr>
                         <th>Nom</th>
                         <th>Status</th>
+                        <th>HD</th>
                         <th colspan="2">Actions</th>
                     </tr>
                     </thead>
@@ -40,13 +41,14 @@
                     <tr>
                         <td>{{ gallery.name }}</td>
                         <td>{% if gallery.isPrivate == true %}privée{% else %}public{% endif %}</td>
+                        <td>{% if gallery.isHD == true %}oui{% else %}non{% endif %}</td>
                         <td><a class="btn btn-default" href="{{ path("zpb_image_galleries_update", {id: gallery.id}) }}"><i class="fa fa-edit"></i></a></td>
                         <td><button class="btn btn-default delete-gallery-btn" data-url="{{ path("zpb_image_galleries_delete", {id: gallery.id}) }}"><i class="fa fa-trash-o"></i></button><div class="loader"></div></td>
                     </tr>
                     {% endfor %}
                     {% else %}
                         <tr>
-                            <td colspan="4">Pas de galeries enregistrées</td>
+                            <td colspan="5">Pas de galeries enregistrées</td>
                         </tr>
                     {% endif %}
                     </tbody>
@@ -75,6 +77,11 @@
                     <input type="checkbox" id="new-gallery-private-ipt"/> Galerie privée ?
                     </label>
                 </div>
+                <div class="checkbox">
+                    <label for="new-gallery-hd-ipt">
+                        <input type="checkbox" id="new-gallery-hd-ipt"/> Galerie HD ?
+                    </label>
+                </div>
 
                 <button class="btn btn-primary" type="button" id="new-gallery-btn">Créer</button><div class="loader" id="new-gallery-loader"></div>
             </form>
@@ -101,11 +108,12 @@
     <script>
         $(function(){
             // #################################################### vars
-            var messenger, newGalNameIpt,newGalPrivateIpt, newGalBtn, newGalLoader;
+            var messenger, newGalNameIpt,newGalPrivateIpt, newGalHdIpt,newGalBtn, newGalLoader;
 
             messenger = $("#messenger");
             newGalNameIpt = $("#new-gallery-name-ipt");
             newGalPrivateIpt = $("#new-gallery-private-ipt");
+            newGalHdIpt = $("#new-gallery-hd-ipt");
             newGalBtn = $("#new-gallery-btn");
             newGalLoader = $("#new-gallery-loader");
 
@@ -137,13 +145,14 @@
                 e.preventDefault();
                 var name = newGalNameIpt.val();
                 var isPrivate = newGalPrivateIpt.is(":checked") ? "private" : "public";
+                var isHD = newGalHdIpt.is(":checked") ? "yes" : "no";
                 if(name == ""){
                     return false;
                 }
                 newGalBtn.hide();
                 newGalLoader.show();
                 showMsg();
-                $.post(newGalUrl, {name: name, isPrivate: isPrivate})
+                $.post(newGalUrl, {name: name, isPrivate: isPrivate, isHD: isHD})
                     .done(function(response){
                         if(response.error == false){
                             location.reload(true);

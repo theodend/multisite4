@@ -40,8 +40,12 @@
                         <input type="checkbox" id="new-gallery-private-ipt" {% if gallery.isPrivate == true %}checked="checked" {% endif %}/> Galerie privée ?
                     </label>
                 </div>
-
-                <button class="btn btn-primary" type="button" id="new-gallery-btn">Créer</button><div class="loader" id="new-gallery-loader"></div>
+                <div class="checkbox">
+                    <label for="new-gallery-hd-ipt">
+                        <input type="checkbox" id="new-gallery-hd-ipt" {% if gallery.isHD == true %}checked="checked" {% endif %}/> Galerie HD ?
+                    </label>
+                </div>
+                <button class="btn btn-primary" type="button" id="new-gallery-btn">Mettre à jour</button><div class="loader" id="new-gallery-loader"></div>
             </form>
         </div>
         <div class="col-sm-4 col-md-4"></div>
@@ -56,48 +60,26 @@
                     <table>
                         <tr>
                             <td class="img-handle"></td>
-                            <td class="img-position"></td>
+                            <td class="img-position">{{ img.position }}</td>
                             <td class="img-img"><img src="{{ img.webroot }}" alt=""/></td>
-                            <td class="img-activation"><label for=""><input type="checkbox" name="" id=""/> Activer</label></td>
-                            <td class="img-title"><input type="text"/></td>
-                            <td class="img-delete"><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
+                            <td class="img-activation"><label for="active_img_{{ img.id }}"><input type="checkbox" id="active_img_{{ img.id }}" data-activation=""/> Activer</label></td>
+                            <td class="img-title"><input type="text" value="{{ img.title }}"/></td>
+                            <td class="img-delete"><button type="button" class="btn btn-default delete-img-btn" data-img="{{ img.id }}"><i class="fa fa-trash-o"></i></button><div class="loader"></div></td>
                         </tr>
                     </table>
                 </div>
                 {% endfor %}
-                <div class="image" id="img_1">
-                    <table>
-                        <tr>
-                            <td class="img-handle"></td>
-                            <td class="img-position"></td>
-                            <td class="img-img"><img src="" alt=""/></td>
-                            <td class="img-activation"><label for=""><input type="checkbox" name="" id=""/> Activer</label></td>
-                            <td class="img-title"><input type="text"/></td>
-                            <td class="img-delete"><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="image" id="img_1">
-                    <table>
-                        <tr>
-                            <td class="img-handle"></td>
-                            <td class="img-position"></td>
-                            <td class="img-img"><img src="" alt=""/></td>
-                            <td class="img-activation"><label for=""><input type="checkbox" name="" id=""/> Activer</label></td>
-                            <td class="img-title"><input type="text"/></td>
-                            <td class="img-delete"><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
-                        </tr>
-                    </table>
-                </div>
+
             </div>
 
         </div>
         <div class="col-sm-4 col-md-4">
             <h2 class="sub-header">Nouvelle image</h2>
             <p>Glissez-déposez une image ci-dessous pour l'ajouter à la galerie</p>
+            <p>limites: image HD 6Mo, image normale 500Ko</p>
             <p></p> <!-- TODO dimensions/taille image -->
 
-            <div class="dropzone"></div>
+            <div class="dropzone"><div class="loader"></div></div>
         </div>
     </div>
 {% endblock %}
@@ -106,29 +88,27 @@
     {{ parent() }}
     <script src="/js/vendor/ui/jquery-ui.min.js"></script>
     <script src="/js/admin/common/jquery.imgUpload.min.js"></script>
-    <script src="/js/devs/gallery_manager.js"></script>
+    <script src="/js/admin/common/gallery_manager.min.js"></script>
     <script>
-        var uploadUrl = "";
-        var updatePositionUrl = "";
+        var imgs = [
+            {%- for img in gallery.images -%}
+            {{ img|json_encode(constant("JSON_PRETTY_PRINT"))|raw }}{%- if loop.last != true -%},{%- endif -%}
+            {%- endfor -%}
+        ];
+        var maxUpload = {% if gallery.isHD %}6291456{% else %}512000{% endif %};
+        var uploadUrl = "{{ path("zpb_image_galleries_img_upload", {id: gallery.id }) }}";
+        var changeActiveStateUrl = "{{ path("zpb_image_galleries_change_active_state", {id: gallery.id}) }}";
+        var deleteImgUrl = "{{ path("zpb_image_galleries_delete_img", {id: gallery.id}) }}";
+        var updatePositionUrl = "{{ path("zpb_image_galleries_change_img_position", {id: gallery.id}) }}";
     </script>
     <script>
         $(function(){
-            var galleryManager,galleryManagerOptions,uploadImgOptions,sortableImg, dropZone,messenger;
+            var galleryManager,galleryManagerOptions,uploadImgOptions,sortableImgs, dropZone,messenger;
             sortableImgs = $("#images");
             dropZone = $(".dropzone");
             messenger = $("#messenger");
 
-            galleryManagerOptions = {
 
-            };
-            uploadImgOptions = {
-                uploadUrl: "",
-                onDropped : function(){},
-                always: function(){},
-                onDone: onDone
-            };
-
-            galleryManager = new GalleryManager(galleryManagerOptions);
 
             var showMsg = function(msg, success){
                 if(arguments.length <1){
@@ -149,15 +129,15 @@
             };
 
             var onDone = function(response, uploader){
-
+                galleryManager.addImg(response.datas);
             };
 
             var updateSortable = function(evt, ui){
                 var img = ui.item;
-                var imgs = img.parent("#slides");
+                var imgs = img.parent("#images");
                 var id = parseInt(img.attr("id").replace("img_",""));
                 var pos = 0;
-                imgs.find(".slide").each(function(i,e){
+                imgs.find(".image").each(function(i,e){
                     $(this).find("td.img-position").text(pos++);
                 });
                 var position = parseInt(img.find("td.img-position").text());
@@ -183,6 +163,34 @@
                             sortableImgs.sortable("enable");
                         });
             };
+
+            galleryManagerOptions = {
+                changeActiveStateUrl: changeActiveStateUrl,
+                deleteImgUrl: deleteImgUrl,
+                showMsg: showMsg
+            };
+            uploadImgOptions = {
+                uploadUrl: uploadUrl,
+                fileMaxSize: maxUpload,
+                onDropped : function(el){
+                    console.log(el.$element);
+                    el.$element.find(".loader").show();
+                },
+                always: function(el){
+                    el.$element.find(".loader").hide();
+                },
+                onDone: onDone,
+                onFail: function(response){
+                    showMsg();
+                    showMsg(response.msg, false);
+                },
+                onError: function(msg){
+                    showMsg();
+                    showMsg(msg, false);
+                }
+            };
+
+            galleryManager = new GalleryManager(sortableImgs, imgs, galleryManagerOptions);
 
             dropZone.imgUpload(uploadImgOptions);
 

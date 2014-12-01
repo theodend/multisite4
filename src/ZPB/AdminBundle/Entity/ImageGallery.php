@@ -56,12 +56,18 @@ class ImageGallery implements \JsonSerializable
     private $isPrivate;
 
     /**
+     * @ORM\Column(name="is_hd", type="boolean")
+     */
+    private $isHD;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->isPrivate = false;
+        $this->isHD = false;
     }
 
     /**
@@ -203,6 +209,25 @@ class ImageGallery implements \JsonSerializable
         $this->isPrivate = $isPrivate;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIsHD()
+    {
+        return $this->isHD;
+    }
+
+    /**
+     * @param mixed $isHD
+     * @return ImageGallery
+     */
+    public function setIsHD($isHD)
+    {
+        $this->isHD = $isHD;
+        return $this;
+    }
+
 
 
 }

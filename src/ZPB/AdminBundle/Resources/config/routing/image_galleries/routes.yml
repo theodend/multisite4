@@ -15,9 +15,37 @@ zpb_image_galleries_update:
     requirements:
         id: \d+
 
+zpb_image_galleries_img_upload:
+    path: /gallery/{id}/upload
+    defaults: { _controller: ZPBAdminBundle:ImageGalleries:xhrImageUpload }
+    methods: ["POST"]
+    requirements:
+        id: \d+
+
 zpb_image_galleries_delete:
     path: /gallery/{id}
     defaults: { _controller: ZPBAdminBundle:ImageGalleries:deleteGallery }
     methods: ["DELETE"]
+    requirements:
+        id: \d+
+
+zpb_image_galleries_delete_img:
+    path: /gallery/{id}/img/delete
+    defaults: { _controller: ZPBAdminBundle:ImageGalleries:xhrDeleteImage }
+    methods: ["DELETE"]
+    requirements:
+        id: \d+
+
+zpb_image_galleries_change_img_position:
+    path: /gallery/{id}/img/change-position
+    defaults: { _controller: ZPBAdminBundle:ImageGalleries:xhrChangePosition }
+    methods: ["PUT"]
+    requirements:
+        id: \d+
+
+zpb_image_galleries_change_active_state:
+    path: /gallery/{id}/img/change-active-state
+    defaults: { _controller: ZPBAdminBundle:ImageGalleries:xhrChangeActiveState }
+    methods: ["PUT"]
     requirements:
         id: \d+

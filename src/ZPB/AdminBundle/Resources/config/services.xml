@@ -15,7 +15,8 @@
         <parameter key="zpb.carousel.bn.img_web_dir">img/sites/bn/headers/</parameter>
 
         <!-- image gallery -->
-        <parameter key="zpb.image_galleries.base_dir">%kernel.root_dir%/../web/img/galleries/</parameter>
+        <parameter key="zpb.image_galleries.base_dir">%kernel.root_dir%/../web/img/galeries/</parameter>
+        <parameter key="zpb.image_galleries.web_dir">/img/galeries/</parameter>
 
 
     </parameters>

@@ -2,7 +2,7 @@ zpb_admin_homepage:
     path:     /
     defaults: { _controller: ZPBAdminBundle:Index:index }
     methods: ["GET"]
-############################################# iamge galleries
+############################################# image galleries
 zpb_admin_image_galleries_routes:
     prefix: /image-galleries
     resource: "@ZPBAdminBundle/Resources/config/routing/image_galleries/routes.yml"

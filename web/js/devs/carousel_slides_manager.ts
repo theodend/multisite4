@@ -69,11 +69,12 @@ class CarouselSlidesManager{
     removeSlide(btn:JQuery, id:number):void{
         var slide, idx,loader, self = this;
         slide = this.getSlideById(id);
-        idx = this.getSlideById(id);
-        loader = btn.next(".loader");
-        btn.hide();
-        loader.show();
-        if(slide != null && idx != null){
+
+        if(slide != null){
+            idx = this.getSlideIndex(id);
+            loader = btn.next(".loader");
+            btn.hide();
+            loader.show();
             $.ajax(
                 {
                     type: "DELETE",
@@ -104,12 +105,13 @@ class CarouselSlidesManager{
     changeActiveState(id:number, checkbox:JQuery):void{
         var slide,loader, self = this;
         slide = this.$element.find("#" + this.options["rowPrfix"] + id);
-        var btn = slide.find("button.slide-delete-btn");
 
-        loader = btn.next(".loader");
-        btn.hide();
-        loader.show();
-        if(slide != null){
+        if(slide.length > 0){
+            var btn = slide.find("button.slide-delete-btn");
+
+            loader = btn.next(".loader");
+            btn.hide();
+            loader.show();
             self.options["showMsg"]();
             $.ajax({
                 type: "PUT",

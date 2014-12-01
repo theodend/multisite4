@@ -24,6 +24,7 @@ namespace ZPB\AdminBundle\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use ZPB\AdminBundle\Entity\ImageGallery;
+use ZPB\AdminBundle\Entity\ImageGalleryImage;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
 class ImageGalleriesController extends ZPBController
@@ -44,12 +45,159 @@ class ImageGalleriesController extends ZPBController
         return $this->render('ZPBAdminBundle:ImageGalleries:update.html.twig', ["gallery"=>$gallery]);
     }
 
+    public function xhrImageUploadAction($id, Request $request)
+    {
+        if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $filename = $request->headers->get("X-File-Name", false);
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        if(!$filename){
+            $response["msg"] = "Données incomplètes.";
+        } else{
+            /** @var \ZPB\AdminBundle\Entity\ImageGallery $gallery */
+            $gallery = $this->getRepo("ZPBAdminBundle:ImageGallery")->find($id);
+            if(!$gallery){
+                $response["msg"] = "Données incorrectes.";
+            } else {
+                $fs = $this->get('filesystem');
+                $rootDir = $this->container->getParameter('zpb.image_galleries.base_dir') . $id . "/";
+                $webDir = $this->container->getParameter('zpb.image_galleries.web_dir') . $id . "/";
+                if(!$fs->exists($rootDir)){
+                    $fs->mkdir($rootDir);
+                }
+                $matches = [];
+                $extension = '';
+                if(preg_match('/^.+\.(jpg|jpeg|png|gif)$/i', $filename, $matches)){
+                    $extension = strtolower($matches[1]);
+                    $newFilename = time() . '.' .$extension;
+
+                    file_put_contents($rootDir . $newFilename, $request->getContent());
+
+                    $img = new ImageGalleryImage();
+                    $img->setWebRoot($webDir . $newFilename)->setRoot($rootDir . $newFilename);
+                    $img->setGallery($gallery);
+                    $this->getManager()->persist($img);
+                    $this->getManager()->flush();
+
+                    $response['error'] = false;
+                    $response['datas'] = $img;
+                    $response['msg'] = 'Image uploadée. Image créé.';
+                } else{
+                    $response["msg"] = "Données incorrectes.";
+                }
+            }
+        }
+        return new JsonResponse($response);
+    }
+
+    public function xhrChangeActiveStateAction($id, Request $request)
+    {
+        if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        /** @var \ZPB\AdminBundle\Entity\ImageGallery $gallery */
+        $gallery = $this->getRepo("ZPBAdminBundle:ImageGallery")->find($id);
+        if(!$gallery){
+            $response["msg"] = "Données incorrectes.";
+        } else {
+            $datas = [];
+            parse_str($request->getContent(), $datas);
+            if(empty($datas["id"])){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                $id = intval($datas["id"]);
+                /** @var \ZPB\AdminBundle\Entity\ImageGalleryImage $img */
+                $img = $this->getRepo("ZPBAdminBundle:ImageGalleryImage")->find($id);
+                if(!$img){
+                    $response["msg"] = "Données incomplètes.";
+                } else {
+                    $img->setIsActive(!$img->getIsActive());
+                    $this->getManager()->persist($img);
+                    $this->getManager()->flush();
+                    $response['error'] = false;
+                    $response['datas'] = $img;
+                    $response['msg'] = ($img->getIsActive() == true) ? 'Image activée.' : 'Image désactivée.' ;
+                }
+            }
+        }
+        return new JsonResponse($response);
+    }
+
+    public function xhrChangePositionAction($id, Request $request)
+    {
+        if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        /** @var \ZPB\AdminBundle\Entity\ImageGallery $gallery */
+        $gallery = $this->getRepo("ZPBAdminBundle:ImageGallery")->find($id);
+        if(!$gallery){
+            $response["msg"] = "Données incorrectes.";
+        } else {
+            $datas = [];
+            parse_str($request->getContent(), $datas);
+            if(empty($datas["id"]) || !isset($datas["position"])){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                $img = $this->getRepo("ZPBAdminBundle:ImageGalleryImage")->find(intval($datas["id"]));
+                if(!$img){
+                    $response["msg"] = "Données incorrectes.";
+                } else {
+                    $img->setPosition(intval($datas["position"]));
+                    $this->getManager()->persist($img);
+                    $this->getManager()->flush();
+                    $response['error'] = false;
+                    $response['datas'] = $img;
+                    $response['msg'] = 'Image repositionnée.';
+                }
+            }
+        }
+        return new JsonResponse($response);
+    }
+
+    public function xhrDeleteImageAction($id, Request $request)
+    {
+        if(!$request->isMethod("DELETE") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        /** @var \ZPB\AdminBundle\Entity\ImageGallery $gallery */
+        $gallery = $this->getRepo("ZPBAdminBundle:ImageGallery")->find($id);
+        if(!$gallery){
+            $response["msg"] = "Données incorrectes.";
+        } else {
+            $datas = [];
+            parse_str($request->getContent(), $datas);
+            if(empty($datas["id"])){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                $img = $this->getRepo("ZPBAdminBundle:ImageGalleryImage")->find(intval($datas["id"]));
+                if(!$img){
+                    $response["msg"] = "Données incorrectes.";
+                } else {
+                    $fs = $this->container->get('filesystem');
+                    if($fs->exists($img->getRoot())){
+                        $fs->remove($img->getRoot());
+                    }
+                    $this->getManager()->remove($img);
+                    $this->getManager()->flush();
+                    $response['error'] = false;
+                    $response['datas'] = $img;
+                    $response['msg'] = 'Image supprimée.';
+                }
+            }
+        }
+        return new JsonResponse($response);
+    }
+
     public function deleteGalleryAction($id, Request $request)
     {
         if(!$request->isMethod("DELETE") || !$request->isXmlHttpRequest()){
             throw $this->createAccessDeniedException();
         }
-        $response = ["error"=>false, "msg"=>"", "datas"=>[]];
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
         /** @var \ZPB\AdminBundle\Entity\ImageGallery $gallery */
         $gallery = $this->getRepo("ZPBAdminBundle:ImageGallery")->find($id);
         if(!$gallery){
@@ -80,7 +228,8 @@ class ImageGalleriesController extends ZPBController
         $response = ["error"=>true, "msg"=>"", "datas"=>[]];
         $name = $request->request->get("name", false);
         $isPrivate = $request->request->get("isPrivate", false);
-        if(!$name || !$isPrivate){
+        $isHD = $request->request->get("isHD", false);
+        if(!$name || !$isPrivate || !$isHD){
             $response["msg"] = "Données incomplètes.";
         } else {
             $gallery = new ImageGallery();
@@ -90,6 +239,11 @@ class ImageGalleriesController extends ZPBController
             } else {
                 $gallery->setIsPrivate(false);
             }
+            if($isHD == "yes"){
+                $gallery->setIsHD(true);
+            } else {
+                $gallery->setIsHD(false);
+            }
             $this->getManager()->persist($gallery);
             $this->getManager()->flush();
             $response["error"] = false;
@@ -98,4 +252,4 @@ class ImageGalleriesController extends ZPBController
         }
         return new JsonResponse($response);
     }
-} 
+}
