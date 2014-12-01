@@ -1,0 +1,36 @@
+{% set association_pages = [] %}
+{% set conservation_pages = [] %}
+{% set recherche_pages = [] %}
+{% set help_pages = [] %}
+{% set news_pages = [] %}
+
+
+<div id="stickytop">
+    <div class="container">
+        <div id="main-menu">
+            <a id="main-menu-logo" href="{{ path("zpb_sites_bn_homepage") }}">
+                {{ include("ZPBSitesBNBundle:Incs:logo_beauval_nature_svg.html.twig") }}
+            </a>
+            <button id="menu-toggler" data-target="#seconday-mainbar-wrapper"><i class="fa fa-bars"></i></button>
+            <div class="main-menu-navs">
+                <ul>
+                    <li class="dropdown{% if active_page in association_pages %} active{% endif %}"><a href="javascript:void(0)">L'association</a>
+                        {{ include("ZPBSitesBNBundle:Navs:association.html.twig") }}
+                    </li>
+                    <li class="dropdown{% if active_page in conservation_pages %} active{% endif %}"><a href="javascript:void(0)">La conservation</a>
+                        {{ include("ZPBSitesBNBundle:Navs:conservation.html.twig") }}
+                    </li>
+                    <li class="{% if active_page in recherche_pages %} active{% endif %}"><a href="javascript:void(0)">La recherche</a></li>
+
+                    <li class="dropdown{% if active_page in help_pages %} active{% endif %}"><a href="javascript:void(0)">Nous aider</a>
+                        {{ include("ZPBSitesBNBundle:Navs:help.html.twig") }}
+                    </li>
+                    <li class="dropdown{% if active_page in news_pages %} active{% endif %}"><a href="{{ path("zpb_sites_zoo_social") }}">Actualité</a>
+                        {{ include("ZPBSitesBNBundle:Navs:news.html.twig") }}
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

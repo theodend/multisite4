@@ -1,4 +1,12 @@
-$mainMenuHeight: 51;
+$mainMenuHeight: 51!default;
+$logoWidth: 200!default;
+//$logoHeight: 25px!default;
+$logoPaddingTop: 13!default;
+$logoPaddingBottom: 13!default;
+$logoPaddingLeft: 20!default;
+$logoPaddingRight: 20!default;
+
+$stuckBgColor:$ocean!default;
 
 #stickytop{
   position: relative;
@@ -6,7 +14,7 @@ $mainMenuHeight: 51;
 
   @include transition(background-color 0.3s, height 0.3s);
   &.stuck{
-    background-color: $ocean;
+    background-color: $stuckBgColor;
     position: fixed;
     top: 0;
     left: 0;
@@ -26,10 +34,15 @@ $mainMenuHeight: 51;
     #main-menu-logo{
       float: left;
       height: 100%;
-      padding: 13px 20px;
+      padding:{
+        top: toUnit($logoPaddingTop);
+        bottom: toUnit($logoPaddingTop);
+        left: toUnit($logoPaddingLeft);
+        right: toUnit($logoPaddingRight);
+      }
       #Calque_1{
-        width: 200px;
-        height: 25px;
+        width: toUnit($logoWidth);
+        height: toUnit($mainMenuHeight - $logoPaddingTop - $logoPaddingBottom);
       }
     }
     #menu-toggler{
@@ -62,12 +75,12 @@ $mainMenuHeight: 51;
                     &.active{
                       a, a:hover{
                         color: $jaune;
-                        background-color: $ocean;
+                        background-color: $stuckBgColor;
                       }
                     }
                     a{
                       &:hover{
-                        background-color: $ocean;
+                        background-color: $stuckBgColor;
                         color: $blanc;
                       }
                     }
