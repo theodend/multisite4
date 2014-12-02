@@ -2,3 +2,17 @@ zpb_admin_sites_homepage:
     path: /
     defaults: { _controller: ZPBAdminBundle:Site:index }
     methods: ["GET"]
+
+zpb_admin_sites_create:
+    path: /create
+    defaults: { _controller: ZPBAdminBundle:Site:xhrCreateSite }
+    methods: ["POST"]
+
+
+
+
+
+
+
+
+

@@ -26,13 +26,13 @@
                     <tbody>
                     {% if sites|length>0 %}
                     {% for site in sites %}
-                        <tr>
+                        <tr id="site_row_{{ site.id }}">
                             <td>{{ site.name }}</td>
                             <td>{{ site.shortname }}</td>
                             <td><a href="{{ site.url }}" target="_blank">{{ site.url }}</a></td>
                             <td>{{ site.route }}</td>
                             <td><a class="btn btn-default" href=""><i class="fa fa-edit"></i></a></td>
-                            <td><a class="btn btn-default" href=""><i class="fa fa-trash-o"></i></a></td>
+                            <td><a class="btn btn-default delete-site-btn" href="#" data-site="{{ site.id }}"><i class="fa fa-trash-o"></i></a><div class="loader"></div></td>
                         </tr>
                     {% endfor %}
                     {% else %}
@@ -49,7 +49,7 @@
     <h2 class="sub-header">Ajouter un site</h2>
     <div class="row">
 
-        <div class="col-sm-5 clo-md-5">
+        <div class="col-sm-5 col-md-5">
 
             <form class="form" id="create-site-form">
 
@@ -68,12 +68,12 @@
                     <input class="form-control" type="text" id="create-site-route-ipt"/>
                 </div>
 
-                <button type="button" class="btn btn-primary" id="create-site-btn">Enregistrer</button>
+                <button type="button" class="btn btn-primary" id="create-site-btn">Enregistrer</button><div class="loader"></div>
 
             </form>
 
         </div>
-        <div class="col-sm-7 clo-md-7"></div>
+        <div class="col-sm-7 col-md-7"></div>
     </div>
 
 
@@ -82,11 +82,18 @@
 {% block footScripts %}
     {{ parent() }}
     <script>
+        var createSiteUrl = "{{ path("zpb_admin_sites_create") }}";
+    </script>
+    <script>
         $(function(){
-            var messenger, createSiteBtn;
+            var messenger, createSiteBtn, createSiteNameIpt, createSiteShortnameIpt, createSiteRouteIpt, loader;
             messenger = $("#messenger");
             createSiteBtn = $("#create-site-btn");
-
+            createSiteNameIpt = $("#create-site-name-ipt");
+            createSiteShortnameIpt = $("#create-site-shortname-ipt");
+            createSiteRouteIpt = $("#create-site-route-ipt");
+            loader = $(".loader");
+            loader.hide();
             var showMsg = function(msg, success){
                 if(arguments.length <1){
                     messenger.empty();
@@ -107,7 +114,67 @@
 
             createSiteBtn.on("click", function(e){
                 e.preventDefault();
+                if(createSiteNameIpt.val() == "" || createSiteShortnameIpt.val() == "" || createSiteRouteIpt.val() == ""){
+                    return false;
+                }
+                var $self = $(this);
+                $(this).hide();
+                loader.show();
+                showMsg();
+                $.post(createSiteUrl,
+                        {
+                            name: createSiteNameIpt.val(),
+                            route: createSiteRouteIpt.val(),
+                            shortname: createSiteShortnameIpt.val()
+                        })
+                        .done(function(response){
+                            if(response.error == false){
+                                location.reload(true);
+                            } else {
+                                showMsg(response.msg, false);
+                            }
+                            $self.show();
+                            loader.hide();
+                        })
+                        .fail(function(xhr){
+                            showMsg(xhr.statusCode + " " + xhr.statusText, false);
+                            $self.show();
+                            loader.hide();
+                        });
+            });
 
+            $(document).on("click", ".delete-site-btn", function(e){
+                e.preventDefault();
+
+                if(window.confirm("Cette action est irréversible. Vous la confirmez ?")){
+                    var $self = $(this);
+                    var id = $(this).data("site");
+                    var btn = $(this);
+                    var loader = btn.next(".loader");
+                    var parent = btn.parents("site_row_" + id );
+                    btn.hide();
+                    loader.show();
+                    $.ajax({
+                        url: deleteSiteUrl,
+                        data: {id: id}
+                    })
+                            .done(function(response){
+                                if(response.error == false){
+                                    parent.remove();
+                                    showMsg(response.msg, true);
+                                } else {
+                                    showMsg(response.msg, false);
+                                }
+                                $self.show();
+                                loader.hide();
+                            })
+                            .fail(function(xhr){
+                                showMsg(xhr.statusCode + " " + xhr.statusText, false);
+                                $self.show();
+                                loader.hide();
+                            });
+                }
+                return false;
             });
         });
     </script>

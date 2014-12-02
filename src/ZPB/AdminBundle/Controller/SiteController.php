@@ -44,7 +44,7 @@ class SiteController extends ZPBController
         $route = $request->request->get("route", false);
         $shortname = $request->request->get("shortname", false);
         $response = ["error"=>true, "msg"=>"", "datas"=>[]];
-        if(!$name || !$route || $shortname){
+        if(!$name || !$route || !$shortname){
             $response["msg"] = "Données incomplètes.";
         } else {
             $site = new Site();
