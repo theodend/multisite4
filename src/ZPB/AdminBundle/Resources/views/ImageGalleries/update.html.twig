@@ -20,7 +20,6 @@
 
 {% block content %}
     <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
-
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <div id="messenger"></div>
@@ -45,6 +44,16 @@
                         <input type="checkbox" id="new-gallery-hd-ipt" {% if gallery.isHD == true %}checked="checked" {% endif %}/> Galerie HD ?
                     </label>
                 </div>
+
+                {% for key,site in sites %}
+                    <div class="checkbox">
+                        <label for="new-gallery-site-ipt_{{ key }}">
+                            <input type="checkbox" id="new-gallery-site-ipt_{{ key }}" value="{{ site.shortname }}" class="site-share" {% if site.shortname in shares %}checked="checked" {% endif %}/> partagée sur {{ site.name }}
+                        </label>
+                    </div>
+                {% endfor %}
+
+
                 <button class="btn btn-primary" type="button" id="new-gallery-btn">Mettre à jour</button><div class="loader" id="new-gallery-loader"></div>
             </form>
         </div>

@@ -43,8 +43,10 @@ class ImageGalleriesController extends ZPBController
         if(!$gallery){
             throw $this->createNotFoundException();
         }
+        $sites = $this->getRepo("ZPBAdminBundle:Site")->findBy([], ["name"=>"ASC"]);
+        $shares = $this->getRepo("ZPBAdminBundle:GalleryToSite")->getSitesArray($id);
 
-        return $this->render('ZPBAdminBundle:ImageGalleries:update.html.twig', ["gallery"=>$gallery]);
+        return $this->render('ZPBAdminBundle:ImageGalleries:update.html.twig', ["gallery"=>$gallery, "sites"=>$sites, "shares"=>$shares]);
     }
 
     public function xhrImageUploadAction($id, Request $request)

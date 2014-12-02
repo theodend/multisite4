@@ -12,4 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class GalleryToSiteRepository extends EntityRepository
 {
+    public function getSitesArray($id)
+    {
+        $qb = $this->createQueryBuilder("s")->select("s.siteShortcut as share")->where("s.galleryId = :id");
+        $qb->setParameter("id", $id);
+        $result = $qb->getQuery()->getArrayResult();
+        return array_map(function($it){ return $it["share"]; }, $result);
+    }
 }
