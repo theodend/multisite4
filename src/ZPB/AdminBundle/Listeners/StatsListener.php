@@ -45,7 +45,12 @@ class StatsListener implements EventSubscriberInterface
 
         $request = $event->getRequest();
         $stat = new PageStat();
-        $stat->setRoute($request->attributes->get('_route'))->setReferer($request->headers->get("referer", "none"));
+        $stat->setRoute($request->attributes->get('_route'))
+            ->setReferer($request->headers->get("referer", "none"))
+            ->setUrl($request->getUri())
+            ->setIp($request->getClientIp())
+        ;
+
         $this->em->persist($stat);
         $this->em->flush();
 

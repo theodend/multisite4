@@ -30,11 +30,21 @@ class PageStat
     private $route;
 
     /**
+     * @ORM\Column(name="url", type="string", length=255)
+     */
+    private $url;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="referer", type="string", length=255)
      */
     private $referer;
+
+    /**
+     * @ORM\Column(name="ip", type="string", length=100)
+     */
+    private $ip;
 
     /**
      * @var \DateTime
@@ -123,4 +133,42 @@ class PageStat
     {
         return $this->createdAt;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param mixed $url
+     * @return PageStat
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
+     * @param mixed $ip
+     * @return PageStat
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+        return $this;
+    }
+
+
 }
