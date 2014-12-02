@@ -94,8 +94,35 @@ class SiteController extends ZPBController
         return new JsonResponse($response);
     }
 
-    public function xhrUpdateSiteAction($id, Request $request)
+    public function xhrUpdateSiteAction(Request $request)
     {
+        if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        $datas = [];
+        parse_str($this->getContent(), $datas);
 
+        if(empty($datas["id"]) || empty($datas["name"]) || empty($datas["shortname"]) || empty($datas["route"])){
+            $response["msg"] = "Données incomplètes.";
+        } else {
+            /** @var \ZPB\AdminBundle\Entity\Site $site */
+            $site = $this->getRepo("ZPBAdminBundle:Site")->find(intval($datas["id"]));
+            if(!$site){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                $site->setName($datas["name"])
+                    ->setShortname($datas["shortname"])
+                    ->setRoute($datas["route"])
+                    ->setUrl($this->generateUrl($datas["route"]));
+                $this->getManager()->persist($site);
+                $this->getManager()->flush();
+                $response['error'] = false;
+                $response['datas'] = $site;
+                $response['msg'] = 'Site mis à jour.';
+            }
+        }
+
+        return new JsonResponse($response);
     }
 }

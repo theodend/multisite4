@@ -2,6 +2,14 @@
 
 {% block title %}Sites{% endblock %}
 
+{% block headStyles %}
+    {{ parent() }}
+    <style>
+        #updater{
+            display: none;
+        }
+    </style>
+{% endblock %}
 {% block content %}
     <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
 
@@ -16,7 +24,7 @@
 
 
     <div class="row">
-        <div class="col-sm-6 clo-md-6">
+        <div class="col-sm-7 clo-md-7">
             <h2 class="sub-header">Sites enregistrés</h2>
 
             <div class="table-responsive">
@@ -34,11 +42,11 @@
                     {% if sites|length>0 %}
                     {% for site in sites %}
                         <tr id="site_row_{{ site.id }}">
-                            <td>{{ site.name }}</td>
-                            <td>{{ site.shortname }}</td>
-                            <td><a href="{{ site.url }}" target="_blank">{{ site.url }}</a></td>
-                            <td>{{ site.route }}</td>
-                            <td><a class="btn btn-default" href=""><i class="fa fa-edit"></i></a></td>
+                            <td class="site-name">{{ site.name }}</td>
+                            <td class="site-shortname">{{ site.shortname }}</td>
+                            <td class="site-url"><a href="{{ site.url }}" target="_blank">{{ site.url }}</a></td>
+                            <td class="site-route">{{ site.route }}</td>
+                            <td><a class="btn btn-default update-site-btn" href="#" data-site="{{ site.id }}"><i class="fa fa-edit"></i></a></td>
                             <td><a class="btn btn-default delete-site-btn" href="#" data-site="{{ site.id }}"><i class="fa fa-trash-o"></i></a><div class="loader"></div></td>
                         </tr>
                     {% endfor %}
@@ -51,10 +59,36 @@
                 </table>
             </div>
         </div>
-        <div class="col-sm-6 clo-md-6">
-            <div id="update">
+        <div class="col-sm-5 clo-md-5">
+            <div id="updater">
                 <h2 class="sub-header">Mise à jour</h2>
+                <form class="form" id="update-site-form">
 
+                    <div class="form-group">
+                        <label for="update-site-name-ipt">Nom</label>
+                        <input class="form-control" type="text" id="update-site-name-ipt"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="update-site-shortname-ipt">Nom court</label>
+                        <input class="form-control" type="text" id="update-site-shortname-ipt"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="update-site-route-ipt">Route</label>
+                        <input class="form-control" type="text" id="update-site-route-ipt"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="update-site-url-ipt">Url</label>
+                        <input class="form-control" type="text" id="update-site-url-ipt"/>
+                    </div>
+
+                    <input name="update-site-id" type="hidden"/>
+
+                    <button type="button" class="btn btn-primary" id="update-site-btn">Enregistrer</button><div class="loader"></div>
+
+                </form>
             </div>
 
 
@@ -68,17 +102,17 @@
             <form class="form" id="create-site-form">
 
                 <div class="form-group">
-                    <label for="">Nom</label>
+                    <label for="create-site-name-ipt">Nom</label>
                     <input class="form-control" type="text" id="create-site-name-ipt"/>
                 </div>
 
                 <div class="form-group">
-                    <label for="">Nom court</label>
+                    <label for="create-site-shortname-ipt">Nom court</label>
                     <input class="form-control" type="text" id="create-site-shortname-ipt"/>
                 </div>
 
                 <div class="form-group">
-                    <label for="">Route</label>
+                    <label for="create-site-route-ipt">Route</label>
                     <input class="form-control" type="text" id="create-site-route-ipt"/>
                 </div>
 
@@ -96,19 +130,33 @@
 {% block footScripts %}
     {{ parent() }}
     <script>
+        var updateSiteUrl = "{{ path("zpb_admin_sites_update") }}";
         var createSiteUrl = "{{ path("zpb_admin_sites_create") }}";
         var deleteSiteUrl = "{{ path("zpb_admin_sites_delete") }}";
     </script>
     <script>
         $(function(){
-            var messenger, createSiteBtn, createSiteNameIpt, createSiteShortnameIpt, createSiteRouteIpt, loader;
+            var messenger, createSiteBtn, createSiteNameIpt,
+                    createSiteShortnameIpt, createSiteRouteIpt,updateSiteId,
+                    updateSiteBtn, updateSiteNameIpt, updateSiteShortnameIpt,
+                    updateSiteRouteIpt, updateSiteUrlIpt,loader, updater;
+
             messenger = $("#messenger");
             createSiteBtn = $("#create-site-btn");
             createSiteNameIpt = $("#create-site-name-ipt");
             createSiteShortnameIpt = $("#create-site-shortname-ipt");
             createSiteRouteIpt = $("#create-site-route-ipt");
+            updateSiteBtn = $("#update-site-btn");
+            updateSiteNameIpt = $("#update-site-name-ipt");
+            updateSiteShortnameIpt = $("#update-site-shortname-ipt");
+            updateSiteRouteIpt = $("#update-site-route-ipt");
+            updateSiteUrlIpt = $("#update-site-url-ipt");
+            updateSiteId = $("#update-site-id");
             loader = $(".loader");
+            updater = $("#updater");
+
             loader.hide();
+
             var showMsg = function(msg, success){
                 if(arguments.length <1){
                     messenger.empty();
@@ -158,15 +206,88 @@
                         });
             });
 
+            var openUpdate = function(e){
+                e.preventDefault();
+                var $self = $(this);
+                var id = $(this).data("site");
+                var parent = $(this).parents("#site_row_" + id );
+
+                updateSiteId.val(id);
+                updateSiteNameIpt.val($("td.site-name", parent).text());
+                updateSiteShortnameIpt.val($("td.site-shortname", parent).text());
+                updateSiteRouteIpt.val($("td.site-route", parent).text());
+                updateSiteUrlIpt.val($("td.site-url", parent).text());
+                updateSiteUrlIpt.prop("readonly", "readonly");
+                updater.show();
+
+            };
+
+
+            $(document).on("click", '.update-site-btn', openUpdate);
+
+            updateSiteBtn.on("click", function(e){
+                e.preventDefault();
+                var self = this;
+                var loader = $(this).next(".loader");
+                loader.show();
+                $(this).hide();
+                showMsg();
+                $.ajax({
+                    type: "PUT",
+                    url: updateSiteUrl,
+                    data: {
+                        id: updateSiteId.val(),
+                        name: updateSiteNameIpt.val(),
+                        shortname: updateSiteShortnameIpt.val(),
+                        route: updateSiteRouteIpt.val()
+                    }
+                })
+                        .done(function(response){
+                            if(response.error == false){
+                                showMsg(response.msg, true);
+                                clearUpdater();
+                                updatePageDatas(response.datas);
+                            } else {
+                                showMsg(response.msg, false);
+                            }
+                            self.show();
+                            loader.hide();
+                        })
+                        .fail(function(xhr){
+                            showMsg(xhr.statusCode + " " + xhr.statusText, false);
+                            clearUpdater();
+                            self.show();
+                            loader.hide();
+                        });
+            });
+
+            var clearUpdater = function(){
+                updateSiteId.val("");
+                updateSiteNameIpt.val("");
+                updateSiteShortnameIpt.val("");
+                updateSiteRouteIpt.val("");
+                updateSiteUrlIpt.prop("readonly", false);
+                updateSiteUrlIpt.val("");
+                updater.hide();
+            };
+
+            var updatePageDatas = function(datas){
+                var row = $("#site_row_" + datas["id"]);
+                $(".site-name", row).text(datas["name"]);
+                $(".site-shortname", row).text(datas["shortname"]);
+                $(".site-route", row).text(datas["route"]);
+                $(".site-url", row).text(datas["url"]);
+            };
+
             $(document).on("click", ".delete-site-btn", function(e){
                 e.preventDefault();
-
                 if(window.confirm("Cette action est irréversible. Vous la confirmez ?")){
                     var $self = $(this);
                     var id = $(this).data("site");
                     var btn = $(this);
                     var loader = btn.next(".loader");
-                    var parent = btn.parents("site_row_" + id );
+                    var parent = btn.parents("#site_row_" + id );
+                    showMsg();
                     btn.hide();
                     loader.show();
                     $.ajax({
