@@ -28,6 +28,6 @@ class SiteController extends ZPBController
     public function indexAction()
     {
         $sites = $this->getRepo("ZPBAdminBundle:Site")->findBy([], ["name"=>"ASC"]);
-        return $this->render('ZPBAdminBundle:Site:index.html.twig', []);
+        return $this->render('ZPBAdminBundle:Site:index.html.twig', ["sites"=>$sites]);
     }
 }
