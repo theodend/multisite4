@@ -1,11 +1,11 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Nicolas Canfrère
- * Date: 28/11/2014
- * Time: 16:06
+ * User: Nicolas Canfrere
+ * Date: 02/12/2014
+ * Time: 03:39
  */
-  /*
+ /*
            ____________________
   __      /     ______         \
  {  \ ___/___ /       }         \
@@ -18,15 +18,16 @@
       (__<  |mm_|mm_|  |mm_|mm_|
 */
 
-namespace ZPB\Sites\ZooBundle\Controller;
+namespace ZPB\AdminBundle\Controller;
 
 
-use Symfony\Component\HttpFoundation\Request;
+use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class SocialController extends BaseController
+class SiteController extends ZPBController
 {
-    public function socialAction(Request $request)
+    public function indexAction()
     {
-        return $this->getView('ZPBSitesZooBundle:Social:social.html.twig', $request);
+        $sites = $this->getRepo("ZPBAdminBundle:Site")->findBy([], ["name"=>"ASC"]);
+        return $this->render('ZPBAdminBundle:Site:index.html.twig', []);
     }
 }

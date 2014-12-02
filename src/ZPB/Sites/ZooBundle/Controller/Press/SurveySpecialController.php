@@ -22,12 +22,12 @@ namespace ZPB\Sites\ZooBundle\Controller\Press;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\CommonBundle\Controller\ZPBController;
+use ZPB\Sites\ZooBundle\Controller\BaseController;
 
-class SurveySpecialController extends ZPBController
+class SurveySpecialController extends BaseController
 {
     public function indexAction(Request $request)
     {
 
     }
-} 
+}

@@ -22,9 +22,8 @@ namespace ZPB\Sites\ZooBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class ChildrenController extends ZPBController
+class ChildrenController extends BaseController
 {
     public function gamePadAction(Request $request)
     {

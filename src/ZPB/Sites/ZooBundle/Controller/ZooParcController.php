@@ -22,9 +22,8 @@ namespace ZPB\Sites\ZooBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class ZooParcController extends ZPBController
+class ZooParcController extends BaseController
 {
     public function animalsAction(Request $request)
     {

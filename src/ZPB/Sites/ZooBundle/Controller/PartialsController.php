@@ -21,12 +21,11 @@
 namespace ZPB\Sites\ZooBundle\Controller;
 
 
-use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class PartialsController extends ZPBController
+class PartialsController extends BaseController
 {
     public function mainFooterAction()
     {
         return $this->getView('ZPBSitesZooBundle:Partials:main_footer.html.twig');
     }
-} 
+}

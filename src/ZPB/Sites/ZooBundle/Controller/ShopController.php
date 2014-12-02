@@ -22,12 +22,11 @@ namespace ZPB\Sites\ZooBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class ShopController extends ZPBController
+class ShopController extends BaseController
 {
     public function shopAction(Request $request)
     {
         return $this->getView('ZPBSitesZooBundle:Shop:shop.html.twig', $request);
     }
-} 
+}

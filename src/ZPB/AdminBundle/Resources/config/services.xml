@@ -7,6 +7,7 @@
 
     <parameters>
         <parameter key="zpb.admin.image_gallery_resizer.class">ZPB\AdminBundle\Services\ImageGalleryResizerService</parameter>
+        <parameter key="zpb.stats.listener.class">ZPB\AdminBundle\Listeners\StatsListener</parameter>
         <!-- zoo spesific -->
         <parameter key="zpb.carousel.zoo.img_base_dir">%kernel.root_dir%/../web/</parameter>
         <parameter key="zpb.carousel.zoo.img_web_dir">img/sites/zoo/headers/</parameter>
@@ -38,6 +39,10 @@
     </parameters>
 
     <services>
+        <service id="zpb.stats.listener" class="%zpb.stats.listener.class%">
+            <argument id="doctrine.orm.entity_manager" type="service"/>
+            <tag name="kernel.event_subscriber" />
+        </service>
         <service id="zpb.admin.image_gallery_resizer" class="%zpb.admin.image_gallery_resizer.class%" >
             <argument>%zpb.image_galleries.thumbs.dims%</argument>
             <argument type="service" id="filesystem"/>

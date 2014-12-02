@@ -22,12 +22,11 @@ namespace ZPB\Sites\ZooBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class FAQController extends ZPBController
+class FAQController extends BaseController
 {
     public function indexAction(Request $request)
     {
         return $this->getView('ZPBSitesZooBundle:FAQ:index.html.twig', $request);
     }
-} 
+}

@@ -1,0 +1,4 @@
+zpb_admin_sites_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:Site:index }
+    methods: ["GET"]

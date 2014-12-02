@@ -22,12 +22,12 @@ namespace ZPB\Sites\ZooBundle\Controller\Press;
 
 
 use Symfony\Component\BrowserKit\Request;
-use ZPB\Sites\CommonBundle\Controller\ZPBController;
+use ZPB\Sites\ZooBundle\Controller\BaseController;
 
-class GalleryController extends ZPBController
+class GalleryController extends BaseController
 {
     public function indexAction(Request $request)
     {
 
     }
-} 
+}

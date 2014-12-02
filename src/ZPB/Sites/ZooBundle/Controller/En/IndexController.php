@@ -22,9 +22,9 @@ namespace ZPB\Sites\ZooBundle\Controller\En;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\CommonBundle\Controller\ZPBController;
+use ZPB\Sites\ZooBundle\Controller\BaseController;
 
-class IndexController extends ZPBController
+class IndexController extends BaseController
 {
     public function indexAction(Request $request)
     {

@@ -22,9 +22,8 @@ namespace ZPB\Sites\ZooBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class UtilsController extends ZPBController
+class UtilsController extends BaseController
 {
     public function accessAction(Request $request)
     {
@@ -55,4 +54,4 @@ class UtilsController extends ZPBController
     {
         return $this->getView('ZPBSitesZooBundle:Utils:services.html.twig', $request);
     }
-} 
+}

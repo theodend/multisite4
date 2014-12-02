@@ -22,12 +22,11 @@ namespace ZPB\Sites\ZooBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class ContactController extends ZPBController
+class ContactController extends BaseController
 {
     public function indexAction(Request $request)
     {
         return $this->getView('ZPBSitesZooBundle:Contact:index.html.twig', $request);
     }
-} 
+}

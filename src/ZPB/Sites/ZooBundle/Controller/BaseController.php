@@ -1,11 +1,11 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Nicolas Canfrère
- * Date: 28/11/2014
- * Time: 15:55
+ * User: Nicolas Canfrere
+ * Date: 02/12/2014
+ * Time: 03:48
  */
-  /*
+ /*
            ____________________
   __      /     ______         \
  {  \ ___/___ /       }         \
@@ -21,17 +21,29 @@
 namespace ZPB\Sites\ZooBundle\Controller;
 
 
-use Symfony\Component\HttpFoundation\Request;
+use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class NewsController extends BaseController
+class BaseController extends ZPBController
 {
-    public function newsAction(Request $request)
+    protected $site = "zoo";
+
+    /**
+     * @return string
+     */
+    public function getSite()
     {
-        return $this->getView('ZPBSitesZooBundle:News:news.html.twig',$request);
+        return $this->site;
     }
 
-    public function nouveautesAction(Request $request)
+    /**
+     * @param string $site
+     * @return $this
+     */
+    public function setSite($site)
     {
-        return $this->getView('ZPBSitesZooBundle:News:nouveautes.html.twig',$request);
+        $this->site = $site;
+        return $this;
     }
+
+
 }
