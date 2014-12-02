@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * ImageGallery
  *
- * @ORM\Table(name="image_galleres")
+ * @ORM\Table(name="zpb_image_galleries")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\ImageGalleryRepository")
  */
 class ImageGallery implements \JsonSerializable

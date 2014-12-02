@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * GalleryToSite
  *
- * @ORM\Table()
+ * @ORM\Table(name="zpb_galleries_to_sites")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\GalleryToSiteRepository")
  */
 class GalleryToSite
@@ -39,7 +39,7 @@ class GalleryToSite
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -62,7 +62,7 @@ class GalleryToSite
     /**
      * Get galleryId
      *
-     * @return integer 
+     * @return integer
      */
     public function getGalleryId()
     {
@@ -85,7 +85,7 @@ class GalleryToSite
     /**
      * Get siteShortcut
      *
-     * @return string 
+     * @return string
      */
     public function getSiteShortcut()
     {

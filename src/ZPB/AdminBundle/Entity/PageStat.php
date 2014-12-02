@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * PageStat
  *
- * @ORM\Table(name="page_stats")
+ * @ORM\Table(name="zpb_page_stats")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\PageStatRepository")
  */
 class PageStat

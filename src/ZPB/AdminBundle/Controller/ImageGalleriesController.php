@@ -21,9 +21,9 @@
 namespace ZPB\AdminBundle\Controller;
 
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use ZPB\AdminBundle\Entity\GalleryToSite;
 use ZPB\AdminBundle\Entity\ImageGallery;
 use ZPB\AdminBundle\Entity\ImageGalleryImage;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
@@ -33,7 +33,8 @@ class ImageGalleriesController extends ZPBController
     public function indexAction()
     {
         $galleries = $this->getRepo("ZPBAdminBundle:ImageGallery")->findBy([], ["name"=>"ASC"]);
-        return $this->render('ZPBAdminBundle:ImageGalleries:index.html.twig', ["galleries"=>$galleries]);
+        $sites = $this->getRepo("ZPBAdminBundle:Site")->findBy([], ["name"=>"ASC"]);
+        return $this->render('ZPBAdminBundle:ImageGalleries:index.html.twig', ["galleries"=>$galleries, "sites"=>$sites]);
     }
 
     public function updateAction($id, Request $request)
@@ -246,6 +247,7 @@ class ImageGalleriesController extends ZPBController
         $name = $request->request->get("name", false);
         $isPrivate = $request->request->get("isPrivate", false);
         $isHD = $request->request->get("isHD", false);
+        $shares = $request->request->get("shares", false);
         if(!$name || !$isPrivate || !$isHD){
             $response["msg"] = "Données incomplètes.";
         } else {
@@ -262,6 +264,15 @@ class ImageGalleriesController extends ZPBController
                 $gallery->setIsHD(false);
             }
             $this->getManager()->persist($gallery);
+            $this->getManager()->flush();
+            if($shares && is_array($shares)){
+                foreach($shares as $site){
+                    $galToSite = new GalleryToSite();
+                    $galToSite->setGalleryId($gallery->getId());
+                    $galToSite->setSiteShortcut($site);
+                    $this->getManager()->persist($galToSite);
+                }
+            }
             $this->getManager()->flush();
             $response["error"] = false;
             $response["msg"] = "Galerie enregistrée.";

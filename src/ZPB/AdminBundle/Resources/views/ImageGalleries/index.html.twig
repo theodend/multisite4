@@ -83,6 +83,14 @@
                     </label>
                 </div>
 
+                {% for key,site in sites %}
+                    <div class="checkbox">
+                        <label for="new-gallery-site-ipt_{{ key }}">
+                            <input type="checkbox" id="new-gallery-hd-ipt_{{ key }}" value="{{ site.shortname }}" class="site-share"/> partagée sur {{ site.name }}
+                        </label>
+                    </div>
+                {% endfor %}
+
                 <button class="btn btn-primary" type="button" id="new-gallery-btn">Créer</button><div class="loader" id="new-gallery-loader"></div>
             </form>
         </div>
@@ -151,8 +159,15 @@
                 }
                 newGalBtn.hide();
                 newGalLoader.show();
+                var shares = [];
+                $(".site-share").each(function(){
+                    if($(this).is(":checked")){
+                        shares.push($(this).val());
+                    }
+                });
                 showMsg();
-                $.post(newGalUrl, {name: name, isPrivate: isPrivate, isHD: isHD})
+                console.log(shares);
+                $.post(newGalUrl, {name: name, isPrivate: isPrivate, isHD: isHD, shares: shares})
                     .done(function(response){
                         if(response.error == false){
                             location.reload(true);
