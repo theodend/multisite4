@@ -62,8 +62,8 @@ class ImageGalleriesController extends ZPBController
                 $response["msg"] = "Données incorrectes.";
             } else {
                 $fs = $this->get('filesystem');
-                $rootDir = $this->container->getParameter('zpb.image_galleries.base_dir') . $gallery->getSlug() . "/";
-                $webDir = $this->container->getParameter('zpb.image_galleries.web_dir') . $gallery->getSlug() . "/";
+                $rootDir = $this->container->getParameter('zpb.image_galleries.base_dir');
+                $webDir = $this->container->getParameter('zpb.image_galleries.web_dir');
                 if(!$fs->exists($rootDir)){
                     $fs->mkdir($rootDir);
                 }
@@ -72,17 +72,19 @@ class ImageGalleriesController extends ZPBController
                 if(preg_match('/^.+\.(jpg|jpeg|png|gif)$/i', $filename, $matches)){
                     $extension = strtolower($matches[1]);
                     $newFilename = time() . '.' .$extension;
-
-                    file_put_contents($rootDir . $newFilename, $request->getContent());
+                    if(!$fs->exists($rootDir . $webDir . $gallery->getSlug())){
+                        $fs->mkdir($rootDir . $webDir . $gallery->getSlug());
+                    }
+                    file_put_contents($rootDir . $webDir . $gallery->getSlug() . "/" . $newFilename, $request->getContent());
                     $resizer = $this->container->get('zpb.admin.image_gallery_resizer');
 
-                    $adminFilename = $resizer->makeAdminThumb($rootDir, $newFilename, $webDir);
-                    $thumbFilename = $resizer->makeThumb($rootDir, $newFilename, $webDir);
-                    $slideFilename = $resizer->makeSlide($rootDir, $newFilename, $webDir);
+                    $adminFilename = $resizer->makeAdminThumb($rootDir, $newFilename, $webDir . $gallery->getSlug() . "/");
+                    $thumbFilename = $resizer->makeThumb($rootDir, $newFilename, $webDir . $gallery->getSlug() . "/");
+                    $slideFilename = $resizer->makeSlide($rootDir, $newFilename, $webDir . $gallery->getSlug() . "/");
 
                     $img = new ImageGalleryImage();
                     $img->setFilename($newFilename);
-                    $img->setWebRoot($webDir . $newFilename)->setRoot($this->container->getParameter('zpb.image_galleries.base_dir'));
+                    $img->setWebRoot($webDir . $gallery->getSlug() . "/" . $newFilename)->setRoot($this->container->getParameter('zpb.image_galleries.base_dir'));
                     $img->setGallery($gallery);
                     $img->setAdminThumb($adminFilename)->setSlide($slideFilename)->setThumb($thumbFilename);
                     $this->getManager()->persist($img);
@@ -181,13 +183,17 @@ class ImageGalleriesController extends ZPBController
             if(empty($datas["id"])){
                 $response["msg"] = "Données incomplètes.";
             } else {
+                /** @var \ZPB\AdminBundle\Entity\ImageGalleryImage $img */
                 $img = $this->getRepo("ZPBAdminBundle:ImageGalleryImage")->find(intval($datas["id"]));
                 if(!$img){
                     $response["msg"] = "Données incorrectes.";
                 } else {
                     $fs = $this->container->get('filesystem');
                     if($fs->exists($img->getRoot())){
-                        $fs->remove($img->getRoot());
+                        $fs->remove($img->getRoot() . $img->getWebRoot());
+                        $fs->remove($img->getRoot() . $img->getAdminThumb());
+                        $fs->remove($img->getRoot() . $img->getSlide());
+                        $fs->remove($img->getRoot() . $img->getThumb());
                     }
                     $this->getManager()->remove($img);
                     $this->getManager()->flush();
@@ -216,7 +222,10 @@ class ImageGalleriesController extends ZPBController
         foreach($images as $img){
             /** @var \ZPB\AdminBundle\Entity\ImageGalleryImage $img */
             if($fs->exists($img->getRoot())){
-                $fs->remove($img->getRoot());
+                $fs->remove($img->getRoot() . $img->getWebRoot());
+                $fs->remove($img->getRoot() . $img->getAdminThumb());
+                $fs->remove($img->getRoot() . $img->getSlide());
+                $fs->remove($img->getRoot() . $img->getThumb());
             }
             $this->getManager()->remove($img);
         }

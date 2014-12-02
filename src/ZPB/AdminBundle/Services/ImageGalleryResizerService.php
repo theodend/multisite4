@@ -68,23 +68,23 @@ class ImageGalleryResizerService
 
     public function resize( $root, $filename, $webDir, $width = 188, $height = 55, $dirname = "admin")
     {
-        $size = getimagesize($root . $filename);
+        $size = getimagesize($root . $webDir . $filename);
         if($size[0] >= $size[1]){
-             $this->landscape($root, $filename, $width, $height,$dirname, $size[0], $size[1]);
+             $this->landscape($root, $filename, $webDir, $width, $height,$dirname, $size[0], $size[1]);
         } else {
-             $this->portrait($root, $filename, $width, $height,$dirname, $size[0], $size[1]);
+             $this->portrait($root, $filename, $webDir, $width, $height,$dirname, $size[0], $size[1]);
         }
         return $webDir . $dirname . "/" . $filename;
     }
 
-    public function landscape($root, $filename, $width, $height, $dirname, $iniW, $iniH)
+    public function landscape($root, $filename, $webDir, $width, $height, $dirname, $iniW, $iniH)
     {
-        $destDir = $root . $dirname;
+        $destDir = $root . $webDir . $dirname;
         if(!$this->fs->exists($destDir)){
             $this->fs->mkdir($destDir);
         }
         $dest = $destDir . "/" . $filename;
-        $abs = $root . $filename;
+        $abs = $root . $webDir . $filename;
         $mime = $this->getMimeType($abs);
         $image = $this->createImage($abs, $mime);
         $redim = imagecreatetruecolor($width, $height);
@@ -106,14 +106,14 @@ class ImageGalleryResizerService
         return $dest;
     }
 
-    public function portrait($root, $filename, $width, $height, $dirname, $iniW, $iniH)
+    public function portrait($root, $filename, $webDir, $width, $height, $dirname, $iniW, $iniH)
     {
-        $destDir = $root . $dirname;
+        $destDir = $root . $webDir . $dirname;
         if(!$this->fs->exists($destDir)){
             $this->fs->mkdir($destDir);
         }
         $dest = $destDir . "/" . $filename;
-        $abs = $root . $filename;
+        $abs = $root . $webDir . $filename;
         $mime = $this->getMimeType($abs);
         $image = $this->createImage($abs, $mime);
         $redim = imagecreatetruecolor($width, $height);
