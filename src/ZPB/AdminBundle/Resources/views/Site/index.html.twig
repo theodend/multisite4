@@ -44,7 +44,7 @@
                         <tr id="site_row_{{ site.id }}">
                             <td class="site-name">{{ site.name }}</td>
                             <td class="site-shortname">{{ site.shortname }}</td>
-                            <td class="site-url"><a href="{{ site.url }}" target="_blank">{{ site.url }}</a></td>
+                            <td class="site-url">{{ site.url }}</td>
                             <td class="site-route">{{ site.route }}</td>
                             <td><a class="btn btn-default update-site-btn" href="#" data-site="{{ site.id }}"><i class="fa fa-edit"></i></a></td>
                             <td><a class="btn btn-default delete-site-btn" href="#" data-site="{{ site.id }}"><i class="fa fa-trash-o"></i></a><div class="loader"></div></td>
@@ -84,7 +84,11 @@
                         <input class="form-control" type="text" id="update-site-url-ipt"/>
                     </div>
 
-                    <input name="update-site-id" type="hidden"/>
+                    <div class="form-group">
+                        <label for="update-site-id">id</label>
+                        <input class="form-control" type="text" id="update-site-id"/>
+                    </div>
+
 
                     <button type="button" class="btn btn-primary" id="update-site-btn">Enregistrer</button><div class="loader"></div>
 
@@ -206,29 +210,31 @@
                         });
             });
 
-            var openUpdate = function(e){
+
+            $(document).on("click", '.update-site-btn', function(e){
                 e.preventDefault();
                 var $self = $(this);
                 var id = $(this).data("site");
+                console.log(id);
                 var parent = $(this).parents("#site_row_" + id );
 
-                updateSiteId.val(id);
+                updateSiteId.val(id+"");
                 updateSiteNameIpt.val($("td.site-name", parent).text());
                 updateSiteShortnameIpt.val($("td.site-shortname", parent).text());
                 updateSiteRouteIpt.val($("td.site-route", parent).text());
                 updateSiteUrlIpt.val($("td.site-url", parent).text());
                 updateSiteUrlIpt.prop("readonly", "readonly");
+                updateSiteId.prop("readonly", "readonly");
+
                 updater.show();
 
-            };
-
-
-            $(document).on("click", '.update-site-btn', openUpdate);
+            });
 
             updateSiteBtn.on("click", function(e){
                 e.preventDefault();
-                var self = this;
+                var self = $(this);
                 var loader = $(this).next(".loader");
+                console.log(loader);
                 loader.show();
                 $(this).hide();
                 showMsg();
@@ -262,12 +268,13 @@
             });
 
             var clearUpdater = function(){
-                updateSiteId.val("");
                 updateSiteNameIpt.val("");
                 updateSiteShortnameIpt.val("");
                 updateSiteRouteIpt.val("");
                 updateSiteUrlIpt.prop("readonly", false);
                 updateSiteUrlIpt.val("");
+                updateSiteId.prop("readonly", false);
+                updateSiteId.val("");
                 updater.hide();
             };
 

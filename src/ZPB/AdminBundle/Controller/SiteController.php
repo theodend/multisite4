@@ -101,7 +101,7 @@ class SiteController extends ZPBController
         }
         $response = ["error"=>true, "msg"=>"", "datas"=>[]];
         $datas = [];
-        parse_str($this->getContent(), $datas);
+        parse_str($request->getContent(), $datas);
 
         if(empty($datas["id"]) || empty($datas["name"]) || empty($datas["shortname"]) || empty($datas["route"])){
             $response["msg"] = "Données incomplètes.";
