@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class ImageGalleryRepository extends EntityRepository
 {
+    public function getSharedGalleries($shortname)
+    {
+        $q = $this->_em->createQuery("SELECT g FROM ZPBAdminBundle:ImageGallery g WHERE g.id IN (SELECT s.galleryId FROM ZPBAdminBundle:GalleryToSite s WHERE s.siteShortcut = :shortname)");
+        $q->setParameter("shortname", $shortname);
+        return $q->getArrayResult();
+    }
 }

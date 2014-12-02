@@ -43,7 +43,8 @@ class ZooParcController extends BaseController
     }
     public function galleryAction(Request $request)
     {
-        return $this->getView('ZPBSitesZooBundle:ZooParc:gallery.html.twig',$request);
+        $galleries = $this->getRepo("ZPBAdminBundle:ImageGallery")->getSharedGalleries($this->site);
+        return $this->getView('ZPBSitesZooBundle:ZooParc:gallery.html.twig',$request, ["galleries"=>$galleries]);
     }
 
 
