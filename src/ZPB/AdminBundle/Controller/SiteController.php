@@ -21,6 +21,9 @@
 namespace ZPB\AdminBundle\Controller;
 
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use ZPB\AdminBundle\Entity\Site;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
 class SiteController extends ZPBController
@@ -29,5 +32,33 @@ class SiteController extends ZPBController
     {
         $sites = $this->getRepo("ZPBAdminBundle:Site")->findBy([], ["name"=>"ASC"]);
         return $this->render('ZPBAdminBundle:Site:index.html.twig', ["sites"=>$sites]);
+    }
+
+    public function xhrCreateSiteAction(Request $request)
+    {
+        if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+
+        $name = $request->request->get("name", false);
+        $route = $request->request->get("route", false);
+        $shortname = $request->request->get("shortname", false);
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        if(!$name || !$route || $shortname){
+            $response["msg"] = "Données incomplètes.";
+        } else {
+            $site = new Site();
+            $site->setName($name)
+                ->setShortname($shortname)
+                ->setRoute($route)
+                ->setUrl($this->generateUrl($route));
+            $this->getManager()->persist($site);
+            $this->getManager()->flush();
+            $response['error'] = false;
+            $response['datas'] = $site;
+            $response['msg'] = 'Nouveau site enregistré.';
+
+        }
+        return new JsonResponse($response);
     }
 }

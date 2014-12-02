@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="zpb_sites")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\SiteRepository")
  */
-class Site
+class Site implements \JsonSerializable
 {
     /**
      * @var integer
@@ -150,5 +150,16 @@ class Site
     public function getUrl()
     {
         return $this->url;
+    }
+
+    function jsonSerialize()
+    {
+        return [
+            "id" => $this->getId(),
+            "name" => $this->getName(),
+            "shortname" => $this->getShortname(),
+            "route" => $this->getRoute(),
+            "url" => $this->getUrl(),
+        ];
     }
 }
