@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="zpb_galleries_to_sites")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\GalleryToSiteRepository")
  */
-class GalleryToSite
+class GalleryToSite implements \JsonSerializable
 {
     /**
      * @var integer
@@ -90,5 +90,14 @@ class GalleryToSite
     public function getSiteShortcut()
     {
         return $this->siteShortcut;
+    }
+
+    function jsonSerialize()
+    {
+        return [
+            "id"=>$this->getId(),
+            "galleryId"=>$this->getGalleryId(),
+            "siteShortcut"=>$this->getSiteShortcut(),
+        ];
     }
 }
