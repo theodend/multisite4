@@ -13,6 +13,11 @@ zpb_admin_sites_delete:
     defaults: { _controller: ZPBAdminBundle:Site:xhrDeleteSite }
     methods: ["DELETE"]
 
+zpb_admin_sites_update:
+    path: /update
+    defaults: { _controller: ZPBAdminBundle:Site:xhrUpdateSite }
+    methods: ["PUT"]
+
 
 
 

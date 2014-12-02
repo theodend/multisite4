@@ -94,7 +94,7 @@ class SiteController extends ZPBController
         return new JsonResponse($response);
     }
 
-    public function updateSiteAction($id, Request $request)
+    public function xhrUpdateSiteAction($id, Request $request)
     {
 
     }
