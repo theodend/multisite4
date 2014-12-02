@@ -83,6 +83,7 @@
     {{ parent() }}
     <script>
         var createSiteUrl = "{{ path("zpb_admin_sites_create") }}";
+        var deleteSiteUrl = "{{ path("zpb_admin_sites_delete") }}";
     </script>
     <script>
         $(function(){
@@ -156,6 +157,7 @@
                     loader.show();
                     $.ajax({
                         url: deleteSiteUrl,
+                        type: "DELETE",
                         data: {id: id}
                     })
                             .done(function(response){

@@ -232,6 +232,11 @@ class ImageGalleriesController extends ZPBController
             }
             $this->getManager()->remove($img);
         }
+        $galleryToSite = $this->getRepo("ZPBAdminBundle:GalleryToSite")->findByGallery($gallery);
+        foreach($galleryToSite as $g){
+            $this->getManager()->remove($g);
+            $this->getManager()->flush();
+        }
         $this->getManager()->remove($gallery);
         $this->getManager()->flush();
         $response["error"] = false;

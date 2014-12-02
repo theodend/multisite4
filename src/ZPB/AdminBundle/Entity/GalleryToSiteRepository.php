@@ -19,4 +19,18 @@ class GalleryToSiteRepository extends EntityRepository
         $result = $qb->getQuery()->getArrayResult();
         return array_map(function($it){ return $it["share"]; }, $result);
     }
+
+    public function findBySite($site)
+    {
+        $qb = $this->createQueryBuilder("g")->where("g.siteShortcut = :shortname");
+        $qb->setParameter("shortname", $site->getShortName());
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findByGallery($gallery)
+    {
+        $qb = $this->createQueryBuilder("g")->where("g.galleryId = :id");
+        $qb->setParameter("id", $gallery->getId());
+        return $qb->getQuery()->getResult();
+    }
 }

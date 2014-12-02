@@ -8,8 +8,10 @@ zpb_admin_sites_create:
     defaults: { _controller: ZPBAdminBundle:Site:xhrCreateSite }
     methods: ["POST"]
 
-
-
+zpb_admin_sites_delete:
+    path: /delete
+    defaults: { _controller: ZPBAdminBundle:Site:xhrDeleteSite }
+    methods: ["DELETE"]
 
 
 

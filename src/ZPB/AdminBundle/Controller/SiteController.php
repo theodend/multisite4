@@ -34,6 +34,38 @@ class SiteController extends ZPBController
         return $this->render('ZPBAdminBundle:Site:index.html.twig', ["sites"=>$sites]);
     }
 
+    public function xhrDeleteSiteAction(Request $request)
+    {
+        if(!$request->isMethod("DELETE") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        $datas = [];
+        parse_str($request->getContent(), $datas);
+        if(empty($datas["id"])){
+            $response["msg"] = "Données incomplètes.";
+        } else {
+            $site = $this->getRepo("ZPBAdminBundle:Site")->find(intval($datas["id"]));
+            if(!$site){
+                $response["msg"] = "Données incorrectes.";
+            } else {
+                $galleriesToSites = $this->getRepo("ZPBAdminBundle:GalleryToSite")->findBySite($site);
+                foreach($galleriesToSites as $g){
+                    $this->getManager()->remove($g);
+                    $this->getManager()->flush();
+
+                }
+                $this->getManager()->remove($site);
+                $this->getManager()->flush();
+                $response['error'] = false;
+                $response['datas'] = $site;
+                $response['msg'] = 'Site supprimé.';
+            }
+        }
+
+        return new JsonResponse($response);
+    }
+
     public function xhrCreateSiteAction(Request $request)
     {
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
@@ -60,5 +92,10 @@ class SiteController extends ZPBController
 
         }
         return new JsonResponse($response);
+    }
+
+    public function updateSiteAction($id, Request $request)
+    {
+
     }
 }
