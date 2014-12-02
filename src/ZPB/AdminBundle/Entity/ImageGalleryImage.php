@@ -23,11 +23,29 @@ class ImageGalleryImage implements \JsonSerializable
     private $id;
 
     /**
+     * @ORM\Column(name="filename", type="string")
+     */
+    private $filename;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="web_root", type="string", length=255)
      */
     private $webRoot;
+
+    /**
+     * @ORM\Column(name="admin_thumb", type="string", length=255)
+     */
+    private $adminThumb;
+    /**
+     * @ORM\Column(name="thumb", type="string", length=255)
+     */
+    private $thumb;
+    /**
+     * @ORM\Column(name="slide", type="string", length=255)
+     */
+    private $slide;
 
     /**
      * @var string
@@ -104,6 +122,9 @@ class ImageGalleryImage implements \JsonSerializable
         return [
             "id" => $this->getId(),
             "webRoot" => $this->getWebRoot(),
+            "thumb" => $this->getThumb(),
+            "adminThumb" => $this->getAdminThumb(),
+            "slide" => $this->getSlide(),
             "root" => $this->getRoot(),
             "title" => $this->getTitle(),
             "copyright" => $this->getCopyright(),
@@ -260,4 +281,80 @@ class ImageGalleryImage implements \JsonSerializable
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAdminThumb()
+    {
+        return $this->adminThumb;
+    }
+
+    /**
+     * @param mixed $adminThumb
+     * @return ImageGalleryImage
+     */
+    public function setAdminThumb($adminThumb)
+    {
+        $this->adminThumb = $adminThumb;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getThumb()
+    {
+        return $this->thumb;
+    }
+
+    /**
+     * @param mixed $thumb
+     * @return ImageGalleryImage
+     */
+    public function setThumb($thumb)
+    {
+        $this->thumb = $thumb;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlide()
+    {
+        return $this->slide;
+    }
+
+    /**
+     * @param mixed $slide
+     * @return ImageGalleryImage
+     */
+    public function setSlide($slide)
+    {
+        $this->slide = $slide;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param mixed $filename
+     * @return ImageGalleryImage
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+        return $filename;
+    }
+
+
+
+
 }

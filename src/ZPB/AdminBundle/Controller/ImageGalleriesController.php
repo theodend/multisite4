@@ -21,6 +21,7 @@
 namespace ZPB\AdminBundle\Controller;
 
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use ZPB\AdminBundle\Entity\ImageGallery;
@@ -61,8 +62,8 @@ class ImageGalleriesController extends ZPBController
                 $response["msg"] = "Données incorrectes.";
             } else {
                 $fs = $this->get('filesystem');
-                $rootDir = $this->container->getParameter('zpb.image_galleries.base_dir') . $id . "/";
-                $webDir = $this->container->getParameter('zpb.image_galleries.web_dir') . $id . "/";
+                $rootDir = $this->container->getParameter('zpb.image_galleries.base_dir') . $gallery->getSlug() . "/";
+                $webDir = $this->container->getParameter('zpb.image_galleries.web_dir') . $gallery->getSlug() . "/";
                 if(!$fs->exists($rootDir)){
                     $fs->mkdir($rootDir);
                 }
@@ -73,10 +74,17 @@ class ImageGalleriesController extends ZPBController
                     $newFilename = time() . '.' .$extension;
 
                     file_put_contents($rootDir . $newFilename, $request->getContent());
+                    $resizer = $this->container->get('zpb.admin.image_gallery_resizer');
+
+                    $adminFilename = $resizer->makeAdminThumb($rootDir, $newFilename, $webDir);
+                    $thumbFilename = $resizer->makeThumb($rootDir, $newFilename, $webDir);
+                    $slideFilename = $resizer->makeSlide($rootDir, $newFilename, $webDir);
 
                     $img = new ImageGalleryImage();
-                    $img->setWebRoot($webDir . $newFilename)->setRoot($rootDir . $newFilename);
+                    $img->setFilename($newFilename);
+                    $img->setWebRoot($webDir . $newFilename)->setRoot($this->container->getParameter('zpb.image_galleries.base_dir'));
                     $img->setGallery($gallery);
+                    $img->setAdminThumb($adminFilename)->setSlide($slideFilename)->setThumb($thumbFilename);
                     $this->getManager()->persist($img);
                     $this->getManager()->flush();
 

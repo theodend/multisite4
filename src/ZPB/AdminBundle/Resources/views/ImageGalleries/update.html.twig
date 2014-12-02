@@ -61,7 +61,7 @@
                         <tr>
                             <td class="img-handle"></td>
                             <td class="img-position">{{ img.position }}</td>
-                            <td class="img-img"><img src="{{ img.webroot }}" alt=""/></td>
+                            <td class="img-img"><img src="{{ img.adminThumb }}" alt=""/></td>
                             <td class="img-activation"><label for="active_img_{{ img.id }}"><input type="checkbox" id="active_img_{{ img.id }}" data-activation=""/> Activer</label></td>
                             <td class="img-title"><input type="text" value="{{ img.title }}"/></td>
                             <td class="img-delete"><button type="button" class="btn btn-default delete-img-btn" data-img="{{ img.id }}"><i class="fa fa-trash-o"></i></button><div class="loader"></div></td>

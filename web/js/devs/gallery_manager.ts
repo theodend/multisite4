@@ -2,6 +2,9 @@
 interface IImg{
     id:number;
     webRoot:string;
+    thumb:string;
+    adminThumb:string;
+    slide:string;
     root:string;
     title:string;
     copyright:string;
@@ -39,7 +42,7 @@ class GalleryManager{
 
     createRow(img:IImg):JQuery{
         var html = this.options["rowTmpl"];
-        html = html.replace("[[webRoot]]", img.webRoot).replace("[[position]]",img.position+"").replace(/\[\[id\]\]/g, img.id);
+        html = html.replace("[[webRoot]]", img.adminThumb).replace("[[position]]",img.position+"").replace(/\[\[id\]\]/g, img.id);
         if(img.title != null){
             html = html.replace("[[title]]", img.title);
         } else {

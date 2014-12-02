@@ -6,6 +6,7 @@
 
 
     <parameters>
+        <parameter key="zpb.admin.image_gallery_resizer.class">ZPB\AdminBundle\Services\ImageGalleryResizerService</parameter>
         <!-- zoo spesific -->
         <parameter key="zpb.carousel.zoo.img_base_dir">%kernel.root_dir%/../web/</parameter>
         <parameter key="zpb.carousel.zoo.img_web_dir">img/sites/zoo/headers/</parameter>
@@ -15,11 +16,33 @@
         <parameter key="zpb.carousel.bn.img_web_dir">img/sites/bn/headers/</parameter>
 
         <!-- image gallery -->
-        <parameter key="zpb.image_galleries.base_dir">%kernel.root_dir%/../web/img/galeries/</parameter>
+        <parameter key="zpb.image_galleries.base_dir">%kernel.root_dir%/../web</parameter>
         <parameter key="zpb.image_galleries.web_dir">/img/galeries/</parameter>
+        <parameter key="zpb.image_galleries.thumbs.dims" type="collection">
+            <parameter key="admin" type="collection">
+                <parameter key="width">188</parameter>
+                <parameter key="height">55</parameter>
+            </parameter>
+            <parameter key="slide" type="collection">
+                <parameter key="width">800</parameter>
+                <parameter key="height">600</parameter>
+            </parameter>
+            <parameter key="thumb" type="collection">
+                <parameter key="width">500</parameter>
+                <parameter key="height">375</parameter>
+            </parameter>
+
+        </parameter>
 
 
     </parameters>
+
+    <services>
+        <service id="zpb.admin.image_gallery_resizer" class="%zpb.admin.image_gallery_resizer.class%" >
+            <argument>%zpb.image_galleries.thumbs.dims%</argument>
+            <argument type="service" id="filesystem"/>
+        </service>
+    </services>
 <!--
     <services>
         <service id="zpb.admin.example" class="%zpb.admin.example.class%">
