@@ -20,7 +20,7 @@
     <h3>Gestion</h3>
     <div class="col-sm-8 col-md-8">
 
-            <table class="table table-striped table-hover">
+            <table class="table">
                 <thead>
                 <tr>
                     <th>image</th>
@@ -37,9 +37,37 @@
                         <td class="js-resto-name">{{ resto.name }}</td>
                         <td class="js-resto-status">{% if resto.isOpen == true %}Ouvert{% else %}Fermé{% endif %}</td>
                         <td class="js-resto-open-close"><button class="btn btn-default js-status-btn" type="button" data-id="{{ resto.id }}">{% if resto.isOpen == true %}Fermer{% else %}Ouvrir{% endif %}</button><div class="loader"></div></td>
-                        <td class="js-resto-edit"><button type="button" class="btn btn-default js-edit-btn"><i class="fa fa-edit"></i></button></td>
+                        <td class="js-resto-edit"><button type="button" class="btn btn-default js-edit-btn" data-id="{{ resto.id }}"><i class="fa fa-edit"></i></button><div class="loader"></div></td>
                         <td class="js-resto-delete"><button type="button" class="btn btn-default js-delete-btn" data-id="{{ resto.id }}"><i class="fa fa-trash-o"></i></button><div class="loader"></div></td>
+                    </tr>
+                    <tr class="resto-edit-row" id="restaurant_edit_row_next_{{ resto.id }}">
+                        <td colspan="6">
+                            <div id="restaurant_edit_row_{{ resto.id }}" class="resto-edit js-is-close">
+                                <form class="form">
 
+                                    <div class="form-group">
+                                        <label for="js-edit-resto-name" class="control-label">Nom</label>
+                                        <input type="text" class="form-control" id="js-edit-resto-name" value="{{ resto.name }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="js-edit-resto-description" class="control-label">Description</label>
+                                        <textarea id="js-edit-resto-description" class="form-control">{{ resto.description }}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="js-edit-resto-num" class="control-label">Numéro sur le plan</label>
+                                        <input type="text" class="form-control" id="js-edit-resto-num" value="{{ resto.num }}">
+                                    </div>
+                                    <div class="resto-imgs">
+                                        <img src="{{ resto.thumb }}" alt=""/>
+                                        <div class="update-dropzone"><div class="loader"></div></div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary">Mettre à jour</button><div class="loader"></div>
+                                    <button type="button" class="btn btn-primary">Annuler</button>
+                                </form>
+                            </div>
+
+
+                        </td>
                     </tr>
                 {% endfor %}
                 {% else %}
@@ -141,6 +169,7 @@
             newRestaurant = $("#new-restaurant");
             dropzone = $(".dropzone");
             restoList = $("#restos-list");
+            $(".resto-edit").hide();
 
             dropzone.imgUpload({
                 fileMaxSize: 9000000,
@@ -181,6 +210,7 @@
                 statusBtnClass: ".js-status-btn",
                 statusTextClass: ".js-resto-status",
                 deleteBtnClass: ".js-delete-btn",
+                editBtnClass: ".js-edit-btn",
                 loaderClass: ".loader",
                 openText: "Ouvert",
                 closeText: "Fermé",

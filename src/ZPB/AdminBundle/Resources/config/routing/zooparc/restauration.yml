@@ -2,7 +2,6 @@ zpb_admin_zooparc_restauration_homepage:
     path: /
     defaults: { _controller: ZPBAdminBundle:ZooParc/Restauration:index }
     methods: ["GET"]
-
 zpb_admin_zooparc_restauration_create:
     path: /
     defaults: { _controller: ZPBAdminBundle:ZooParc/Restauration:xhrCreateRestaurant }
@@ -11,7 +10,10 @@ zpb_admin_zooparc_restauration_delete:
     path: /
     defaults: {_controller: ZPBAdminBundle:ZooParc/Restauration:xhrDeleteRestaurant}
     methods: ["DELETE"]
-
+zpb_admin_zooparc_restauration_update:
+    path: /
+    defaults: {_controller: ZPBAdminBundle:ZooParc/Restauration:xhrUpdateRestaurant }
+    methods: ["PUT"]
 zpb_admin_zooparc_restauration_img_upload:
     path: /image
     defaults: { _controller: ZPBAdminBundle:ZooParc/Restauration:xhrImageUpload }

@@ -8,18 +8,20 @@ var RestaurantManager = (function () {
         this.imgs = $(this.options["restoImgClass"], this.list);
         this.statusBtns = $(this.options["statusBtnClass"]);
         this.deleteBtns = $(this.options["deleteBtnClass"]);
+        this.editBtns = $(this.options["editBtnClass"]);
         this.overlay = $("<div id='overlay'></div>");
         $(document.body).append(this.overlay);
         this.initEvents();
     }
     RestaurantManager.prototype.deleteResto = function (btn) {
-        var self, loader, id, parent;
+        var self, loader, id, parent, editor;
         self = this;
         loader = btn.next(this.options["loaderClass"]);
         loader.show();
         btn.hide();
         id = btn.data("id");
         parent = btn.parents("#" + this.options["rowRestoPrefix"] + id);
+        editor = parent.next("#" + "restaurant_edit_row_next_" + id);
         self.options["showMsg"]();
         if (window.confirm(this.options["confirmText"])) {
             $.ajax({
@@ -28,6 +30,7 @@ var RestaurantManager = (function () {
                 data: { id: id }
             }).done(function (response) {
                 if (response.error == false) {
+                    editor.remove();
                     parent.remove();
                     self.options["showMsg"](response.msg, true);
                 }
@@ -40,6 +43,23 @@ var RestaurantManager = (function () {
                 loader.hide();
                 btn.show();
                 self.options["showMsg"](xhr.statusCode + " " + xhr.statusText, false);
+            });
+        }
+    };
+    RestaurantManager.prototype.updateResto = function (btn) {
+        var self, loader, id, parent, editRow;
+        self = this;
+        id = btn.data("id");
+        parent = btn.parents("#" + this.options["rowRestoPrefix"] + id);
+        editRow = $("#restaurant_edit_row_" + id);
+        if (editRow.hasClass("js-is-close")) {
+            editRow.slideDown(500, function () {
+                editRow.removeClass("js-is-close").addClass("js-is-open");
+            });
+        }
+        else {
+            editRow.slideUp(500, function () {
+                editRow.removeClass("js-is-open").addClass("js-is-close");
             });
         }
     };
@@ -95,6 +115,10 @@ var RestaurantManager = (function () {
             e.preventDefault();
             self.deleteResto($(this));
         });
+        this.editBtns.on("click", function (e) {
+            e.preventDefault();
+            self.updateResto($(this));
+        });
     };
     RestaurantManager.DEFAULTS = {
         imgBtn: "",
@@ -104,6 +128,7 @@ var RestaurantManager = (function () {
         statusBtnClass: ".js-status-btn",
         statusTextClass: "",
         deleteBtnClass: "",
+        editBtnClass: "",
         loaderClass: ".loader",
         openText: "",
         closeText: "",

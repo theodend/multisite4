@@ -35,6 +35,20 @@ class RestaurationController extends BaseController
         return $this->render('ZPBAdminBundle:ZooParc/Restauration:index.html.twig', ["restaurants"=>$restaurants]);
     }
 
+    public function xhrUpdateRestaurantAction(Request $request)
+    {
+        if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        $datas = [];
+        parse_str($request->getContent(), $datas);
+
+
+
+        return new JsonResponse($response);
+    }
+
     public function xhrDeleteRestaurantAction(Request $request)
     {
         if(!$request->isMethod("DELETE") || !$request->isXmlHttpRequest()){

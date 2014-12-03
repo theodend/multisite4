@@ -31,7 +31,43 @@
 }
 
 #restos-list{
+  tr.resto-edit-row{
+    //display: none;
+    td{
+      background-color: #dfdfdf;
+      padding: 0;
+      margin: 0;
+    }
+    .resto-edit{
+      padding: 10px;
+    }
+    .resto-imgs{
+      @include clearfix;
 
+      img{
+        float: left;
+        margin-right: 10px;
+        width: 200px;
+      }
+      .update-dropzone{
+        width: 200px;
+        height: 200px;
+        border: 2px dashed #039BE5;
+        float: left;
+        position: relative;
+        background-color: #fff;
+        &.hover{
+          background-color: #b5dbf8;
+        }
+        .loader{
+          position: absolute;
+          left: 100px;
+          top: 100px;
+          @include translate3d(-50%, -50%, 0);
+        }
+      }
+    }
+  }
   td.resto-img{
     position: relative;
     width: 50px;

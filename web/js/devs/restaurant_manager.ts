@@ -9,6 +9,7 @@ class RestaurantManager{
         statusBtnClass: ".js-status-btn",
         statusTextClass: "",
         deleteBtnClass: "",
+        editBtnClass: "",
         loaderClass: ".loader",
         openText: "",
         closeText: "",
@@ -24,6 +25,7 @@ class RestaurantManager{
     private overlay:JQuery;
     private statusBtns:JQuery;
     private deleteBtns:JQuery;
+    private editBtns:JQuery;
 
     constructor(public list:JQuery, options?:any){
         this.options = $.extend(true, {}, RestaurantManager.DEFAULTS, options||{});
@@ -32,6 +34,7 @@ class RestaurantManager{
         this.imgs = $(this.options["restoImgClass"], this.list);
         this.statusBtns = $(this.options["statusBtnClass"]);
         this.deleteBtns = $(this.options["deleteBtnClass"]);
+        this.editBtns = $(this.options["editBtnClass"]);
         this.overlay = $("<div id='overlay'></div>");
         $(document.body).append(this.overlay);
 
@@ -39,13 +42,14 @@ class RestaurantManager{
     }
 
     deleteResto(btn:JQuery):void{
-        var self, loader, id, parent;
+        var self, loader, id, parent, editor;
         self = this;
         loader = btn.next(this.options["loaderClass"]);
         loader.show();
         btn.hide();
         id = btn.data("id");
         parent = btn.parents("#" + this.options["rowRestoPrefix"] + id);
+        editor = parent.next("#" + "restaurant_edit_row_next_" + id);
         self.options["showMsg"]();
         if(window.confirm(this.options["confirmText"])){
             $.ajax({
@@ -55,6 +59,7 @@ class RestaurantManager{
             })
                 .done(function(response){
                     if(response.error == false){
+                        editor.remove();
                         parent.remove();
                         self.options["showMsg"](response.msg, true);
                     } else {
@@ -69,6 +74,25 @@ class RestaurantManager{
                     self.options["showMsg"](xhr.statusCode + " " + xhr.statusText, false);
                 });
         }
+    }
+
+    updateResto(btn:JQuery):void{
+        var self, loader, id, parent, editRow;
+        self = this;
+        id = btn.data("id");
+        parent = btn.parents("#" + this.options["rowRestoPrefix"] + id);
+        editRow = $("#restaurant_edit_row_" + id);
+        if(editRow.hasClass("js-is-close")){
+            editRow.slideDown(500, function(){
+                editRow.removeClass("js-is-close").addClass("js-is-open");
+            });
+        } else {
+            editRow.slideUp(500, function(){
+                editRow.removeClass("js-is-open").addClass("js-is-close");
+            });
+        }
+
+
     }
 
     changeStatus(btn:JQuery):void{
@@ -125,5 +149,10 @@ class RestaurantManager{
             e.preventDefault();
             self.deleteResto($(this));
         });
+        this.editBtns.on("click", function(e){
+            e.preventDefault();
+            self.updateResto($(this));
+        });
+
     }
 }
