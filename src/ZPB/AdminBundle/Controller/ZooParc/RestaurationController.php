@@ -25,6 +25,7 @@ namespace ZPB\AdminBundle\Controller\ZooParc;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use ZPB\AdminBundle\Entity\Restaurant;
 
 class RestaurationController extends BaseController
 {
@@ -41,6 +42,31 @@ class RestaurationController extends BaseController
         }
 
         $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+
+        $image = $request->request->get("image", false);
+        $thumb = $request->request->get("thumb", false);
+        $name = $request->request->get("name", false);
+        $description = $request->request->get("description", false);
+        $num = $request->request->get("num", false);
+
+        if(!$image || !$thumb || !$name || !$description || !$num){
+            $response["msg"] = "Données incomplètes.";
+        } else {
+            /** @var \ZPB\AdminBundle\Entity\Restaurant $restaurant */
+            $restaurant = new Restaurant();
+            $restaurant
+                ->setImageRoot($this->container->getParameter('zpb.restauration.zoo.img_base_dir'))
+                ->setName($name)
+                ->setImage($image)
+                ->setThumb($thumb)
+                ->setDescription($description)
+                ->setNum(intval($num));
+            $this->getManager()->persist($restaurant);
+            $this->getManager()->flush();
+            $response['error'] = false;
+            $response['datas'] = [];
+            $response['msg'] = 'Restaurant créé.';
+        }
 
         return new JsonResponse($response);
     }

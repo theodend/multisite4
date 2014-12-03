@@ -37,7 +37,7 @@
                 {% if restaurants|length > 0 %}
                 {% for resto in restaurants %}
                     <tr>
-                        <td>{% if resto.image != null %}<button type="button" class="btn btn-default"><i class="fa fa-eye"></i></button><img src="{{ resto.image }}" alt=""/>{% endif %}</td>
+                        <td>{% if resto.image != null %}<button type="button" class="btn btn-default"><i class="fa fa-eye"></i></button><img src="{{ resto.thumb }}" alt=""/>{% endif %}</td>
                         <td>{{ resto.name }}</td>
                         <td>{% if resto.isOpen == true %}Ouvert{% else %}Fermé{% endif %}</td>
                         <td><button class="btn btn-default" type="button">{% if resto.isOpen == true %}Fermer{% else %}Ouvrir{% endif %}</button></td>

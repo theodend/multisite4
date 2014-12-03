@@ -46,11 +46,11 @@ class ImageRestaurationResizerService {
             return null;
         }
 
-        $destDir = $baseDir . $webDir;
+        $destDir = $webDir;
         if(!$this->fs->exists($destDir)){
             $this->fs->mkdir($destDir);
         }
-        return $this->resize($rootDir, $file,$destDir, $this->dims["regular"]["width"], $this->dims["regular"]["height"]);
+        return $this->resize($rootDir, $file, $destDir, $baseDir, $this->dims["regular"]["width"], $this->dims["regular"]["height"]);
     }
 
     public function makeThumb($rootDir, $file, $baseDir, $webDir)
@@ -59,29 +59,29 @@ class ImageRestaurationResizerService {
             return null;
         }
 
-        $destDir = $baseDir . $webDir . "thumb/";
+        $destDir = $webDir . "thumb/";
         if(!$this->fs->exists($destDir)){
             $this->fs->mkdir($destDir);
         }
-        return $this->resize($rootDir, $file,$destDir, $this->dims["thumb"]["width"], $this->dims["thumb"]["height"]);
+        return $this->resize($rootDir, $file, $destDir, $baseDir, $this->dims["thumb"]["width"], $this->dims["thumb"]["height"]);
     }
 
-    public function resize($rootDir, $file, $destDir, $width, $height)
+    public function resize($rootDir, $file, $destDir, $baseDir, $width, $height)
     {
         $size = getimagesize($rootDir . $file);
 
         if($size[0] >= $size[1]){
-            return $this->landscape($rootDir, $file, $destDir, $width, $height, $size[0], $size[1]);
+            return $this->landscape($rootDir, $file, $destDir, $baseDir, $width, $height, $size[0], $size[1]);
         } else {
-            return $this->portrait($rootDir, $file, $destDir, $width, $height, $size[0], $size[1]);
+            return $this->portrait($rootDir, $file, $destDir, $baseDir, $width, $height, $size[0], $size[1]);
         }
 
     }
 
-    private function landscape($rootDir, $file, $destDir, $width, $height, $iniW, $iniH)
+    private function landscape($rootDir, $file, $destDir, $baseDir, $width, $height, $iniW, $iniH)
     {
         $tmpFile = $rootDir . $file;
-        $dest = $destDir . $file;
+        $dest = $baseDir . $destDir . $file;
         $mime = $this->getMimeType($tmpFile);
         $image = $this->createImage($tmpFile, $mime);
         $redim = imagecreatetruecolor($width, $height);
@@ -99,13 +99,13 @@ class ImageRestaurationResizerService {
         }
         $this->save($redim, $dest, $mime);
         imagedestroy($redim);
-        return $dest;
+        return "/" . $destDir . $file;
     }
 
-    private function portrait($rootDir, $file, $destDir, $width, $height, $iniW, $iniH)
+    private function portrait($rootDir, $file, $destDir, $baseDir, $width, $height, $iniW, $iniH)
     {
         $tmpFile = $rootDir . $file;
-        $dest = $destDir . $file;
+        $dest = $baseDir . $destDir . $file;
         $mime = $this->getMimeType($tmpFile);
         $image = $this->createImage($tmpFile, $mime);
         $redim = imagecreatetruecolor($width, $height);
@@ -124,7 +124,7 @@ class ImageRestaurationResizerService {
         }
         $this->save($redim, $dest, $mime);
         imagedestroy($redim);
-        return $dest;
+        return "/" . $destDir . $file;
     }
 
 
