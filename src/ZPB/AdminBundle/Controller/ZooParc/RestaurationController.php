@@ -50,9 +50,47 @@ class RestaurationController extends BaseController
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
             throw $this->createAccessDeniedException();
         }
+        $filename = $request->headers->get("X-File-Name", false);
 
         $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        if(!$filename){
+            $response["msg"] = "Données incomplètes.";
+        } else{
+            $fs = $this->get('filesystem');
+            $baseDir = $this->container->getParameter('zpb.restauration.zoo.img_base_dir');
+            $webDir = $this->container->getParameter('zpb.restauration.zoo.img_web_dir');
+            $rootDir = $baseDir . $webDir . "tmp/";
+            if(!$fs->exists($rootDir)){
+                $fs->mkdir($rootDir);
+            }
+            $matches = [];
+            $extension = '';
+            if(preg_match('/^.+\.(jpg|jpeg|png|gif)$/i', $filename, $matches)) {
+                $extension = strtolower($matches[1]);
+                $newFilename = time() . '.' . $extension;
+                file_put_contents($rootDir . $newFilename, $request->getContent());
+                $resizer = $this->get('zpb.admin.image_restauration_resizer');
 
+                $image = $resizer->makeImage($rootDir, $newFilename, $baseDir, $webDir);
+                $thumb = $resizer->makeThumb($rootDir,  $newFilename, $baseDir, $webDir);
+
+                $fs->remove($rootDir . $newFilename);
+
+                if($image === null || $thumb === null ){
+                    $response['msg'] = "Problème, image non enregistée.";
+                } else {
+                    $response['error'] = false;
+                    $response['datas'] = ["image"=>$image, "thumb"=>$thumb];
+                    $response['msg'] = 'Image uploadée. Images créées.';
+                }
+
+
+
+            } else {
+                $response["msg"] = "Données incorrectes.";
+            }
+
+        }
         return new JsonResponse($response);
     }
 }

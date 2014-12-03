@@ -5,9 +5,10 @@
 {% block headStyles %}
     {{ parent() }}
     <style>
-        .loader{
-            /*display: none;*/
+        .loader,#no-image{
+            display: none;
         }
+
     </style>
 
 {% endblock %}
@@ -67,19 +68,21 @@
                 <div class="col-sm-8 col-md-8">
                     <form class="form" id="new-restaurant-form">
                         <div class="form-group">
-                            <label for="new-restaurant-name">Nom*</label>
+                            <label for="new-restaurant-name" class="control-label">Nom*</label>
                             <input type="text" class="form-control" id="new-restaurant-name"/>
                         </div>
                         <div class="form-group">
-                            <label for="new-restaurant-description">Description*</label>
+                            <label for="new-restaurant-description" class="control-label">Description*</label>
                             <textarea id="new-restaurant-description" class="form-control"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="new-restaurant-num">Numéro sur le plan*</label>
+                            <label for="new-restaurant-num" class="control-label">Numéro sur le plan*</label>
                             <input type="text" class="form-control" id="new-restaurant-num"/>
                         </div>
                         <input type="hidden" id="new-restaurant-image" value=""/>
-                        <button type="button" class="btn btn-primary" id="new-restaurant-btn">Enregistrer</button>
+                        <input type="hidden" id="new-restaurant-thumb" value=""/>
+                        <div class="alert alert-danger" id="no-image"></div>
+                        <button type="button" class="btn btn-primary" id="new-restaurant-btn">Enregistrer</button><div class="loader"></div>
                     </form>
                 </div>
                 <div class="col-sm-4 col-md-4">
@@ -97,15 +100,18 @@
         <div class="col-sm-4 col-md-4"></div>
     </div>
 </div>
+
+    
 {% endblock %}
 
 {% block footScripts %}
     {{ parent() }}
     <script>
+        var uploadImgUrl = "{{ path("zpb_admin_zooparc_restauration_img_upload") }}";
         var saveUrl = "{{ path("zpb_admin_zooparc_restauration_create") }}";
     </script>
     <script src="/js/admin/common/jquery.imgUpload.min.js"></script>
-    <script src="/js/devs/restaurant_manager.js"></script>
+    <script src="/js/devs/new_restaurant_manager.js"></script>
     <script>
         $(function(){
             var showMsg = function(msg, success){
@@ -127,7 +133,7 @@
             };
 
             var onDone = function(response, uploader){
-                restaurantManager.addImage(response.datas);
+                newRestaurantManager.addImage(response.datas);
             };
 
             var newRestaurant, restaurantManager, restaurantManagerOptions, messenger, dropzone;
@@ -136,7 +142,8 @@
             dropzone = $(".dropzone");
 
             dropzone.imgUpload({
-                uploadUrl: "",
+                fileMaxSize: 9000000,
+                uploadUrl: uploadImgUrl,
                 onDropped : function(el){
                     el.$element.find(".loader").show();
                 },
@@ -160,10 +167,12 @@
                 descriptionId: "#new-restaurant-description",
                 numId: "#new-restaurant-num",
                 imageId: "#new-restaurant-image",
+                thumbId: "#new-restaurant-thumb",
                 saveBtnId: "#new-restaurant-btn",
+                noImageId: "#no-image",
                 showMsg: showMsg
             };
-            restaurantManager = new RestaurantManager(newRestaurant, restaurantManagerOptions)
+            newRestaurantManager = new NewRestaurantManager(newRestaurant, restaurantManagerOptions)
 
 
         })

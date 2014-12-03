@@ -95,7 +95,7 @@ class ImageGalleriesController extends ZPBController
 
                     $response['error'] = false;
                     $response['datas'] = $img;
-                    $response['msg'] = 'Image uploadée. Image créé.';
+                    $response['msg'] = 'Image uploadée. Image créée.';
                 } else{
                     $response["msg"] = "Données incorrectes.";
                 }
