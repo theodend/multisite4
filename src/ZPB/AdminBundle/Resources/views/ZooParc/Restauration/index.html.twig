@@ -38,7 +38,7 @@
                         <td class="js-resto-status">{% if resto.isOpen == true %}Ouvert{% else %}Fermé{% endif %}</td>
                         <td class="js-resto-open-close"><button class="btn btn-default js-status-btn" type="button" data-id="{{ resto.id }}">{% if resto.isOpen == true %}Fermer{% else %}Ouvrir{% endif %}</button><div class="loader"></div></td>
                         <td class="js-resto-edit"><button type="button" class="btn btn-default js-edit-btn"><i class="fa fa-edit"></i></button></td>
-                        <td class="js-resto-delete"><button type="button" class="btn btn-default js-delete-btn"><i class="fa fa-trash-o"></i></button></td>
+                        <td class="js-resto-delete"><button type="button" class="btn btn-default js-delete-btn" data-id="{{ resto.id }}"><i class="fa fa-trash-o"></i></button><div class="loader"></div></td>
 
                     </tr>
                 {% endfor %}
@@ -103,6 +103,7 @@
 {% block footScripts %}
     {{ parent() }}
     <script>
+        var deleteUrl = "{{ path("zpb_admin_zooparc_restauration_delete") }}";
         var uploadImgUrl = "{{ path("zpb_admin_zooparc_restauration_img_upload") }}";
         var saveUrl = "{{ path("zpb_admin_zooparc_restauration_create") }}";
         var changeStatusUrl = "{{ path("zpb_admin_zooparc_restauration_change_status") }}";
@@ -179,9 +180,12 @@
                 rowRestoPrefix: "restaurant_row_",
                 statusBtnClass: ".js-status-btn",
                 statusTextClass: ".js-resto-status",
+                deleteBtnClass: ".js-delete-btn",
                 loaderClass: ".loader",
                 openText: "Ouvert",
-                closeText: "Fermé"
+                closeText: "Fermé",
+                deleteUrl: deleteUrl,
+                showMsg: showMsg
             };
             newRestaurantManager = new NewRestaurantManager(newRestaurant, newRestaurantManagerOptions);
             restaurantManager = new RestaurantManager(restoList, restaurantManagerOptions);

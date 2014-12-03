@@ -35,12 +35,44 @@ class RestaurationController extends BaseController
         return $this->render('ZPBAdminBundle:ZooParc/Restauration:index.html.twig', ["restaurants"=>$restaurants]);
     }
 
+    public function xhrDeleteRestaurantAction(Request $request)
+    {
+        if(!$request->isMethod("DELETE") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        $datas = [];
+        parse_str($request->getContent(), $datas);
+        $id = array_key_exists("id", $datas) ? intval($datas["id"]) : false;
+        if($id === false){
+            $response["msg"] = "Données incomplètes.";
+        } else {
+            /** @var \ZPB\AdminBundle\Entity\Restaurant $restaurant */
+            $restaurant = $this->getRepo("ZPBAdminBundle:Restaurant")->find($id);
+            if(!$restaurant){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                $fs = $this->get('filesystem');
+                $fs->remove($restaurant->getImageRoot() . trim($restaurant->getImage() , "/"));
+                $fs->remove($restaurant->getImageRoot() . trim($restaurant->getThumb() , "/"));
+                $this->getManager()->remove($restaurant);
+                $this->getManager()->flush();
+                $response['error'] = false;
+                $response['datas'] = $id;
+                $response['msg'] = 'Restaurant supprimé.';
+
+            }
+        }
+
+        return new JsonResponse($response);
+    }
+
     public function xhrChangeStatusAction(Request $request)
     {
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
             throw $this->createAccessDeniedException();
         }
-
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
         $id = $request->request->get("id", false);
 
         if($id === false){
@@ -59,9 +91,6 @@ class RestaurationController extends BaseController
                 $response['msg'] = 'Restaurant modifié.';
             }
         }
-
-        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
-
         return new JsonResponse($response);
     }
 
