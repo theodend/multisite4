@@ -2,3 +2,13 @@ zpb_admin_zooparc_restauration_homepage:
     path: /
     defaults: { _controller: ZPBAdminBundle:ZooParc/Restauration:index }
     methods: ["GET"]
+
+zpb_admin_zooparc_restauration_create:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ZooParc/Restauration:xhrCreateRestaurant }
+    methods: ["POST"]
+
+zpb_admin_zooparc_restauration_img_upload:
+    path: /image
+    defaults: { _controller: ZPBAdminBundle:ZooParc/Restauration:xhrImageUpload }
+    methods: ["POST"]

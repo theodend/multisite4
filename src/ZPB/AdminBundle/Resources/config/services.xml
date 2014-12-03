@@ -7,10 +7,24 @@
 
     <parameters>
         <parameter key="zpb.admin.image_gallery_resizer.class">ZPB\AdminBundle\Services\ImageGalleryResizerService</parameter>
+        <parameter key="zpb.admin.image_restauration_resizer.class">ZPB\AdminBundle\Services\ImageRestaurationResizerService</parameter>
         <parameter key="zpb.stats.listener.class">ZPB\AdminBundle\Listeners\StatsListener</parameter>
         <!-- zoo spesific -->
         <parameter key="zpb.carousel.zoo.img_base_dir">%kernel.root_dir%/../web/</parameter>
         <parameter key="zpb.carousel.zoo.img_web_dir">img/sites/zoo/headers/</parameter>
+
+        <parameter key="zpb.restauration.zoo.img_base_dir">%kernel.root_dir%/../web/</parameter>
+        <parameter key="zpb.restauration.zoo.img_web_dir">img/sites/zoo/restauration/</parameter>
+        <parameter key="zpb.restauration.zoo.img_dims" type="collection">
+            <parameter key="thumb" type="collection">
+                <parameter key="width">300</parameter>
+                <parameter key="height">225</parameter>
+            </parameter>
+            <parameter key="regular" type="collection">
+                <parameter key="width">400</parameter>
+                <parameter key="height">400</parameter>
+            </parameter>
+        </parameter>
 
         <!-- bn spesific -->
         <parameter key="zpb.carousel.bn.img_base_dir">%kernel.root_dir%/../web/</parameter>
@@ -45,6 +59,10 @@
         </service>
         <service id="zpb.admin.image_gallery_resizer" class="%zpb.admin.image_gallery_resizer.class%" >
             <argument>%zpb.image_galleries.thumbs.dims%</argument>
+            <argument type="service" id="filesystem"/>
+        </service>
+        <service id="zpb.admin.image_restauration_resizer" class="%zpb.admin.image_restauration_resizer.class%" >
+            <argument>%zpb.restauration.zoo.img_dims%</argument>
             <argument type="service" id="filesystem"/>
         </service>
     </services>

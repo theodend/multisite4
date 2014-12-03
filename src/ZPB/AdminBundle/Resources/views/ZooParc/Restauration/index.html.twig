@@ -2,10 +2,23 @@
 
 {% block title %}Gestion des restaurants | ZooParc{% endblock %}
 
+{% block headStyles %}
+    {{ parent() }}
+    <style>
+        .loader{
+            /*display: none;*/
+        }
+    </style>
+
+{% endblock %}
 {% block content %}
 
 <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
-
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div id="messenger"></div>
+    </div>
+</div>
 <div class="row">
     <h3>Gestion</h3>
     <div class="col-sm-8 col-md-8">
@@ -44,35 +57,115 @@
     <div class="col-sm-4 col-md-4"></div>
 </div>
 <div class="row">
-    <div class="col-sm-8 col-md-8">
-        <h3>Ajouter un restaurant</h3>
-        <div class="row">
-            <div class="col-sm-8 col-md-8">
-                <form class="form">
-                    <div class="form-group">
-                        <label for="">Nom</label>
-                        <input type="text" class="form-control"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Description</label>
-                        <textarea id="" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Numéro sur le plan</label>
-                        <input type="text" class="form-control"/>
-                    </div>
-                    <input type="hidden" id="image" value=""/>
-                    <button type="button" class="btn btn-primary">Enregistrer</button>
-                </form>
-            </div>
-            <div class="col-sm-4 col-md-4">
-                <h4>Image d'illustration</h4>
-                <p>Glissez-déposez une image dans la zone ci-dessous.</p>
-                <div class="dropzone"><div class="loader"></div></div>
-            </div>
-        </div>
+    <div id="new-restaurant">
+        <div class="col-sm-8 col-md-8">
+            <h3>Ajouter un restaurant</h3>
 
+            <p>Tous les champs et l'image sont obligatoires</p>
+
+            <div class="row">
+                <div class="col-sm-8 col-md-8">
+                    <form class="form" id="new-restaurant-form">
+                        <div class="form-group">
+                            <label for="new-restaurant-name">Nom*</label>
+                            <input type="text" class="form-control" id="new-restaurant-name"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-restaurant-description">Description*</label>
+                            <textarea id="new-restaurant-description" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-restaurant-num">Numéro sur le plan*</label>
+                            <input type="text" class="form-control" id="new-restaurant-num"/>
+                        </div>
+                        <input type="hidden" id="new-restaurant-image" value=""/>
+                        <button type="button" class="btn btn-primary" id="new-restaurant-btn">Enregistrer</button>
+                    </form>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <h4>Image d'illustration</h4>
+
+                    <p>Glissez-déposez une image dans la zone ci-dessous*.</p>
+
+                    <div class="dropzone">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-4 col-md-4"></div>
     </div>
-    <div class="col-sm-4 col-md-4"></div>
 </div>
+{% endblock %}
+
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        var saveUrl = "{{ path("zpb_admin_zooparc_restauration_create") }}";
+    </script>
+    <script src="/js/admin/common/jquery.imgUpload.min.js"></script>
+    <script src="/js/devs/restaurant_manager.js"></script>
+    <script>
+        $(function(){
+            var showMsg = function(msg, success){
+                if(arguments.length <1){
+                    messenger.empty();
+                    return false;
+                }
+                var type, title;
+                var html =  "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>";
+                if(success === true){
+                    type = "alert-success";
+                    title = "Succès !";
+                } else {
+                    type = "alert-danger";
+                    title = "Echec !";
+                }
+                html = html.replace("[[type]]", type).replace("[[title]]", title).replace("[[msg]]", msg);
+                messenger.append($(html));
+            };
+
+            var onDone = function(response, uploader){
+                restaurantManager.addImage(response.datas);
+            };
+
+            var newRestaurant, restaurantManager, restaurantManagerOptions, messenger, dropzone;
+            messenger = $("#messenger");
+            newRestaurant = $("#new-restaurant");
+            dropzone = $(".dropzone");
+
+            dropzone.imgUpload({
+                uploadUrl: "",
+                onDropped : function(el){
+                    el.$element.find(".loader").show();
+                },
+                always: function(el){
+                    el.$element.find(".loader").hide();
+                },
+                onDone: onDone,
+                onFail: function(response){
+                    showMsg();
+                    showMsg(response.msg, false);
+                },
+                onError: function(msg){
+                    showMsg();
+                    showMsg(msg, false);
+                }
+            });
+
+            restaurantManagerOptions = {
+                saveUrl: saveUrl,
+                nameId: "#new-restaurant-name",
+                descriptionId: "#new-restaurant-description",
+                numId: "#new-restaurant-num",
+                imageId: "#new-restaurant-image",
+                saveBtnId: "#new-restaurant-btn",
+                showMsg: showMsg
+            };
+            restaurantManager = new RestaurantManager(newRestaurant, restaurantManagerOptions)
+
+
+        })
+    </script>
 {% endblock %}

@@ -22,11 +22,37 @@ namespace ZPB\AdminBundle\Controller\ZooParc;
 
 
 
+
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+
 class RestaurationController extends BaseController
 {
     public function indexAction()
     {
         $restaurants = $this->getRepo("ZPBAdminBundle:Restaurant")->findBy([], ["name"=>"ASC"]);
         return $this->render('ZPBAdminBundle:ZooParc/Restauration:index.html.twig', ["restaurants"=>$restaurants]);
+    }
+
+    public function xhrCreateRestaurantAction(Request $request)
+    {
+        if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+
+        return new JsonResponse($response);
+    }
+
+    public function xhrImageUploadAction(Request $request)
+    {
+        if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+
+        return new JsonResponse($response);
     }
 }

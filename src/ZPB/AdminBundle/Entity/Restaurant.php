@@ -54,9 +54,19 @@ class Restaurant
     /**
      * @var integer
      *
-     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
     private $image;
+
+    /**
+     * @ORM\Column(name="thumb", type="string", nullable=false)
+     */
+    private $thumb;
+
+    /**
+     * @ORM\Column(name="image_root", type="string", nullable=false)
+     */
+    private $imageRoot;
 
     /**
      * @var boolean
@@ -65,6 +75,10 @@ class Restaurant
      */
     private $isOpen;
 
+    public function __construct()
+    {
+        $this->isOpen = false;
+    }
 
     /**
      * Get id
@@ -169,29 +183,6 @@ class Restaurant
     }
 
     /**
-     * Set imageId
-     *
-     * @param integer $imageId
-     * @return Restaurant
-     */
-    public function setImageId($imageId)
-    {
-        $this->imageId = $imageId;
-
-        return $this;
-    }
-
-    /**
-     * Get imageId
-     *
-     * @return integer
-     */
-    public function getImageId()
-    {
-        return $this->imageId;
-    }
-
-    /**
      * Set isOpen
      *
      * @param boolean $isOpen
@@ -236,4 +227,42 @@ class Restaurant
     {
         return $this->image;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImageRoot()
+    {
+        return $this->imageRoot;
+    }
+
+    /**
+     * @param mixed $imageRoot
+     * @return Restaurant
+     */
+    public function setImageRoot($imageRoot)
+    {
+        $this->imageRoot = $imageRoot;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getThumb()
+    {
+        return $this->thumb;
+    }
+
+    /**
+     * @param mixed $thumb
+     * @return Restaurant
+     */
+    public function setThumb($thumb)
+    {
+        $this->thumb = $thumb;
+        return $this;
+    }
+
+
 }
