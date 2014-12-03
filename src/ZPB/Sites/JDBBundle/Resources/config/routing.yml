@@ -1,0 +1,3 @@
+zpb_sites_jdb_homepage:
+    path:     /
+    defaults: { _controller: ZPBSitesJDBBundle:Index:index }

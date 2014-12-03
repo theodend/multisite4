@@ -1,3 +1,9 @@
+zpb_sites_jdb:
+    resource: "@ZPBSitesJDBBundle/Resources/config/routing.yml"
+    prefix:   /
+    host: new.lesjardinsdebeauval.com
+    schemes: ["http"]
+
 zpb_sites_sco:
     resource: "@ZPBSitesScoBundle/Resources/config/routing.yml"
     prefix:   /

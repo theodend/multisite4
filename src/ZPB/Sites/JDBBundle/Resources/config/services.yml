@@ -1,0 +1,4 @@
+services:
+#    zpb_sites_jdb.example:
+#        class: ZPB\Sites\JDBBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
