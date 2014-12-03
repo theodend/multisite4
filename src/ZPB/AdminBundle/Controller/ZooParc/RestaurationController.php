@@ -35,6 +35,36 @@ class RestaurationController extends BaseController
         return $this->render('ZPBAdminBundle:ZooParc/Restauration:index.html.twig', ["restaurants"=>$restaurants]);
     }
 
+    public function xhrChangeStatusAction(Request $request)
+    {
+        if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+
+        $id = $request->request->get("id", false);
+
+        if($id === false){
+            $response["msg"] = "Données incomplètes.";
+        } else {
+            /** @var \ZPB\AdminBundle\Entity\Restaurant $restaurant */
+            $restaurant = $this->getRepo("ZPBAdminBundle:Restaurant")->find($id);
+            if(!$restaurant){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                $restaurant->setIsOpen(!$restaurant->getIsOpen());
+                $this->getManager()->persist($restaurant);
+                $this->getManager()->flush();
+                $response['error'] = false;
+                $response['datas'] = $restaurant;
+                $response['msg'] = 'Restaurant modifié.';
+            }
+        }
+
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+
+        return new JsonResponse($response);
+    }
+
     public function xhrCreateRestaurantAction(Request $request)
     {
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){

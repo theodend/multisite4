@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="zpb_restaurants")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\RestaurantRepository")
  */
-class Restaurant
+class Restaurant implements \JsonSerializable
 {
     /**
      * @var integer
@@ -81,13 +81,13 @@ class Restaurant
     }
 
     /**
-     * Get id
+     * Get name
      *
-     * @return integer
+     * @return string
      */
-    public function getId()
+    public function getName()
     {
-        return $this->id;
+        return $this->name;
     }
 
     /**
@@ -104,13 +104,13 @@ class Restaurant
     }
 
     /**
-     * Get name
+     * Get description
      *
      * @return string
      */
-    public function getName()
+    public function getDescription()
     {
-        return $this->name;
+        return $this->description;
     }
 
     /**
@@ -127,13 +127,13 @@ class Restaurant
     }
 
     /**
-     * Get description
+     * Get slug
      *
      * @return string
      */
-    public function getDescription()
+    public function getSlug()
     {
-        return $this->description;
+        return $this->slug;
     }
 
     /**
@@ -150,13 +150,13 @@ class Restaurant
     }
 
     /**
-     * Get slug
+     * Get num
      *
-     * @return string
+     * @return integer
      */
-    public function getSlug()
+    public function getNum()
     {
-        return $this->slug;
+        return $this->num;
     }
 
     /**
@@ -173,13 +173,13 @@ class Restaurant
     }
 
     /**
-     * Get num
+     * Get isOpen
      *
-     * @return integer
+     * @return boolean
      */
-    public function getNum()
+    public function getIsOpen()
     {
-        return $this->num;
+        return $this->isOpen;
     }
 
     /**
@@ -196,13 +196,13 @@ class Restaurant
     }
 
     /**
-     * Get isOpen
+     * Get image
      *
-     * @return boolean
+     * @return string
      */
-    public function getIsOpen()
+    public function getImage()
     {
-        return $this->isOpen;
+        return $this->image;
     }
 
     /**
@@ -216,16 +216,6 @@ class Restaurant
         $this->image = $image;
 
         return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return string 
-     */
-    public function getImage()
-    {
-        return $this->image;
     }
 
     /**
@@ -243,6 +233,7 @@ class Restaurant
     public function setImageRoot($imageRoot)
     {
         $this->imageRoot = $imageRoot;
+
         return $this;
     }
 
@@ -261,8 +252,32 @@ class Restaurant
     public function setThumb($thumb)
     {
         $this->thumb = $thumb;
+
         return $this;
     }
 
+    function jsonSerialize()
+    {
+        return [
+            "id" => $this->getId(),
+            "name" => $this->getName(),
+            "description" => $this->getDescription(),
+            "slug" => $this->getSlug(),
+            "num" => $this->getNum(),
+            "image" => $this->getImage(),
+            "thumb" => $this->getThumb(),
+            "imageRoot" => $this->getImageRoot(),
+            "isOpen" => $this->getIsOpen(),
+        ];
+    }
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

@@ -12,3 +12,7 @@ zpb_admin_zooparc_restauration_img_upload:
     path: /image
     defaults: { _controller: ZPBAdminBundle:ZooParc/Restauration:xhrImageUpload }
     methods: ["POST"]
+zpb_admin_zooparc_restauration_change_status:
+    path: /change-status
+    defaults: { _controller: ZPBAdminBundle:ZooParc/Restauration:xhrChangeStatus }
+    methods: ["POST"]

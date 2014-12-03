@@ -2,16 +2,12 @@
 
 {% block title %}Gestion des restaurants | ZooParc{% endblock %}
 
-{% block headStyles %}
+{% block headLinks %}
     {{ parent() }}
-    <style>
-        .loader,#no-image{
-            display: none;
-        }
-
-    </style>
+    <link rel="stylesheet" href="/css/admin/master_restaurant.css"/>
 
 {% endblock %}
+
 {% block content %}
 
 <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
@@ -23,7 +19,7 @@
 <div class="row">
     <h3>Gestion</h3>
     <div class="col-sm-8 col-md-8">
-        <div class="table-responsive">
+
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -33,16 +29,16 @@
                     <th colspan="3">Actions</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="restos-list">
                 {% if restaurants|length > 0 %}
                 {% for resto in restaurants %}
-                    <tr>
-                        <td>{% if resto.image != null %}<button type="button" class="btn btn-default"><i class="fa fa-eye"></i></button><img src="{{ resto.thumb }}" alt=""/>{% endif %}</td>
-                        <td>{{ resto.name }}</td>
-                        <td>{% if resto.isOpen == true %}Ouvert{% else %}Fermé{% endif %}</td>
-                        <td><button class="btn btn-default" type="button">{% if resto.isOpen == true %}Fermer{% else %}Ouvrir{% endif %}</button></td>
-                        <td><button type="button" class="btn btn-default"><i class="fa fa-edit"></i></button></td>
-                        <td><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button></td>
+                    <tr id="restaurant_row_{{ resto.id }}">
+                        <td class="js-resto-img resto-img">{% if resto.image != null %}<button type="button" class="btn btn-default js-img-btn"><i class="fa fa-eye"></i></button><img src="{{ resto.thumb }}" alt="" id="resto-img-{{ resto.id }}" class="js-resto-img"/>{% endif %}</td>
+                        <td class="js-resto-name">{{ resto.name }}</td>
+                        <td class="js-resto-status">{% if resto.isOpen == true %}Ouvert{% else %}Fermé{% endif %}</td>
+                        <td class="js-resto-open-close"><button class="btn btn-default js-status-btn" type="button" data-id="{{ resto.id }}">{% if resto.isOpen == true %}Fermer{% else %}Ouvrir{% endif %}</button><div class="loader"></div></td>
+                        <td class="js-resto-edit"><button type="button" class="btn btn-default js-edit-btn"><i class="fa fa-edit"></i></button></td>
+                        <td class="js-resto-delete"><button type="button" class="btn btn-default js-delete-btn"><i class="fa fa-trash-o"></i></button></td>
 
                     </tr>
                 {% endfor %}
@@ -53,7 +49,7 @@
                 {% endif %}
                 </tbody>
             </table>
-        </div>
+
     </div>
     <div class="col-sm-4 col-md-4"></div>
 </div>
@@ -109,9 +105,11 @@
     <script>
         var uploadImgUrl = "{{ path("zpb_admin_zooparc_restauration_img_upload") }}";
         var saveUrl = "{{ path("zpb_admin_zooparc_restauration_create") }}";
+        var changeStatusUrl = "{{ path("zpb_admin_zooparc_restauration_change_status") }}";
     </script>
     <script src="/js/admin/common/jquery.imgUpload.min.js"></script>
     <script src="/js/devs/new_restaurant_manager.js"></script>
+    <script src="/js/devs/restaurant_manager.js"></script>
     <script>
         $(function(){
             var showMsg = function(msg, success){
@@ -136,10 +134,12 @@
                 newRestaurantManager.addImage(response.datas);
             };
 
-            var newRestaurant, restaurantManager, restaurantManagerOptions, messenger, dropzone;
+            var newRestaurant, newRestaurantManager, restaurantManagerOptions, restaurantManager,
+                    newRestaurantManagerOptions, messenger, dropzone, restoList;
             messenger = $("#messenger");
             newRestaurant = $("#new-restaurant");
             dropzone = $(".dropzone");
+            restoList = $("#restos-list");
 
             dropzone.imgUpload({
                 fileMaxSize: 9000000,
@@ -161,7 +161,7 @@
                 }
             });
 
-            restaurantManagerOptions = {
+            newRestaurantManagerOptions = {
                 saveUrl: saveUrl,
                 nameId: "#new-restaurant-name",
                 descriptionId: "#new-restaurant-description",
@@ -172,7 +172,19 @@
                 noImageId: "#no-image",
                 showMsg: showMsg
             };
-            newRestaurantManager = new NewRestaurantManager(newRestaurant, restaurantManagerOptions)
+            restaurantManagerOptions = {
+                imgBtn: ".js-img-btn",
+                restoImgClass: ".js-resto-img",
+                changeStatusUrl: changeStatusUrl,
+                rowRestoPrefix: "restaurant_row_",
+                statusBtnClass: ".js-status-btn",
+                statusTextClass: ".js-resto-status",
+                loaderClass: ".loader",
+                openText: "Ouvert",
+                closeText: "Fermé"
+            };
+            newRestaurantManager = new NewRestaurantManager(newRestaurant, newRestaurantManagerOptions);
+            restaurantManager = new RestaurantManager(restoList, restaurantManagerOptions);
 
 
         })
