@@ -18,6 +18,7 @@ var NewRestaurantManager = (function () {
         this.numIpt = $(this.options["numId"], this.$element);
         this.descriptionIpt = $(this.options["descriptionId"], this.$element);
         this.noImageAlert = $(this.options["noImageId"], this.$element);
+        this.imgHolder = $(this.options["imgHolder"], this.$element);
         this.loader = this.saveBtn.next(".loader");
         this.noImageAlert.text("Pas d'image uploadée.");
         this.initEvents();
@@ -50,6 +51,9 @@ var NewRestaurantManager = (function () {
         this.datas.image = datas["image"];
         this.thumbIpt.val(datas["thumb"]);
         this.datas.thumb = datas["thumb"];
+        this.imgHolder.empty();
+        var img = $("<img />", { src: this.datas.image });
+        this.imgHolder.append(img);
     };
     NewRestaurantManager.prototype.getDatas = function () {
         return this.datas;
@@ -107,6 +111,7 @@ var NewRestaurantManager = (function () {
         numId: "",
         imageId: "",
         noImageId: "",
+        imgHolder: "",
         showMsg: function () {
         }
     };

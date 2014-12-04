@@ -31,58 +31,73 @@
 }
 
 #restos-list{
-  tr.resto-edit-row{
+  .resto-edit-row{
     //display: none;
     td{
       background-color: #dfdfdf;
       padding: 0;
       margin: 0;
     }
-    .resto-edit{
-      padding: 10px;
-    }
-    .resto-imgs{
-      @include clearfix;
 
-      img{
-        float: left;
-        margin-right: 10px;
-        width: 200px;
-      }
-      .update-dropzone{
-        width: 200px;
-        height: 200px;
-        border: 2px dashed #039BE5;
-        float: left;
-        position: relative;
-        background-color: #fff;
-        &.hover{
-          background-color: #b5dbf8;
-        }
-        .loader{
-          position: absolute;
-          left: 100px;
-          top: 100px;
-          @include translate3d(-50%, -50%, 0);
-        }
-      }
+  }
+
+}
+
+.resto-edit{
+  padding: 10px;
+}
+.resto-imgs{
+  @include clearfix;
+  padding: 15px;
+  img{
+    float: right;
+    margin-right: 10px;
+    width: 200px;
+  }
+  .update-dropzone{
+    width: 200px;
+    height: 200px;
+    border: 2px dashed #039BE5;
+    float: left;
+    position: relative;
+    background-color: #fff;
+    &.hover{
+      background-color: #b5dbf8;
+    }
+    .loader{
+      position: absolute;
+      left: 100px;
+      top: 100px;
+      @include translate3d(-50%, -50%, 0);
     }
   }
-  td.resto-img{
-    position: relative;
-    width: 50px;
+}
+
+.resto-img{
+  position: relative;
+  width: 50px;
+  img{
+    &.active{
+      display: block;
+    }
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    @include translateY(-50%);
+    z-index: 2000;
+    @include box-shadow(rgba(0,0,0,0.5) 0 0 5px);
+    border: 5px solid #fff;
+  }
+}
+
+#new-restaurant{
+  #image-holder{
+    padding: 10px;
     img{
-      &.active{
-        display: block;
-      }
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 100%;
-      @include translateY(-50%);
-      z-index: 2000;
+      display: block;
+      border: 1px solid #ccc;
       @include box-shadow(rgba(0,0,0,0.5) 0 0 5px);
-      border: 5px solid #fff;
     }
   }
 }

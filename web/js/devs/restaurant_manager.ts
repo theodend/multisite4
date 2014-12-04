@@ -5,6 +5,7 @@ class RestaurantManager{
         imgBtn: "",
         restoImgClass: "",
         changeStatusUrl: "",
+        updateRestoUrl: "",
         rowRestoPrefix: "",
         statusBtnClass: ".js-status-btn",
         statusTextClass: "",
@@ -14,6 +15,8 @@ class RestaurantManager{
         openText: "",
         closeText: "",
         deleteUrl: "",
+        updateBtnId: "",
+        cancelUpdateBtnId: "",
         confirmText: "Attention cette action est irréversible. Vous confirmez ?",
         showMsg: function(){}
     };
@@ -26,8 +29,10 @@ class RestaurantManager{
     private statusBtns:JQuery;
     private deleteBtns:JQuery;
     private editBtns:JQuery;
+    private updateBtn:JQuery;
+    private cancelUpdateBtn:JQuery;
 
-    constructor(public list:JQuery, options?:any){
+    constructor(public list:JQuery,public restos:any[], options?:any){
         this.options = $.extend(true, {}, RestaurantManager.DEFAULTS, options||{});
 
         this.imgBtns = $(this.options["imgBtn"], this.list);
@@ -36,6 +41,8 @@ class RestaurantManager{
         this.deleteBtns = $(this.options["deleteBtnClass"]);
         this.editBtns = $(this.options["editBtnClass"]);
         this.overlay = $("<div id='overlay'></div>");
+        this.updateBtn = $(this.options["updateBtnId"]);
+        this.cancelUpdateBtn = $(this.options["cancelUpdateBtnId"]);
         $(document.body).append(this.overlay);
 
         this.initEvents();
@@ -76,23 +83,123 @@ class RestaurantManager{
         }
     }
 
-    updateResto(btn:JQuery):void{
-        var self, loader, id, parent, editRow;
+    editResto(btn:JQuery):void{
+        var self, loader, id, edit, resto;
         self = this;
         id = btn.data("id");
-        parent = btn.parents("#" + this.options["rowRestoPrefix"] + id);
-        editRow = $("#restaurant_edit_row_" + id);
-        if(editRow.hasClass("js-is-close")){
-            editRow.slideDown(500, function(){
-                editRow.removeClass("js-is-close").addClass("js-is-open");
-            });
-        } else {
-            editRow.slideUp(500, function(){
-                editRow.removeClass("js-is-open").addClass("js-is-close");
-            });
+
+        edit = $("#restaurant_edit");
+        resto = this.findRestoById(id);
+        var nameIpt = $("#js-edit-resto-name");
+        var numIpt = $("#js-edit-resto-num");
+        var descIpt = $("#js-edit-resto-description");
+        var hiddenImage = $("#js-edit-resto-image");
+        var hiddenThumb = $("#js-edit-resto-thumb");
+        var thumb = $("#resto-thumb");
+        if(resto != null){
+            thumb.attr("src", resto.thumb);
+            nameIpt.val(resto.name);
+            numIpt.val(resto.num);
+            descIpt.val(resto.description);
+            hiddenImage.val(resto.image);
+            hiddenThumb.val(resto.thumb);
+            edit.data("id", id);
+            if(edit.hasClass("js-is-close")){
+                edit.slideDown(500, function(){
+                    edit.removeClass("js-is-close").addClass("js-is-open");
+                });
+            } else {
+                edit.slideUp(500, function(){
+                    edit.removeClass("js-is-open").addClass("js-is-close");
+                });
+            }
         }
 
 
+
+    }
+
+    updateResto(btn:JQuery):void{
+        var self = this;
+        var loader = btn.next(".loader");
+        var nameIpt = $("#js-edit-resto-name");
+        var numIpt = $("#js-edit-resto-num");
+        var descIpt = $("#js-edit-resto-description");
+        var hiddenImage = $("#js-edit-resto-image");
+        var hiddenThumb = $("#js-edit-resto-thumb");
+        var thumb = $("#resto-thumb");
+        var edit = $("#restaurant_edit");
+
+        var datas = {
+            id: edit.data("id"),
+            name: nameIpt.val(),
+            num: numIpt.val(),
+            description: descIpt.val(),
+            image: hiddenImage.val(),
+            thumb: hiddenThumb.val()
+        };
+        btn.hide();
+        loader.show();
+
+        $.ajax({
+            type: "PUT",
+            url: this.options["updateRestoUrl"],
+            data: datas
+        })
+            .done(function(response){
+                if(response.error == false){
+                    location.reload(true);
+                } else {
+                    btn.show();
+                    loader.hide();
+                    self.options["showMsg"](response.msg, false);
+                }
+            })
+            .fail(function(xhr){
+                btn.show();
+                loader.hide();
+                self.options["showMsg"](xhr.statusCode + " " + xhr.statusText, false);
+            });
+    }
+
+    updateImg(datas:any):void{
+        var hiddenImage = $("#js-edit-resto-image");
+        var hiddenThumb = $("#js-edit-resto-thumb");
+        var thumb = $("#resto-thumb");
+        hiddenImage.val(datas.image);
+        hiddenThumb.val(datas.thumb);
+        thumb.attr("src", datas.thumb);
+    }
+
+    cancelUpdate(btn:JQuery):void{
+        var nameIpt = $("#js-edit-resto-name");
+        var numIpt = $("#js-edit-resto-num");
+        var descIpt = $("#js-edit-resto-description");
+        var thumb = $("#resto-thumb");
+        var hiddenImage = $("#js-edit-resto-image");
+        var hiddenThumb = $("#js-edit-resto-thumb");
+        var edit = $("#restaurant_edit");
+        thumb.attr("src","");
+        nameIpt.val("");
+        numIpt.val("");
+        descIpt.val("");
+        hiddenImage.val("");
+        hiddenThumb.val("");
+        edit.slideUp(500, function(){
+            edit.removeClass("js-is-open").addClass("js-is-close");
+        });
+
+
+    }
+
+    findRestoById(id:number):any{
+        var result = null;
+        $.each(this.restos, function(i,e){
+            if(e["id"] == id){
+                result = e;
+            }
+        });
+        return result;
     }
 
     changeStatus(btn:JQuery):void{
@@ -151,7 +258,15 @@ class RestaurantManager{
         });
         this.editBtns.on("click", function(e){
             e.preventDefault();
+            self.editResto($(this));
+        });
+        this.updateBtn.on("click", function(e){
+            e.preventDefault();
             self.updateResto($(this));
+        });
+        this.cancelUpdateBtn.on("click", function(e){
+            e.preventDefault();
+            self.cancelUpdate($(this));
         });
 
     }

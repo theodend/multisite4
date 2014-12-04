@@ -31,6 +31,7 @@ class NewRestaurantManager{
         numId: "",
         imageId: "",
         noImageId: "",
+        imgHolder: "",
         showMsg: function(){}
     };
 
@@ -44,6 +45,7 @@ class NewRestaurantManager{
     private descriptionIpt:JQuery;
     private noImageAlert:JQuery;
     private loader:JQuery;
+    private imgHolder:JQuery;
 
     constructor(public $element, options?:any){
         this.options = $.extend(true, {}, NewRestaurantManager.DEFAULTS, options||{});
@@ -62,6 +64,7 @@ class NewRestaurantManager{
         this.numIpt = $(this.options["numId"], this.$element);
         this.descriptionIpt = $(this.options["descriptionId"], this.$element);
         this.noImageAlert = $(this.options["noImageId"], this.$element);
+        this.imgHolder = $(this.options["imgHolder"], this.$element);
         this.loader = this.saveBtn.next(".loader");
 
         this.noImageAlert.text("Pas d'image uploadée.");
@@ -100,6 +103,9 @@ class NewRestaurantManager{
         this.datas.image = datas["image"];
         this.thumbIpt.val(datas["thumb"]);
         this.datas.thumb = datas["thumb"];
+        this.imgHolder.empty();
+        var img = $("<img />", {src: this.datas.image});
+        this.imgHolder.append(img);
     }
 
     getDatas():IRestaurantDatas{

@@ -12,6 +12,17 @@ module.exports = function(grunt){
                     "web/js/admin/common/carousel_slides_manager.min.js":"web/js/devs/carousel_slides_manager.js"
                 }
             },
+            zooResto:{
+                files:{
+                    "web/js/admin/zooparc/restaurants_actions.min.js":
+                        [
+                            "web/js/devs/images_upload.js",
+                            "web/js/devs/jquery.imgUpload.js",
+                            "web/js/devs/new_restaurant_manager.js",
+                            "web/js/devs/restaurant_manager.js"
+                        ]
+                }
+            },
             galleryManager:{
                 files:{
                     "web/js/admin/common/gallery_manager.min.js":"web/js/devs/gallery_manager.js"

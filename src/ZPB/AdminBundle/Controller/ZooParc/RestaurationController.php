@@ -44,8 +44,29 @@ class RestaurationController extends BaseController
         $datas = [];
         parse_str($request->getContent(), $datas);
 
-
-
+        $id = empty($datas["id"]) ? false : intval($datas["id"]);
+        if(!$id){
+            $response["msg"] = "Données incomplètes.";
+        } else{
+            /** @var \ZPB\AdminBundle\Entity\Restaurant $resto */
+            $resto = $this->getRepo("ZPBAdminBundle:Restaurant")->find($id);
+            if(!$resto){
+                $response["msg"] = "Données incomplètes.";
+            } else {
+                unset($datas["id"]);
+                foreach($datas as $k=>$v){
+                    $method = "set" . ucfirst($k);
+                    if(method_exists($resto, $method)){
+                        $resto->$method($v);
+                    }
+                }
+                $this->getManager()->persist($resto);
+                $this->getManager()->flush();
+                $response['error'] = false;
+                $response['datas'] = $resto;
+                $response['msg'] = 'Restaurant mis à jour.';
+            }
+        }
         return new JsonResponse($response);
     }
 
