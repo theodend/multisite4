@@ -1,0 +1,18 @@
+zpb_sites_zoo_newsletter_homepage:
+    path: /
+    defaults: { _controller: ZPBSitesZooBundle:NewsLetter:index }
+    methods: ["GET"]
+
+zpb_sites_zoo_newsletter_thanks:
+    path: /corfirmation
+    defaults: { _controller: ZPBSitesZooBundle:NewsLetter:thanks }
+    methods: ["GET"]
+
+
+
+
+
+
+
+
+

@@ -19,6 +19,10 @@ zpb_sites_zoo_news:
     prefix:     /actualite
     resource: "@ZPBSitesZooBundle/Resources/config/routing/news.yml"
 
+zpb_sites_zoo_newsletter:
+    prefix:     /newsletter
+    resource: "@ZPBSitesZooBundle/Resources/config/routing/newsletter.yml"
+
 zpb_sites_zoo_social:
     path: /reseaux-sociaux
     defaults: { _controller: ZPBSitesZooBundle:Social:social }
@@ -42,4 +46,9 @@ zpb_sites_zoo_faq:
 zpb_sites_zoo_legales:
     path: /mentions-legales
     defaults: { _controller: ZPBSitesZooBundle:Miscellaneous:legals }
+    methods: ["GET"]
+
+zpb_sites_zoo_cgv:
+    path: /conditions-generales-de-vente
+    defaults: { _controller: ZPBSitesZooBundle:Miscellaneous:cgv }
     methods: ["GET"]
