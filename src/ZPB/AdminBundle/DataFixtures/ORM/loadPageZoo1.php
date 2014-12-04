@@ -126,6 +126,12 @@ class loadPageZoo1 extends AbstractFixture implements OrderedFixtureInterface, C
         $page21->setName('zoo:faq:faq')->setSite('zoo')->setTitle('Questions fréquentes')->setRoute('zpb_sites_zoo_faq')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_zoo_faq',[],false));
         $manager->persist($page21);
         $manager->flush();
+
+        $page21 = new Page();
+        $page21->setName('zoo:legales:legales')->setSite('zoo')->setTitle('Mentions légales')->setRoute('zpb_sites_zoo_legales')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_zoo_legales',[],false));
+        $manager->persist($page21);
+        $manager->flush();
+
     }
 
     public function getOrder()

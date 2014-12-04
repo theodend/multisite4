@@ -38,3 +38,8 @@ zpb_sites_zoo_faq:
     path: /questions-frequentes
     defaults: { _controller: ZPBSitesZooBundle:FAQ:index }
     methods: ["GET"]
+
+zpb_sites_zoo_legales:
+    path: /mentions-legales
+    defaults: { _controller: ZPBSitesZooBundle:Miscellaneous:legals }
+    methods: ["GET"]
