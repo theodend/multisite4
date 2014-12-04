@@ -27,6 +27,7 @@ class IndexController extends BaseController
 {
     public function indexAction(Request $request)
     {
-        return $this->render('ZPBSitesJDBBundle:Index:index.html.twig');
+
+        return $this->getView('ZPBSitesJDBBundle:Index:index.html.twig', $request);
     }
-} 
+}

@@ -1,0 +1,60 @@
+
+{% set hotel_pages = [] %}
+{% set room_pages = [] %}
+{% set restaurant_pages = [] %}
+{% set spa_pages = [] %}
+{% set prices_pages = [] %}
+{% set beauvalbox_pages = [] %}
+{% set leisures_pages = [] %}
+
+
+
+<div id="stickytop">
+    <div class="container">
+        <div id="main-menu">
+            <a id="main-menu-logo" href="{{ path("zpb_sites_zoo_homepage") }}">
+                {{ include("ZPBSitesZooBundle:Incs:logo_zooparc_svg.html.twig") }}
+            </a>
+            <button id="menu-toggler" data-target="#seconday-mainbar-wrapper"><i class="fa fa-bars"></i></button>
+            <div class="main-menu-navs">
+                <ul>
+                    <li class="dropdown{% if active_page in hotel_pages %} active{% endif %}"><a href="javascript:void(0)">L'Hôtel</a>
+                        <ul>
+                            <li><a href="">L'Hôtel</a></li>
+                            <li><a href="">Actualité</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown{% if active_page in room_pages %} active{% endif %}"><a href="javascript:void(0)">Les chambres</a>
+
+                    </li>
+                    <li class="dropdown{% if active_page in restaurant_pages %} active{% endif %}"><a href="javascript:void(0)">Le restaurant</a>
+                        <ul>
+                            <li><a href="">Le restaurant</a></li>
+                            <li><a href="">Le bar</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown{% if active_page in spa_pages %} active{% endif %}"><a href="javascript:void(0)">Le Spa</a>
+
+                    </li>
+                    <li class="dropdown{% if active_page in spa_pages %} active{% endif %}"><a href="javascript:void(0)">Tarifs</a>
+                        <ul>
+                            <li><a href="">Hôtel + ZooParc</a></li>
+                            <li><a href="">Hôtel seul</a></li>
+                            <li><a href="">Groupes</a></li>
+                            <li><a href="">Séminaires</a></li>
+                        </ul>
+                    </li>
+                    <li class="{% if active_page in beauvalbox_pages %}active{% endif %}"><a href="javascript:void(0)">BeauvalBox</a>
+
+                    </li>
+                    <li class="dropdown{% if active_page in leisures_pages %}active{% endif %}"><a href="javascript:void(0)">Loisirs</a>
+                        <ul>
+                            <li><a href="">Le ZooParc</a></li>
+                            <li><a href="">La Vallée de la Loire</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
