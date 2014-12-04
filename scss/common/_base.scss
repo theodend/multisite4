@@ -34,6 +34,7 @@ h1,h2,h3,h4,h5,h6{
   color: $headerFontColor;
   a{
     color: inherit;
+    text-decoration: none;
   }
 }
 
@@ -108,6 +109,21 @@ ul.inline{
     width: 100%;
     height: 0;
     margin-bottom: toUnit($j);
+  }
+}
+
+.quoted-intro{
+  text-align: center;
+  padding: 20px 0;
+  .quoted-intro-text{
+    font-size: toUnit($fontSize * 1.6);
+    font-family: "cooper_hewitt_bold", Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+  }
+  .quoted-intro-underline{
+    font-size: toUnit($fontSize);
+    font-family: "cooper_hewitt_book_italic", Arial, Helvetica, sans-serif;
+    font-style: italic;
   }
 }
 

@@ -1,0 +1,57 @@
+{% set utils_pages = ['zoo-pratique-acces','zoo-pratique-horaires','zoo-pratique-animations','zoo-pratique-plan','zoo-pratique-restauration','zoo-pratique-services'] %}
+{% set zooparc_pages = ['zoo-zooparc-animaux','zoo-zooparc-histoire','zoo-zooparc-missions','zoo-zooparc-dev','zoo-zooparc-galerie'] %}
+{% set children_pages = ['zoo-enfants-carnet','zoo-enfants-soigneurs','zoo-enfants-parcours'] %}
+{% set news_pages = ['zoo-actualite-nouveautes','zoo-actualite-actualite'] %}
+{% set fans_pages = ['zoo-fans-fans'] %}
+{% set shop_pages = ['zoo-boutique-boutique'] %}
+
+<div id="secondary-mainbar-wrapper">
+    <div class="container">
+        <div class="row">
+            <nav id="secondary-mainbar">
+                <div class="col-md-2">
+                    <div class="menu-block {% if active_page in utils_pages %} active{% endif %}">
+                        <a href="javascript:void(0)" class="menu-block-header">Pratique</a>
+                        {{ include("ZPBSitesZooBundle:Navs:utils.html.twig") }}
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <div class="menu-block{% if active_page in zooparc_pages %} active{% endif %}">
+                        <a href="javascript:void(0)" class="menu-block-header">ZooParc</a>
+                        {{ include("ZPBSitesZooBundle:Navs:zooparc.html.twig") }}
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <div class="menu-block{% if active_page in children_pages %} active{% endif %}">
+                        <a href="javascript:void(0)" class="menu-block-header">Enfants</a>
+                        {{ include("ZPBSitesZooBundle:Navs:children.html.twig") }}
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <div class="menu-block{% if active_page in news_pages %} active{% endif %}">
+                        <a href="javascript:void(0)" class="menu-block-header">Actualité</a>
+                        {{ include("ZPBSitesZooBundle:Navs:news.html.twig") }}
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <div class="menu-block{% if active_page in fans_pages %} active{% endif %}">
+                        <a href="{{ path("zpb_sites_zoo_social") }}" class="menu-block-header">Fans</a>
+                    </div>
+
+
+                </div>
+                <div class="col-md-2">
+                    <div class="menu-block{% if active_page in shop_pages %} active{% endif %}">
+                        <a href="{{ path("zpb_sites_zoo_shop") }}" class="menu-block-header">Boutique</a>
+                    </div>
+
+                </div>
+
+            </nav>
+        </div>
+    </div>
+</div>

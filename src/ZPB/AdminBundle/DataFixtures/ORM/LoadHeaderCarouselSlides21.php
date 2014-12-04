@@ -74,12 +74,7 @@ class LoadHeaderCarouselSlides21  extends AbstractFixture implements OrderedFixt
             ->setWebRoot("/img/sites/zoo/headers/1417355285.jpg");
         $manager->persist($slide4);
 
-        $slide5 = new HeaderCarouselSlide();
-        $slide5->setSlider($this->getReference('zoo-carousel'))
-            ->setIsActive(true)
-            ->setRootDir("/var/www/vhosts/multisite4/app/../web/img/sites/zoo/headers/1417355291.jpg")
-            ->setWebRoot("/img/sites/zoo/headers/1417355291.jpg");
-        $manager->persist($slide5);
+
 
         // ############################################# bn
         $slide6 = new HeaderCarouselSlide();

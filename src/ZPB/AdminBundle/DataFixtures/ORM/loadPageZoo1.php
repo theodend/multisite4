@@ -42,7 +42,7 @@ class loadPageZoo1 extends AbstractFixture implements OrderedFixtureInterface, C
     public function load(ObjectManager $manager)
     {
         $page1 = new Page();
-        $page1->setName('zoo:homepage')->setSite('zoo')->setTitle('Accueil')->setRoute('zpb_sites_zoo_homepage')->setUrl($this->container->get('router')->generate('zpb_sites_zoo_homepage',[],false));
+        $page1->setName('zoo:homepage')->setSite('zoo')->setTitle('ZooParc de Beauval')->setRoute('zpb_sites_zoo_homepage')->setUrl($this->container->get('router')->generate('zpb_sites_zoo_homepage',[],false));
         $manager->persist($page1);
         $manager->flush();
 

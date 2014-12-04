@@ -38,7 +38,15 @@
   font-style:normal
 }
 
-
+@font-face{
+  font-family:'cooper_hewitt_book_italic';
+  src:url('../../../fonts/CooperHewitt-BookItalic.eot?v=4.1.0');
+  src:url('../../../fonts/CooperHewitt-BookItalic.eot?#iefix&v=4.1.0') format('embedded-opentype'),
+  url('../../../fonts/CooperHewitt-BookItalic.woff?v=4.1.0') format('woff'),
+  url('../../../fonts/CooperHewitt-BookItalic.svg?v=4.1.0#fontawesomeregular') format('svg');
+  font-weight:normal;
+  font-style:normal
+}
 
 
 
