@@ -56,6 +56,16 @@ class RestaurationController extends BaseController
                 unset($datas["id"]);
                 foreach($datas as $k=>$v){
                     $method = "set" . ucfirst($k);
+
+                    if($k == "image"){
+                        $old = $resto->getImage();
+                        if(!empty($datas["image"]) && $datas["image"] != $old){
+                            $fs = $this->get("filesystem");
+                            $fs->remove($resto->getImageRoot() . trim($resto->getImage(), "/"));
+                            $fs->remove($resto->getImageRoot() . trim($resto->getThumb(), "/"));
+                        }
+                    }
+
                     if(method_exists($resto, $method)){
                         $resto->$method($v);
                     }
