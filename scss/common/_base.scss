@@ -112,6 +112,14 @@ ul.inline{
   }
 }
 
+.page-intro{
+  font-size: toUnit($fontSize * 1.6);
+  font-family: "cooper_hewitt_bold", Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 20px 0;
+}
+
 .quoted-intro{
   text-align: center;
   padding: 20px 0;
