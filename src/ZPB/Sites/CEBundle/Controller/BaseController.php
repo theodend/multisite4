@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Nicolas Canfrere
- * Date: 01/12/2014
- * Time: 00:01
+ * Date: 05/12/2014
+ * Time: 00:37
  */
  /*
            ____________________
@@ -21,12 +21,27 @@
 namespace ZPB\Sites\CEBundle\Controller;
 
 
-use Symfony\Component\HttpFoundation\Request;
+use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
-class IndexController extends BaseController
+class BaseController extends ZPBController
 {
-    public function indexAction(Request $request)
+    protected $site = "ce";
+
+    /**
+     * @return string
+     */
+    public function getSite()
     {
-        return $this->getView('ZPBSitesCEBundle:Index:index.html.twig', $request);
+        return $this->site;
+    }
+
+    /**
+     * @param string $site
+     * @return $this
+     */
+    public function setSite($site)
+    {
+        $this->site = $site;
+        return $this;
     }
 }

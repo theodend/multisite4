@@ -48,6 +48,21 @@ $logoPaddingRight: 16;
 $stuckBgColor: $sable;
 // ########################## end main menu bar ##########################\\
 
+
+// ########################## secondary main menu bar ##########################\\
+$smb_bgColor: $gris51 ;
+$smb_color: $blanc ;
+$smb_fontFamily: $fontfamily ;
+$smb_linkColor: $blanc ;
+$smb_linkHoverColor: $sable ;
+$smb_linkFontFamily: $fontfamily ;
+$smb_blockHeaderFontFamily: "cooper_hewitt_semi_bold", Arial, Helvetica, sans-serif ;
+$smb_blockHeaderActiveColor: $jaune ;
+$smb_menuBorderColor: $blanc ;
+
+// ########################## end secondary main menu bar ##########################\\
+
+
 // ########################## footer ##########################\\
 $footerBgColor: "none" ;
 $footerBgImage: "none" ;

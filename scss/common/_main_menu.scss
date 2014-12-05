@@ -23,6 +23,7 @@ $stuckBgColor:$ocean!default;
     z-index: 10000;
     height: toUnit($mainMenuHeight);
     padding: 0;
+    @include box-shadow(rgba(0,0,0,0.5) 0 5px 7px);
     #main-menu{}
   }
 

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Nicolas Canfrere
- * Date: 01/12/2014
- * Time: 00:01
+ * Date: 05/12/2014
+ * Time: 00:36
  */
  /*
            ____________________
@@ -21,12 +21,10 @@
 namespace ZPB\Sites\CEBundle\Controller;
 
 
-use Symfony\Component\HttpFoundation\Request;
-
-class IndexController extends BaseController
+class PartialsController extends BaseController
 {
-    public function indexAction(Request $request)
+    public function mainFooterAction()
     {
-        return $this->getView('ZPBSitesCEBundle:Index:index.html.twig', $request);
+        return $this->getView('ZPBSitesCEBundle:Partials:main_footer.html.twig');
     }
 }

@@ -1,0 +1,9 @@
+{% extends is_mobile() ? "ZPBSitesCEBundle:Layouts:master.mobile.html.twig" : "ZPBSitesCEBundle:Layouts:master.desktop.html.twig" %}
+
+{% set active_site = "groupe" %}
+
+{% block title %}{% if page!=null %}{{ page.title }}{% endif %}{% endblock %}
+{% block description %}{% if page!=null and page.description != null %}{{ page.description }}{% endif %}{% endblock %}
+{% block keywords %}{% if page!=null %}{{ page.keywords }}{% endif %}{% endblock %}
+{% block metas_fb %}{% if page!=null %}{{ include('ZPBSitesCEBundle:Incs/facebook:metas.html.twig', {title:page.title, description:page.description|default(''), type:'website', imageUrl:null, request: app.request}, with_context = false) }}{% endif %}{% endblock %}
+{% if page!=null %}{% set active_page = page.slug %}{% endif %}
