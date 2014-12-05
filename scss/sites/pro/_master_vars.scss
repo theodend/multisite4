@@ -1,0 +1,75 @@
+// ########################## base ##########################\\
+
+$fontSize: 16 ;
+$fontfamily: 'cooper_hewitt_book', Arial, Helvetica, sans-serif ;
+$headerFontFamily: 'cooper_hewitt_bold', Arial, Helvetica, sans-serif ;
+$fontColor: $grisFonce ;
+$headerFontColor: $lilas ;
+$lineHeight: 1.43 ;
+$headerSize: 50, 45, 30, 25, 20, 15;
+$baseLinkColor: $lilas;
+$linkHoverColor: $lilas;
+
+$pageHeaderPadding: 20;
+
+$mainHeaderPadding: 25px 0 0 0;
+$mainContentMinHeight: 600;
+$mainFooterMinHeight: 400;
+$mainFooterBgColor: $grisFonce;
+$mainFooterColor: $blanc;
+
+// ########################## end vars ##########################\\
+
+// ########################## grid bar ##########################\\
+$gutterWidth: toUnit(10);
+$numCols: 12;
+$containerMaxWidth: toUnit(1200);
+
+// ########################## grid bar ##########################\\
+
+
+
+// ########################## common top bar ##########################\\
+$mainTopBarHeight: 40 ;
+$mainTopBarBgColor: $grisFonce;
+$mainTopBarColor: $blanc;
+$mainTopBarFontSize: 12;
+
+// ########################## end common top bar ##########################\\
+
+// ########################## main menu bar ##########################\\
+$mainMenuHeight: 51;
+$logoWidth: 204;
+//$logoHeight: 25px!default;
+$logoPaddingTop: 3;
+$logoPaddingBottom: 3;
+$logoPaddingLeft: 20;
+$logoPaddingRight: 16;
+$stuckBgColor: $lilas;
+// ########################## end main menu bar ##########################\\
+
+// ########################## secondary main menu bar ##########################\\
+$smb_bgColor: $gris51 ;
+$smb_color: $blanc ;
+$smb_fontFamily: $fontfamily ;
+$smb_linkColor: $blanc ;
+$smb_linkHoverColor: $lilas ;
+$smb_linkFontFamily: $fontfamily ;
+$smb_blockHeaderFontFamily: "cooper_hewitt_semi_bold", Arial, Helvetica, sans-serif ;
+$smb_blockHeaderActiveColor: $jaune ;
+$smb_menuBorderColor: $blanc ;
+
+// ########################## end secondary main menu bar ##########################\\
+
+// ########################## footer ##########################\\
+$footerBgColor: "none" ;
+$footerBgImage: "none" ;
+$footerBgImageRepeat: null ;
+$footerBgImagePosition: null ;
+$footerColor: $blanc ;
+$footerLinkFontFamily: $fontfamily;
+$footerLinkColor: inherit ;
+$footerLinkHoverColor: $lilas ;
+$footerLegalsBorderColor: #4b4b4f ;
+
+// ########################## end footer ##########################\\
