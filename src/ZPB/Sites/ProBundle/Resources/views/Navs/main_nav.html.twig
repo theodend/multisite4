@@ -1,0 +1,34 @@
+{% set indiv_pages = [] %}
+{% set groupes_pages = [] %}
+{% set practicle_pages = [] %}
+{% set tools_pages = [] %}
+
+
+
+
+<div id="stickytop">
+    <div class="container">
+        <div id="main-menu">
+            <a href="{{path("zpb_sites_pro_homepage")}}" id="main-menu-logo" >{{ include("ZPBSitesProBundle:Incs:logo_pro_svg.html.twig") }}</a>
+            <button id="menu-toggler" data-target="#secondary-mainbar-wrapper"><i class="fa fa-bars"></i></button>
+            <div class="main-menu-navs">
+                <ul>
+                    <li class="dropdown{% if active_page in indiv_pages %} active{% endif %}"><a href="javascript:void(0)">Individuels</a>
+                        {{ include("ZPBSitesProBundle:Navs:individuel.html.twig") }}
+                    </li>
+                    <li class="dropdown{% if active_page in groupes_pages %} active{% endif %}"><a href="javascript:void(0)">Groupes</a>
+                        {{ include("ZPBSitesProBundle:Navs:groupes.html.twig") }}
+                    </li>
+
+                    <li class="dropdown{% if active_page in practicle_pages %} active{% endif %}"><a href="javascript:void(0)">Pratique</a>
+                        {{ include("ZPBSitesProBundle:Navs:pratique.html.twig") }}
+                    </li>
+                    <li class="dropdown{% if active_page in tools_pages %} active{% endif %}"><a href="javascript:void(0)">Médiathèque</a>
+                        {{ include("ZPBSitesProBundle:Navs:mediatheque.html.twig") }}
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
