@@ -7,6 +7,10 @@
   z-index: 1000000;
   background-color: rgba(0,0,0,0.8);
   cursor: pointer;
+  display: none;
+  &.open{
+    display: block;
+  }
 }
 
 .alert-modal{
@@ -19,6 +23,10 @@
   z-index: 1000001;
   @include box-shadow(rgba(0,0,0,0.8) 0 0 6px);
   @include border-radius(5px);
+  display: none;
+  &.open{
+    display: block;
+  }
   &.warning{
     background-color: $jaunePale;
   }
