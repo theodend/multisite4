@@ -49,11 +49,12 @@ class AlertExtension extends \Twig_Extension
         ];
     }
 
-    public function renderAlert($twigFile = "")
+    public function renderAlert($site = "", $twigFile = "ZPBSitesCommonBundle:Incs:alert.html.twig")
     {
-        if($twigFile == ""){
+        if($twigFile == "" || $site == ""){
             return "";
         }
+
         return $this->getService("templating")->render($twigFile, []);
     }
 
