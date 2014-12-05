@@ -1,0 +1,4 @@
+zpb_admin_alerts_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:Alert:index }
+    methods: ["GET"]

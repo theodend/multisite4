@@ -1,10 +1,10 @@
 <div id="alert-overlay"></div>
-<div id="alert-modal" class="alert-modal warning">
+<div id="alert-modal" class="alert-modal {{ default("warning") }}">
     <div class="alert-modal-header">
-        Attention !
+        {{ default("Attention !") }}
     </div>
     <div class="alert-modal-body">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi cupiditate ea ipsam rem! A accusamus aperiam cum delectus distinctio earum harum magnam nihil nisi quia, totam vitae? Accusamus, enim.
+        {{ default("") }}
     </div>
     <div class="alert-modal-actions">
         <button class="alert-modal-btn" id="alert-close-btn">fermer</button>

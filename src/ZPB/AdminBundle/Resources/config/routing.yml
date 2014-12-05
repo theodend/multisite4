@@ -7,6 +7,12 @@ zpb_admin_sites_routes:
    prefix: /sites
    resource: "@ZPBAdminBundle/Resources/config/routing/site.yml"
 
+############################################# alertes
+zpb_admin_alerts_routes:
+    prefix: /alerts
+    resource: "@ZPBAdminBundle/Resources/config/routing/alerts.yml"
+
+
 ############################################# image galleries
 zpb_admin_image_galleries_routes:
     prefix: /image-galleries

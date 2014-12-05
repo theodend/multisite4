@@ -35,7 +35,7 @@ class AlertManager{
     }
     close():void{
         if($.cookie(this.options["cookieKeyName"]) == undefined ){
-            $.cookie(this.options["cookieKeyName"], "ok");
+            $.cookie(this.options["cookieKeyName"], "ok", { expires: 1 });
         }
         this.modal.remove();
         this.overlay.fadeOut(400, function(){
