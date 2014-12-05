@@ -1,11 +1,11 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Nicolas Canfrere
- * Date: 01/12/2014
- * Time: 00:01
+ * User: Nicolas Canfrère
+ * Date: 27/11/2014
+ * Time: 16:21
  */
- /*
+  /*
            ____________________
   __      /     ______         \
  {  \ ___/___ /       }         \
@@ -21,12 +21,11 @@
 namespace ZPB\Sites\ProBundle\Controller;
 
 
-use Symfony\Component\HttpFoundation\Request;
 
-class IndexController extends BaseController
+class PartialsController extends BaseController
 {
-    public function indexAction(Request $request)
+    public function mainFooterAction()
     {
-        return $this->getView('ZPBSitesProBundle:Index:index.html.twig', $request);
+        return $this->getView('ZPBSitesProBundle:Partials:main_footer.html.twig');
     }
 }

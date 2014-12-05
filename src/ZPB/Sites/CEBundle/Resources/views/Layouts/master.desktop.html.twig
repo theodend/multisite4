@@ -47,7 +47,7 @@
                 {% block mainContent %}
                     <div id="content">
                         {% block page_header %}
-                            {{ include('ZPBSitesZooBundle:Incs/page:page_header.html.twig', {title: block('title')|default('Bienvenue')}, with_context=false) }}
+                            {{ include('ZPBSitesCEBundle:Incs/page:page_header.html.twig', {title: block('title')|default('Bienvenue')}, with_context=false) }}
                         {% endblock %}
                         {% block content %}{% endblock %}
                     </div>

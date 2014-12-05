@@ -1,0 +1,74 @@
+{% set active_site = (active_site is defined) ? active_site : null %}
+{% set active_page = (active_page is defined) ? active_page : null %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% if block('title') %}{{ block('title') }} {% else %}Bienvenue {% endif %}| ZooParc de Beauval</title>
+    {% if block('description') %}
+        <meta name="description" content="{{ block('description') }}"/>
+    {% endif %}
+    {% if block('keywords') %}
+        <meta name="keywords" content="{{ block('keywords') }}"/>
+    {% endif %}
+
+    {% block metas_fb %}{% endblock %}
+
+    {% block headLinks %}
+        <link rel="stylesheet" href="/css/sites/ce/master.css"/>
+        <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    {% endblock %}
+
+    {% block headStyles %}{% endblock %}
+
+    {% block headScripts %}
+        <script src="/js/vendor/lib.js"></script>
+
+    {% endblock %}
+</head>
+<body>
+
+{% block body %}
+    {% block main_top_bar %}
+        {{ render(controller('ZPBSitesCommonBundle:Navs:topBar', {active_site: active_site})) }}
+    {% endblock %}
+    <div id="main-header">
+        {% block mainHeader%}
+            {% block mainNav %}
+                {{ include('ZPBSitesProBundle:Navs:main_nav.html.twig', {active_page: active_page}, with_context = false) }}
+            {% endblock %}
+
+            {{ header_carousel('ZPBSitesCommonBundle:Incs:header_carousel.html.twig', 'zoo') }}
+
+
+
+        {% endblock %}
+    </div>
+    <div id="main-content">
+        {% block mainContent %}
+            <div id="content">
+                {% block page_header %}
+                    {{ include('ZPBSitesProBundle:Incs/page:page_header.html.twig', {title: block('title')|default('Bienvenue')}, with_context=false) }}
+                {% endblock %}
+                {% block content %}{% endblock %}
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block mainNavAux %}
+    {{ include('ZPBSitesProBundle:Navs:main_nav_aux.html.twig', {active_page: active_page}, with_context = false) }}
+{% endblock %}
+<div id="main-footer">
+    {% block mainfooter%}
+        {{ render(controller('ZPBSitesProBundle:Partials:mainFooter')) }}
+    {% endblock %}
+</div>
+{% block footScripts %}
+    <script src="/js/sites/pro/main.js"></script>
+{% endblock %}
+
+{{ alert_manager('ZPBSitesCommonBundle:Incs:alert.html.twig') }}
+</body>
+</html>
