@@ -1,0 +1,66 @@
+$ticketGutter: 10;
+$ticketWidth: 150;
+$ticketsHeight: 65;
+$ticketHeight: 120;
+
+.tickets{
+  margin: 0 auto;
+  position: absolute;
+  bottom: 0;
+  z-index: 9000;
+  height: toUnit($ticketsHeight);
+  @for $i from 1 through 6{
+    &.has-#{$i}{
+      width: toUnit($ticketWidth * $i);
+      $left: toUnit(($ticketWidth * $i) / 2);
+      left: calc( 50% - #{$left} );
+    }
+  }
+  @include clearfix;
+
+  .ticket{
+    float: left;
+    padding: {
+      right: toUnit($ticketGutter);
+      left: toUnit($ticketGutter);
+      top: 0;
+      bottom: 0;
+    }
+    width: toUnit(150);
+    height: toUnit($ticketHeight);
+    @include transition(transform 0.2s);
+    &:hover{
+      @include translateY(- toUnit($ticketHeight - $ticketsHeight));
+    }
+
+    a{
+      text-decoration: none;
+      color: $blanc;
+    }
+
+    .ticket-inner{
+      background-color: $ocean;
+      @include box-shadow(rgba(0,0,0,0.3) 0 0 5px);
+      height: 100%;
+      cursor: pointer;
+      text-align: center;
+      padding: 10px;
+      font-family: "cooper_hewitt_bold", Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+
+      &.yellow{
+        background-color: $jaunePale;
+      }
+      &.blue{
+        background-color: $bleuPale;
+      }
+      &.green{
+        background-color: $vertPale;
+      }
+
+
+
+    }
+
+  }
+}
