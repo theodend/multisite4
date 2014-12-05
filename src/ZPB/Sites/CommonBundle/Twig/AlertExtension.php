@@ -54,8 +54,12 @@ class AlertExtension extends \Twig_Extension
         if($twigFile == "" || $site == ""){
             return "";
         }
+        $alert = $this->manager->getRepository("ZPBAdminBundle:Alert")->findOneByTarget($site);
+        if(!$alert){
+            return "";
+        }
 
-        return $this->getService("templating")->render($twigFile, []);
+        return $this->getService("templating")->render($twigFile, ["alert"=>$alert]);
     }
 
     public function getService($service, $default = null)

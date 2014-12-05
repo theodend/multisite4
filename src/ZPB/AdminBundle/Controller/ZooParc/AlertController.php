@@ -18,7 +18,7 @@
       (__<  |mm_|mm_|  |mm_|mm_|
 */
 
-namespace ZPB\AdminBundle\Controller;
+namespace ZPB\AdminBundle\Controller\ZooParc;
 
 
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
@@ -27,6 +27,7 @@ class AlertController extends ZPBController
 {
     public function indexAction()
     {
-        return $this->render('ZPBAdminBundle:Alert:index.html.twig', []);
+        $alerts = $this->getRepo("ZPBAdminBundle:Alert")->findBy(["target"=>"zoo"], ["startAt"=>"ASC"]);
+        return $this->render('ZPBAdminBundle:ZooParc/Alert:index.html.twig', ["alerts"=>$alerts]);
     }
 } 

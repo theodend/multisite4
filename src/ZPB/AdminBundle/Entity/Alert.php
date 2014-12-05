@@ -56,10 +56,11 @@ class Alert
      */
     private $endAt;
 
+
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(name="target", type="string", length=50)
      */
-    private $isActive;
+    private $target;
 
 
     /**
@@ -187,22 +188,23 @@ class Alert
         return $this->endAt;
     }
 
+
     /**
      * @return mixed
      */
-    public function getIsActive()
+    public function getTarget()
     {
-        return $this->isActive;
+        return $this->target;
     }
 
     /**
-     * @param mixed $isActive
+     * @param mixed $target
      * @return Alert
      */
-    public function setIsActive($isActive)
+    public function setTarget($target)
     {
-        $this->isActive = $isActive;
-        return $this;
+        $this->target = $target;
+        return $target;
     }
 
 

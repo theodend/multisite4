@@ -1,10 +1,10 @@
 <div id="alert-overlay"></div>
-<div id="alert-modal" class="alert-modal {{ default("warning") }}">
+<div id="alert-modal" class="alert-modal {{ alert.type|default("warning") }}">
     <div class="alert-modal-header">
-        {{ default("Attention !") }}
+        {{ alert.title|default("Attention !") }}
     </div>
     <div class="alert-modal-body">
-        {{ default("") }}
+        {{ alert.body|raw }}
     </div>
     <div class="alert-modal-actions">
         <button class="alert-modal-btn" id="alert-close-btn">fermer</button>

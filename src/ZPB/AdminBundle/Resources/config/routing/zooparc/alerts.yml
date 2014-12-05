@@ -1,0 +1,4 @@
+zpb_admin_zooparc_alerts_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ZooParc/Alert:index }
+    methods: ["GET"]
