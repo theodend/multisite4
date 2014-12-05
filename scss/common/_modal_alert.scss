@@ -1,0 +1,46 @@
+#alert-overlay{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000000;
+  background-color: rgba(0,0,0,0.8);
+  cursor: pointer;
+}
+
+.alert-modal{
+  width: 500px;
+  padding: toUnit($fontSize);
+  background-color: $blanc;
+  position: fixed;
+  top: 30%;
+  left: calc( 50% - 250px);
+  z-index: 1000001;
+  @include box-shadow(rgba(0,0,0,0.8) 0 0 6px);
+  @include border-radius(5px);
+  &.warning{
+    background-color: $jaunePale;
+  }
+  .alert-modal-header{
+    font-family: "cooper_hewitt_bold", Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+  }
+  .alert-modal-body{
+
+  }
+
+  .alert-modal-actions{
+    @include clearfix;
+    margin-top: 5px;
+    .alert-modal-btn{
+      float: right;
+      margin-left: 5px;
+      background-color: $jaunePale;
+      border: 1px solid $marron;
+      color: $marron;
+      padding: 3px 7px;
+      outline: none;
+    }
+  }
+}

@@ -7,10 +7,16 @@
 
     <parameters>
         <parameter key="zpb.twig.header_carousel_extension.class">ZPB\Sites\CommonBundle\Twig\HeaderCarouselExtension</parameter>
+        <parameter key="zpb.twig.alert_manager_extension.class">ZPB\Sites\CommonBundle\Twig\AlertExtension</parameter>
     </parameters>
 
     <services>
-        <service id="zpb.twig.zpb_header_carousel_extension" class="%zpb.twig.header_carousel_extension.class%">
+        <service id="zpb.twig.header_carousel_extension" class="%zpb.twig.header_carousel_extension.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="twig.extension" />
+        </service>
+        <service id="zpb.twig.alert_manager_extension" class="%zpb.twig.alert_manager_extension.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="twig.extension" />

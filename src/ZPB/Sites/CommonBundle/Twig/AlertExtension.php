@@ -1,11 +1,11 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Nicolas Canfrere
- * Date: 30/11/2014
- * Time: 15:21
+ * User: Nicolas Canfrère
+ * Date: 05/12/2014
+ * Time: 12:24
  */
- /*
+  /*
            ____________________
   __      /     ______         \
  {  \ ___/___ /       }         \
@@ -24,8 +24,8 @@ namespace ZPB\Sites\CommonBundle\Twig;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class HeaderCarouselExtension extends \Twig_Extension {
-
+class AlertExtension extends \Twig_Extension
+{
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
@@ -36,8 +36,6 @@ class HeaderCarouselExtension extends \Twig_Extension {
      */
     private $manager;
 
-    private $site = 'zoo';
-
     public function __construct(ContainerInterface $container, ObjectManager $manager)
     {
         $this->container = $container;
@@ -47,21 +45,16 @@ class HeaderCarouselExtension extends \Twig_Extension {
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('header_carousel', [$this, 'renderHeaderCarousel'], ['is_safe'=>['html']])
+            new \Twig_SimpleFunction('alert_manager', [$this, 'renderAlert'], ['is_safe'=>['html']])
         ];
     }
 
-    function renderHeaderCarousel($twigFile, $site="")
+    public function renderAlert($twigFile = "")
     {
         if($twigFile == ""){
             return "";
         }
-        if($site == ""){
-            $site = $this->site;
-        }
-        $slider = $this->manager->getRepository('ZPBAdminBundle:HeaderCarousel')->findOneBySite($site);
-        $slides = $this->manager->getRepository('ZPBAdminBundle:HeaderCarouselSlide')->findBy(['slider'=>$slider,'isActive'=>true], ['position'=>'ASC']);
-        return $this->getService('templating')->render($twigFile, ['slider'=>$slider, 'slides'=>$slides]);
+        return $this->getService("templating")->render($twigFile, []);
     }
 
     public function getService($service, $default = null)
@@ -73,9 +66,8 @@ class HeaderCarouselExtension extends \Twig_Extension {
 
     }
 
-
     public function getName()
     {
-        return 'zpb_header_carousel_extension';
+        return 'zpb_alert';
     }
 }

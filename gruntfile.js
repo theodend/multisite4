@@ -46,6 +46,16 @@ module.exports = function(grunt){
                             "web/js/devs/jquery.imgUpload.js"
                         ]
                 }
+            },
+            alertManager:{
+                files:{
+                    "web/js/sites/common/alertManager.min.js": "web/js/devs/alert_manager.js"
+                }
+            },
+            jqueryCookie:{
+                files:{
+                    "web/js/vendor/jquery.cookie.min.js": "web/js/vendor/jquery.cookie.js"
+                }
             }
         },
         concat:{
@@ -55,6 +65,7 @@ module.exports = function(grunt){
             lib: {
                 src: [
                     "web/js/vendor/jquery-2.1.1.min.js",
+                    "web/js/vendor/jquery.cookie.min.js",
                     "web/js/vendor/jquery.scrollTo.min.js",
                     "web/js/vendor/waypoints.min.js",
                     "web/js/vendor/waypoints-sticky.min.js",
