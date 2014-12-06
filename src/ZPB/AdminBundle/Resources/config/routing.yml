@@ -30,6 +30,10 @@ zpb_admin_zooparc_alerts_routes:
     prefix: /zooparc/alertes
     resource: "@ZPBAdminBundle/Resources/config/routing/zooparc/alerts.yml"
 
+zpb_admin_zooparc_frontbox_routes:
+    prefix: /zooparc/frontbox
+    resource: "@ZPBAdminBundle/Resources/config/routing/zooparc/frontbox.yml"
+
 
 
 ############################################# bn

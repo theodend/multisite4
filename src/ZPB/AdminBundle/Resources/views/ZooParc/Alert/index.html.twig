@@ -1,7 +1,14 @@
 {% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
 
 {% block title %}Alertes | ZooParc {% endblock %}
+{% block headScripts %}
 
+    {{ parent() }}
+    <script src="/js/vendor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/vendor/ace/ext-emmet.js"></script>
+    <script src="/js/vendor/emmet.js"></script>
+
+{% endblock %}
 {% block headStyles %}
     {{ parent() }}
     <style>
@@ -27,19 +34,16 @@
                         <label>
                             <input type="radio" name="alert-type" {% if alert.type == "warning" %}checked="checked" {% endif %}> avertissement
                         </label>
-
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="alert-title" class="control-label">Titre</label>
                     <input type="text" class="form-control" id="alert-title" value="{{ alert.title }}">
                 </div>
                 <div class="form-group">
                     <label for="alert-body" class="control-label">Corps</label>
-                    <textarea  class="form-control" id="alert-body">{{ alert.body }}</textarea>
+                    <textarea  class="form-control" id="alert-body" data-editor>{{ alert.body }}</textarea>
                 </div>
-
                 <button class="btn btn-primary">enregistrer</button>
                 <button class="btn btn-primary">supprimer</button>
             </form>
@@ -49,7 +53,7 @@
                 <div class="alert-modal-header">
                     {{ alert.title|default("Attention !") }}
                 </div>
-                <div class="alert-modal-body">
+                <div  class="alert-modal-body">
                     {{ alert.body|raw }}
                 </div>
                 <div class="alert-modal-actions">
@@ -62,8 +66,6 @@
         <h2 class="sub-header">Créer une alerte</h2>
         <div class="row">
             <div class="col-sm-4 col-md-4">
-
-
                 <form class="form">
                     <div class="form-group">
                         <div class="checkbox">
@@ -73,17 +75,15 @@
                             <label>
                                 <input type="radio" name="alert-type" > avertissement
                             </label>
-
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="alert-title" class="control-label">Titre</label>
                         <input type="text" class="form-control" id="alert-title" value="">
                     </div>
                     <div class="form-group">
                         <label for="alert-body" class="control-label">Corps</label>
-                        <textarea  class="form-control" id="alert-body"></textarea>
+                        <textarea  class="form-control " id="alert-body" data-editor ></textarea>
                     </div>
 
                     <button class="btn btn-primary">enregistrer</button>
@@ -92,12 +92,8 @@
             </div>
             <div class="col-sm-8 col-md-8">
                 <div id="alert-modal" class="alert-modal info">
-                    <div class="alert-modal-header">
-
-                    </div>
-                    <div class="alert-modal-body">
-
-                    </div>
+                    <div class="alert-modal-header"></div>
+                    <div class="alert-modal-body"></div>
                     <div class="alert-modal-actions">
                         <button class="alert-modal-btn" id="alert-close-btn">fermer</button>
                     </div>
@@ -105,4 +101,37 @@
             </div>
         </div>
     {% endif %}
+{% endblock %}
+
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            var bodyEditor = $("textarea[data-editor]");
+            var modalBody = $(".alert-modal-body");
+            var mode = "html";
+            var options = {
+                position: 'absolute',
+                width: bodyEditor.width(),
+                height: 600
+
+            };
+            var editorDiv = $("<div/>", options);
+            editorDiv.insertBefore(bodyEditor);
+            bodyEditor.css('display','none');
+            var editor = ace.edit(editorDiv[0]);
+            editor.getSession().setValue(bodyEditor.val());
+            editor.setTheme('ace/theme/merbivore');
+            editor.getSession().setMode('ace/mode/'+mode);
+            editor.getSession().setUseWrapMode(true);
+            editor.getSession().setWrapLimitRange(80,80);
+            editor.renderer.setPrintMarginColumn(80);
+            editor.setOption('enableEmmet', true);
+            editor.getSession().on('change', function(e){
+                bodyEditor.val(editor.getSession().getValue());
+                modalBody.html(editor.getSession().getValue());
+            });
+        });
+
+    </script>
 {% endblock %}

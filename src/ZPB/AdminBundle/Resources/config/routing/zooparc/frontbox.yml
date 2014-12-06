@@ -1,0 +1,4 @@
+zpb_admin_zooparc_frontbox_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ZooParc/FrontBox:index }
+    methods: ["GET"]

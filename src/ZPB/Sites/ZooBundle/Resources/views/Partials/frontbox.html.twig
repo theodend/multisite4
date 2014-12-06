@@ -1,0 +1,25 @@
+<div class="container">
+    {% for boxs in frontboxs %}
+        <div class="row">
+            {% for box in boxs %}
+                <div class="col-sm-4 col-md-4">
+                    <div class="front-box">
+                        <div class="image-area">
+                            <a href="{{ box.link }}">
+                                <img src="{{ box.image }}" alt=""/>
+                            </a>
+                            <div class="overlay"></div>
+                            <div class="front-box-text">
+                                <a href="{{ box.link }}">{{ box.subtitle }}</a>
+                            </div>
+                            <div class="front-box-title {{ box.color }}">
+                                <h3><a href="{{ box.link }}">{{ box.title }}</a></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
