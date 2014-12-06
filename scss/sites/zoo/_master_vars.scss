@@ -20,13 +20,35 @@ $mainFooterColor: $blanc;
 
 // ########################## end vars ##########################\\
 
-// ########################## grid bar ##########################\\
+// ########################## grid  ##########################\\
 $gutterWidth: toUnit(10);
 $numCols: 12;
 $containerMaxWidth: toUnit(1200);
 
-// ########################## grid bar ##########################\\
+// ########################## end grid  ##########################\\
 
+// ########################## buttons  ##########################\\
+
+$btn_defaultBtnColor: $noir;
+$btn_defaultBtnFontSize: 16;
+$btn_defaultBtnFontFamily: "cooper_hewitt_bold", Arial, Helvetica, sans-serif;
+$btn_uppercase: true;
+$btn_defaultBtnBgColor: $grisDD;
+$btn_grisFonceHover: $ocean;
+$btn_grisFonceActive: $ocean;
+$btn_grisBBHover: $ocean;
+$btn_grisBBActive: $ocean;
+
+$btn_blueColor: $blanc;
+$btn_blueBgColor: $ocean;
+
+$btn_vertBgColor: $vert;
+$btn_vertColor: $blanc;
+
+$btn_warningColor: $grisFonce;
+$btn_warningBgColor: $jaune;
+
+// ########################## end buttons  ##########################\\
 
 
 // ########################## common top bar ##########################\\

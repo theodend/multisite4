@@ -1,0 +1,95 @@
+$btn_defaultBtnColor: $noir !default;
+$btn_defaultBtnFontSize: 16 !default;
+$btn_defaultBtnFontFamily: Arial, Helvetica, sans-serif !default;
+$btn_uppercase: false !default;
+$btn_defaultBtnBgColor: $grisDD !default;
+$btn_grisFonceHover: $ocean !default;
+$btn_grisFonceActive: $ocean !default;
+$btn_grisBBHover: $ocean !default;
+$btn_grisBBActive: $ocean !default;
+
+$btn_blueColor: $blanc !default;
+$btn_blueBgColor: $ocean !default;
+
+$btn_vertBgColor: $vert !default;
+$btn_vertColor: $blanc !default;
+
+$btn_yellowColor: $grisFonce !default;
+$btn_yellowBgColor: $jaune !default;
+
+
+
+
+a,
+button[type=button],
+button[type=submit],
+button[type=reset],
+input[type=button],
+input[type=submit],
+input[type=reset]{
+
+  &.btn{
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    border: none;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+
+    color: $btn_defaultBtnColor;
+    background-color: $btn_defaultBtnBgColor;
+    font-family: $btn_defaultBtnFontFamily;
+    @if $btn_uppercase == true {
+      text-transform: uppercase;
+    }
+    padding: toUnit($btn_defaultBtnFontSize * 0.33) toUnit($btn_defaultBtnFontSize * 0.66);
+
+    &.btn-blue{
+      background-color: $btn_blueBgColor;
+      color: $btn_blueColor;
+      @include box-shadow(darken($btn_blueBgColor, 7) 0 5px 0);
+      &:hover{
+        top: 1px;
+        @include box-shadow(darken($btn_blueBgColor, 7) 0 4px 0);
+      }
+      &:active{
+        top: 5px;
+        @include box-shadow(none);
+      }
+    }
+
+    &.btn-green{
+      background-color: $btn_vertBgColor;
+      color: $btn_vertColor;
+      @include box-shadow(darken($btn_vertBgColor, 7) 0 5px 0);
+      &:hover{
+        top: 1px;
+        @include box-shadow(darken($btn_vertBgColor, 7) 0 4px 0);
+      }
+      &:active{
+        top: 5px;
+        @include box-shadow(none);
+      }
+    }
+
+    &.btn-red{
+
+    }
+
+    &.btn-yellow{
+      background-color: $btn_yellowBgColor;
+      color: $btn_yellowColor;
+      @include box-shadow(darken($btn_yellowBgColor, 7) 0 5px 0);
+      &:hover{
+        top: 1px;
+        @include box-shadow(darken($btn_yellowBgColor, 7) 0 4px 0);
+      }
+      &:active{
+        top: 5px;
+        @include box-shadow(none);
+      }
+    }
+  }
+}

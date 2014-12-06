@@ -1,0 +1,27 @@
+$contactCardBorderColor: $grisDF!default;
+
+.contact-card{
+  border: 1px solid $contactCardBorderColor;
+  padding: toUnit(20);
+  address{
+    height: 150px;
+  }
+}
+.contact-card-img{
+  display: block;
+  width: 100%;
+}
+.contact-card-title{
+  text-align: center;
+}
+.contact-card-address{
+  font-family: "cooper_hewitt_bold", Arial, Helvetica, sans-serif;
+  text-align: center;
+  .contact-card-name{
+    span{
+      text-transform: uppercase;
+    }
+  }
+  .contact-card-cap{}
+  .contact-card-tel{}
+}
