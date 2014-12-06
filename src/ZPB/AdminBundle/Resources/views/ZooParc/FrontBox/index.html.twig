@@ -2,10 +2,49 @@
 
 {% block title %}Front Boxs | ZooParc {% endblock %}
 
+{% block headLinks %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/css/admin/frontbox.css"/>
+{% endblock %}
+
 
 {% block content %}
 <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
 
 
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <h2 class="sub-header">Liste</h2>
+            <div id="sortable">
+                {% for box in frontboxs %}
+                    <div class="frontbox">
+                        <table>
+                            <tr>
+                                <td class="front-handle"></td>
+                                <td class="front-position cell">{{ box.position }}</td>
+                                <td class="front-color cell {{ box.color }}">{{ box.color }}</td>
+                                <td class="front-thumb cell"><img src="{{ box.image }}" alt=""/></td>
+                                <td class="front-title cell">{{ box.title }}</td>
+                                <td></td>
+                                <td class="front-edit cell"><button type="button" class="btn btn-default box-edit-btn" data-id="{{ box.id }}"><i class="fa fa-edit"></i></button></td>
+                                <td class="front-delete cell"><button type="button" class="btn btn-default box-delete-btn" data-id="{{ box.id }}"><i class="fa fa-trash-o"></i></button><div class="loader"></div></td>
+                            </tr>
+                        </table>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <h2 class="sub-header">Création</h2>
+
+        </div>
+        <div class="col-sm-6 col-md-6">
+
+        </div>
+    </div>
 
 {% endblock %}

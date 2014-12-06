@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="zpb_frontboxs")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\FrontBoxRepository")
  */
-class FrontBox
+class FrontBox implements \JsonSerializable
 {
     /**
      * @var integer
@@ -224,4 +224,17 @@ class FrontBox
         return $this;
     }
 
+
+    public function jsonSerialize()
+    {
+        return [
+          "id"=>$this->getId(),
+          "position"=>$this->getPosition(),
+          "title"=>$this->getTitle(),
+          "subtitle"=>$this->getSubtitle(),
+          "color"=>$this->getColor(),
+          "link"=>$this->getLink(),
+          "site"=>$this->getSite(),
+        ];
+    }
 }

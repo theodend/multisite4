@@ -27,6 +27,7 @@ class FrontBoxController extends ZPBController
 {
     public function indexAction()
     {
-        return $this->render('ZPBAdminBundle:ZooParc/FrontBox:index.html.twig', []);
+        $frontboxs = $this->getRepo("ZPBAdminBundle:FrontBox")->findBy(["site"=>"zoo"], ["position"=>"ASC"]);
+        return $this->render('ZPBAdminBundle:ZooParc/FrontBox:index.html.twig', ["frontboxs"=>$frontboxs]);
     }
 }
