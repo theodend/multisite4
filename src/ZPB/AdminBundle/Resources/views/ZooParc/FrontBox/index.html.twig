@@ -45,8 +45,11 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-6 col-md-6">
+        <div class="col-sm-12 col-md-12">
             <h2 class="sub-header">Création</h2>
+        </div>
+        <div class="col-sm-6 col-md-6">
+
             <form class="form">
 
                 <div class="form-group">
@@ -72,7 +75,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Image</label>
+                    <label>Image (400px * 400px)</label>
                     <div class="dropzone" id="new-frontbox-img"><div class="loader"></div></div>
                 </div>
                 <input id="new-frontbox-img-ipt" type="hidden"/>
@@ -80,9 +83,24 @@
 
             </form>
         </div>
-        <div class="col-sm-6 col-md-6">
-
+        <div class="col-sm-1 col-md-2"></div>
+        <div class="col-sm-4 col-md-2">
+            <div class="front-box-preview">
+                <div class="image-area-preview">
+                    <a href="" class="front-box-img-link-preview">
+                        <img src="/img/sites/admin/frontbox_default.jpg" alt="" class="front-box-img-preview"/>
+                    </a>
+                    <div class="overlay"></div>
+                    <div class="front-box-text-preview">
+                        <a href="" class="front-box-text-link-preview" >sous-titre</a>
+                    </div>
+                    <div class="front-box-title-preview rose">
+                        <h3><a href="" class="front-box-title-preview">titre</a></h3>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="col-sm-1 col-md-2"></div>
     </div>
 
 {% endblock %}
