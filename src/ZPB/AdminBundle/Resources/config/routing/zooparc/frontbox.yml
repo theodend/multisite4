@@ -2,3 +2,39 @@ zpb_admin_zooparc_frontbox_homepage:
     path: /
     defaults: { _controller: ZPBAdminBundle:ZooParc/FrontBox:index }
     methods: ["GET"]
+
+
+zpb_admin_zooparc_frontbox_update_position:
+    path: /change-position
+    defaults: { _controller: ZPBAdminBundle:ZooParc/FrontBox:xhrUpdateFrontBoxPosition }
+    methods: ["PUT"]
+
+zpb_admin_zooparc_frontbox_create:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ZooParc/FrontBox:xhrCreateFrontBox }
+    methods: ["POST"]
+
+
+zpb_admin_zooparc_frontbox_img_upload:
+    path: /image-upload
+    defaults: { _controller: ZPBAdminBundle:ZooParc/FrontBox:xhrImageUpload }
+    methods: ["POST"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

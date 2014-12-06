@@ -11,13 +11,20 @@
 {% block content %}
 <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div id="messenger"></div>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-sm-6 col-md-6">
             <h2 class="sub-header">Liste</h2>
             <div id="sortable">
                 {% for box in frontboxs %}
-                    <div class="frontbox">
+                    <div class="frontbox box" id="box_{{ box.id }}">
                         <table>
                             <tr>
                                 <td class="front-handle"></td>
@@ -40,11 +47,120 @@
     <div class="row">
         <div class="col-sm-6 col-md-6">
             <h2 class="sub-header">Création</h2>
+            <form class="form">
 
+                <div class="form-group">
+                    <label for="box-title-ipt" class="control-label">Titre* (50 caractères max)</label>
+                    <input type="text" class="form-control" id="box-title-ipt" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="box-title-ipt" class="control-label">Sous-titre* (60 caractères max)</label>
+                    <input type="text" class="form-control" id="box-title-ipt" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="box-link-ipt" class="control-label">Lien</label>
+                    <input type="text" class="form-control" id="box-link-ipt" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label>Couleur</label>
+                    <div class="checkbox">
+                        <label>
+                            {% for c in colors %}
+                                <input type="radio" name="box-color-name" {% if loop.first == true %} checked="checked" {% endif %}> {{ c }}
+                            {% endfor %}
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Image</label>
+                    <div class="dropzone" id="new-frontbox-img"><div class="loader"></div></div>
+                </div>
+                <input id="new-frontbox-img-ipt" type="hidden"/>
+                <button type="button" class="btn btn-primary">Enregistrer</button><div class="loader"></div>
+
+            </form>
         </div>
         <div class="col-sm-6 col-md-6">
 
         </div>
     </div>
 
+{% endblock %}
+
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        var updatePositionUrl = "{{ path("zpb_admin_zooparc_frontbox_update_position") }}";
+        var createBoxUrl = "{{ path("zpb_admin_zooparc_frontbox_create") }}";
+        var imageUploadUrl = "{{ path("zpb_admin_zooparc_frontbox_img_upload") }}";
+        var colors = [
+            {%- for c in colors -%}
+            "{{ c }}"{%- if loop.last != true  -%}, {%- endif -%}
+            {%- endfor -%}
+        ];
+    </script>
+    <script src="/js/vendor/ui/jquery-ui.min.js"></script>
+    <script src="/js/admin/common/jquery.imgUpload.min.js"></script>
+    <script>
+        $(function () {
+            var sortables = $("#sortable");
+            var messenger = $("#messenger");
+            var showMsg = function(msg, success){
+                if(arguments.length <1){
+                    messenger.empty();
+                    return false;
+                }
+                var type, title;
+                var html =  "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>";
+                if(success === true){
+                    type = "alert-success";
+                    title = "Succès !";
+                } else {
+                    type = "alert-danger";
+                    title = "Echec !";
+                }
+                html = html.replace("[[type]]", type).replace("[[title]]", title).replace("[[msg]]", msg);
+                messenger.append($(html));
+            };
+
+            var updateSortable = function(evt, ui){
+                var box = ui.item;
+                var boxes = box.parent("#sortable");
+                var id = parseInt(box.attr("id").replace("box_",""));
+                var pos = 0;
+                boxes.find(".box").each(function(i,e){
+                    $(this).find("td.front-position").text(pos++);
+                });
+                var position = parseInt(box.find("td.front-position").text());
+                sortables.sortable("disable");
+                showMsg();
+
+                $.ajax({
+                    url: updatePositionUrl,
+                    type: "PUT",
+                    data: {id: id, position: position}
+                })
+                        .done(function(response){
+                            if(response.error == false){
+                                showMsg(response.msg, true);
+                            } else {
+                                showMsg(response.msg, false);
+                            }
+                        })
+                        .fail(function(xhr){
+                            showMsg(xhr.statusCode+" "+xhr.statusText, false);
+                        })
+                        .always(function(){
+                            sortables.sortable("enable");
+                        });
+            };
+
+            sortables.sortable({
+                handle: ".front-handle",
+                cursor: "move",
+                placeholder: "phantom",
+                update: updateSortable
+            });
+        });
+    </script>
 {% endblock %}

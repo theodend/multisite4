@@ -83,4 +83,12 @@ class ZPBController extends Controller
 
         return $this->render($view, $datas);
     }
+
+    public function getInput(Request $request)
+    {
+        $inputs = [];
+        parse_str($request->getContent(), $inputs);
+        return $inputs;
+
+    }
 }
