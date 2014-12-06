@@ -3,6 +3,7 @@
 namespace ZPB\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Alert
@@ -43,18 +44,10 @@ class Alert
     private $body;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="start_at", type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
      */
-    private $startAt;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="end_at", type="datetime")
-     */
-    private $endAt;
+    private $createdAt;
 
 
     /**
@@ -66,7 +59,7 @@ class Alert
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -89,7 +82,7 @@ class Alert
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -112,7 +105,7 @@ class Alert
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -135,7 +128,7 @@ class Alert
     /**
      * Get body
      *
-     * @return string 
+     * @return string
      */
     public function getBody()
     {
@@ -158,7 +151,7 @@ class Alert
     /**
      * Get startAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartAt()
     {
@@ -181,7 +174,7 @@ class Alert
     /**
      * Get endAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndAt()
     {

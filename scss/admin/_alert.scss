@@ -2,8 +2,8 @@ $fontSize: 16!default;
 $blanc: #fff!default;
 $jaunePale: #DDAB33!default;
 $marron: #a15f4b!default;
-
-
+$bleuPale: #4f94b3!default;
+$bleuFonce: #3a5774 !default;
 #alert-overlay{
   position: fixed;
   top: 0;
@@ -23,18 +23,29 @@ $marron: #a15f4b!default;
   width: 500px;
   padding: toUnit($fontSize);
   background-color: $blanc;
-  position: fixed;
-  top: 30%;
-  left: calc( 50% - 250px);
-  z-index: 1000001;
-  @include box-shadow(rgba(0,0,0,0.8) 0 0 6px);
+
+  margin: 0 auto;
   @include border-radius(5px);
-  display: none;
-  &.open{
-    display: block;
-  }
+
   &.warning{
     background-color: $jaunePale;
+    .alert-modal-actions{
+      .alert-modal-btn{
+        background-color: inherit;
+        border: 1px solid $marron;
+        color: $marron;
+      }
+    }
+  }
+  &.info{
+    background-color: $bleuPale;
+    .alert-modal-actions{
+      .alert-modal-btn{
+        background-color: inherit;
+        border: 1px solid $bleuFonce;
+        color: $bleuFonce;
+      }
+    }
   }
   .alert-modal-header{
     font-family: "cooper_hewitt_bold", Arial, Helvetica, sans-serif;
@@ -50,9 +61,9 @@ $marron: #a15f4b!default;
     .alert-modal-btn{
       float: right;
       margin-left: 5px;
-      background-color: $jaunePale;
-      border: 1px solid $marron;
-      color: $marron;
+      background-color: #ddd;
+      border: 1px solid #999;
+      color: #666;
       padding: 3px 7px;
       outline: none;
     }

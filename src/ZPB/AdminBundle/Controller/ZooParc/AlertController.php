@@ -27,7 +27,7 @@ class AlertController extends ZPBController
 {
     public function indexAction()
     {
-        $alerts = $this->getRepo("ZPBAdminBundle:Alert")->findBy(["target"=>"zoo"], ["startAt"=>"ASC"]);
-        return $this->render('ZPBAdminBundle:ZooParc/Alert:index.html.twig', ["alerts"=>$alerts]);
+        $alert = $this->getRepo("ZPBAdminBundle:Alert")->findOneByTarget("zoo");
+        return $this->render('ZPBAdminBundle:ZooParc/Alert:index.html.twig', ["alert"=>$alert]);
     }
-} 
+}
