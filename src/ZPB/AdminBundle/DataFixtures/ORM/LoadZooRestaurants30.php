@@ -50,7 +50,7 @@ class LoadZooRestaurants30  extends AbstractFixture implements OrderedFixtureInt
         $manager->persist($resto1);
 
         $resto2 = new Restaurant();
-        $resto2->setImage("/img/sites/zoo/restauration/1417993151.jpeg")->setDescription("Un restaurant à vision panoramique portant le nom du célèbre sommet tanzanien, \"Le Kilimandjaro\", domine l'aire du spectacle d'oiseaux. <strong>Au menu&nbsp;: hamburgers, steaks frites, nuggets, salades</strong> Pour allier plaisirs des yeux et des papilles&nbsp;!")->setImageRoot("/var/www/vhosts/multisite4/app/../web/")->setIsOpen(true)->setName("Le Kilimandjaro")->setNum("2")->setThumb("/img/sites/zoo/restauration/thumb/1417993151.jpeg");
+        $resto2->setImage("/img/sites/zoo/restauration/1417993151.jpeg")->setDescription('Un restaurant à vision panoramique portant le nom du célèbre sommet tanzanien, "Le Kilimandjaro", domine l\'aire du spectacle d\'oiseaux. <strong>Au menu&nbsp;: hamburgers, steaks frites, nuggets, salades</strong> Pour allier plaisirs des yeux et des papilles&nbsp;!')->setImageRoot("/var/www/vhosts/multisite4/app/../web/")->setIsOpen(true)->setName("Le Kilimandjaro")->setNum("2")->setThumb("/img/sites/zoo/restauration/thumb/1417993151.jpeg");
         $manager->persist($resto2);
 
         $resto3 = new Restaurant();
