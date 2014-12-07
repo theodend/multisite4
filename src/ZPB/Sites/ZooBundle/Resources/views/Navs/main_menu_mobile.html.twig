@@ -1,0 +1,31 @@
+
+{% set pratique = [] %}
+
+<div id="main-menu">
+
+    <ul>
+        <li><a href="{{ path("zpb_sites_zoo_homepage") }}">Accueil</a></li>
+        <li class="dropdown{% if active_page in pratique %} active{% endif %}" ><a href="javascript:void(0)">Pratique</a>
+            <ul>
+                <li class="{% if active_page == "acces" %} active{% endif %}"><a href="">Accès</a></li>
+                <li class="{% if active_page == "horaires_tarifs" %} active{% endif %}"><a href="">Horaires et tarifs</a></li>
+                <li class="{% if active_page == "animations_spectacles" %} active{% endif %}"><a href="">Animations et spectacles</a></li>
+                <li class="{% if active_page == "restauration" %} active{% endif %}"><a href="">Restauration</a></li>
+                <li class="{% if active_page == "services" %} active{% endif %}"><a href="">Services</a></li>
+                <li class="{% if active_page == "faq" %} active{% endif %}"><a href="">FAQ</a></li>
+                <li class="{% if active_page == "contact" %} active{% endif %}"><a href="">Contact</a></li>
+            </ul>
+        </li>
+        <li><a href="#">ZooParc</a></li>
+        <li><a href="#">Nouveautés</a></li>
+        <li><a href="#">Actualité</a></li>
+        <li><a href="#">Pédagogie</a></li>
+        <li class="dropdown"><a href="#">Dormir à Beauval</a>
+            <ul>
+                <li><a href="#">Les Jardins de Beauval</a></li>
+                <li><a href="#">Les Hameaux de Beauval</a></li>
+                <li><a href="http://lespagodesdebeauval.com">Les Pagodes de Beauval</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>

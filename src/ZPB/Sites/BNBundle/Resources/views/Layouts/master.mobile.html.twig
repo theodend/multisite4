@@ -17,6 +17,7 @@
 
     {% block headLinks %}
         <link rel="stylesheet" href="/css/sites/bn/master.mobile.css"/>
+        <link rel="stylesheet" href="/css/font-awesome.min.css"/>
     {% endblock %}
 
     {% block headStyles %}{% endblock %}
@@ -28,20 +29,37 @@
 </head>
 <body>
 {% block body %}
-    {% block main_top_bar %}
-        {{ render(controller('ZPBSitesCommonBundle:Navs:topBar', {active_site: active_site})) }}
-    {% endblock %}
-    <div id="main-content">
-        {% block mainContent %}
-            <div id="content">
-                {% block content %}{% endblock %}
+    <div id="site-container" class="site-container">
+        <div id="site-pusher" class="site-pusher">
+            {% block main_top_bar %}
+                {{ render(controller('ZPBSitesCommonBundle:Navs:topBar', {active_site: active_site})) }}
+            {% endblock %}
+
+            {{ include("ZPBSitesBNBundle:Navs:main_menu_mobile.html.twig", {active_page: active_page}, with_context = false) }}
+
+            <div id="main-content">
+                <div id="main-header">
+                    <button id="menu-toggler"><i class="fa fa-bars"></i></button>
+                    <div id="logo">
+                        {{ include("ZPBSitesBNBundle:Incs:logo_beauval_nature_svg.html.twig") }}
+                    </div>
+                </div>
+                {% block mainContent %}
+                    <div id="content">
+                        {% block content %}{% endblock %}
+                    </div>
+                    <div id="site-overlay" class="site-overlay"></div>
+                {% endblock %}
             </div>
-        {% endblock %}
+
+            {% block mainfooter%}
+
+            {% endblock %}
+                {{ render(controller("ZPBSitesBNBundle:Partials:mainMobileFooter")) }}
+            {% endblock %}
+        </div>
     </div>
-    <div id="main-footer">
-        {% block mainfooter%}{% endblock %}
-    </div>
-{% endblock %}
+
 
 </body>
 </html>
