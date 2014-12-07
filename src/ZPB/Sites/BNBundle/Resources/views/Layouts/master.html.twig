@@ -1,4 +1,4 @@
-{% extends is_mobile() ? "ZPBSitesBNBundle:Layouts:master.mobile.html.twig" : "ZPBSitesBNBundle:Layouts:master.desktop.html.twig" %}
+{% extends (is_mobile() and is_tablet() == false) ? "ZPBSitesBNBundle:Layouts:master.mobile.html.twig" : "ZPBSitesBNBundle:Layouts:master.desktop.html.twig" %}
 
 {% set active_site = "bn" %}
 

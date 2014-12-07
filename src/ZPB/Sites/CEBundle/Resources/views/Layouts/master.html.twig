@@ -1,4 +1,4 @@
-{% extends is_mobile() ? "ZPBSitesCEBundle:Layouts:master.mobile.html.twig" : "ZPBSitesCEBundle:Layouts:master.desktop.html.twig" %}
+{% extends (is_mobile() and is_tablet() == false) ? "ZPBSitesCEBundle:Layouts:master.mobile.html.twig" : "ZPBSitesCEBundle:Layouts:master.desktop.html.twig" %}
 
 {% set active_site = "groupe" %}
 

@@ -1,34 +1,37 @@
 {% extends "ZPBSitesZooBundle:Layouts:master.html.twig" %}
 
 
+
+
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-12">
-                <div class="quoted-intro">
-                    <p class="quoted-intro-text">N° 1 des zoos et aquariums de France</p>
-                    <p class="quoted-intro-underline"> Traveler's Choice Attractions Awards</p>
+    {% if is_mobile() == false %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="quoted-intro">
+                        <p class="quoted-intro-text">N° 1 des zoos et aquariums de France</p>
+                        <p class="quoted-intro-underline"> Traveler's Choice Attractions Awards</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="spacer-20"></div>
+        <div class="spacer-20"></div>
+        {{ render(controller("ZPBSitesZooBundle:Partials:frontbox")) }}
 
+        <div class="spacer-40"></div>
 
-
-    {{ render(controller("ZPBSitesZooBundle:Partials:frontbox")) }}
-
-
-    <div class="spacer-40"></div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4 col-md-4"></div>
-            <div class="col-sm-4 col-md-4"></div>
-            <div class="col-sm-4 col-md-4"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 col-md-4"></div>
+                <div class="col-sm-4 col-md-4"></div>
+                <div class="col-sm-4 col-md-4"></div>
+            </div>
         </div>
-    </div>
+    {% else %}
 
+
+
+    {% endif %}
 
 {% endblock %}

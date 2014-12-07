@@ -1,0 +1,44 @@
+$mainMenuWidth: 270!default;
+
+#main-menu{
+  background-color: $grisFonce;
+  color: $blanc;
+  position: absolute;
+  overflow-y: scroll;
+  top: 0;
+  width: toUnit($mainMenuWidth);
+  height: 100%;
+  @include translateX(toUnit($mainMenuWidth * -1));
+  a{
+    outline: none;
+    text-decoration: none;
+    color: inherit;
+  }
+  &>ul{
+    &>li{
+      &>a{
+        display: block;
+        padding: 7px;
+        border-bottom: lighten($grisFonce, 2) 1px solid;
+      }
+      &.dropdown{
+        &.is-open{
+          ul{
+            display: block;
+          }
+        }
+        ul{
+          display: none;
+          li{
+            a{
+              display: block;
+              padding: 7px 7px 7px 15px;
+              background-color: darken($grisFonce, 5);
+              border-bottom: darken($grisFonce, 3) 1px solid;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-{% extends is_mobile() ? "ZPBSitesProBundle:Layouts:master.mobile.html.twig" : "ZPBSitesProBundle:Layouts:master.desktop.html.twig" %}
+{% extends (is_mobile() and is_tablet() == false) ? "ZPBSitesProBundle:Layouts:master.mobile.html.twig" : "ZPBSitesProBundle:Layouts:master.desktop.html.twig" %}
 
 {% set active_site = "pro" %}
 

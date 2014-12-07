@@ -1,4 +1,4 @@
-{% extends is_mobile() ? "ZPBSitesScoBundle:Layouts:master.mobile.html.twig" : "ZPBSitesScoBundle:Layouts:master.desktop.html.twig" %}
+{% extends (is_mobile() and is_tablet() == false) ? "ZPBSitesScoBundle:Layouts:master.mobile.html.twig" : "ZPBSitesScoBundle:Layouts:master.desktop.html.twig" %}
 
 {% set active_site = "sco" %}
 

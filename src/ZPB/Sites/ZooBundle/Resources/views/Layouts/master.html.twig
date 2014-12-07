@@ -1,4 +1,4 @@
-{% extends is_mobile() ? "ZPBSitesZooBundle:Layouts:master.mobile.html.twig" : "ZPBSitesZooBundle:Layouts:master.desktop.html.twig" %}
+{% extends (is_mobile() and is_tablet() == false) ? "ZPBSitesZooBundle:Layouts:master.mobile.html.twig" : "ZPBSitesZooBundle:Layouts:master.desktop.html.twig" %}
 
 {% set active_site = "zoo" %}
 

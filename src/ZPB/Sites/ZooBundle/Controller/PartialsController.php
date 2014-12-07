@@ -29,6 +29,11 @@ class PartialsController extends BaseController
         return $this->getView('ZPBSitesZooBundle:Partials:main_footer.html.twig');
     }
 
+    public function mainMobileFooterAction()
+    {
+        return $this->getView('ZPBSitesZooBundle:Partials:main_mobile_footer.html.twig');
+    }
+
     public function frontboxAction()
     {
         $result = $this->getRepo("ZPBAdminBundle:FrontBox")->findAllToArray($this->site);
