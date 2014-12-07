@@ -50,7 +50,7 @@ class ContactController extends BaseController
             ;
 
             $sent = $this->get('mailer')->send($message);
-
+            // TODO[Nicolas] feedback
             if($sent>0){
                 $contact->setIsSend(true);
                 //$this->setSuccess('Votre message a bien été envoyé.');
