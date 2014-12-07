@@ -67,6 +67,15 @@ class Contact
      */
     private $isSend;
 
+    /**
+     * @ORM\Column(name="source", type="string", length=255, nullable=false )
+     */
+    private $source;
+
+    public function __construct()
+    {
+        $this->isSend = false;
+    }
 
     /**
      * Get id
@@ -215,4 +224,24 @@ class Contact
     {
         return $this->isSend;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * @param mixed $source
+     * @return Contact
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+        return $this;
+    }
+
+
 }
