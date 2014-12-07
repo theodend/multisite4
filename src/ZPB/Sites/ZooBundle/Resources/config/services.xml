@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <parameters>
+        <parameter key="zpb.form.type.contact_interlocutors.class">ZPB\Sites\ZooBundle\Form\Type\ContactInterlocutorType</parameter>
+
+        <parameter type="collection" key="zpb.zoo.contact_interlocutors">
+            <parameter key="info">Information</parameter>
+            <parameter key="rh">Ressources Humaines</parameter>
+            <parameter key="achats">Achats</parameter>
+            <parameter key="commerciaux">Service commercial</parameter>
+            <parameter key="pedagogie">Pédagogie</parameter>
+            <parameter key="communication">Communication</parameter>
+            <parameter key="presse">Presse</parameter>
+            <parameter key="accueil">Accueil</parameter>
+            <parameter key="science">Science et conservation</parameter>
+        </parameter>
+
+        <parameter type="collection" key="zpb.zoo.contact_interlocutors_emails">
+            <parameter key="info">infos@zoobeauval.com</parameter>
+            <parameter key="rh">emploi@zoobeauval.com</parameter>
+            <parameter key="achats">samuel.leroux@zoobeauval.com</parameter>
+            <parameter key="commerciaux">service.commercial@zoobeauval.com</parameter>
+            <parameter key="pedagogie">pedagogie@zoobeauval.com</parameter>
+            <parameter key="communication">delphine.delord@zoobeauval.com</parameter>
+            <parameter key="presse">pl-communication@allegria.fr</parameter>
+            <parameter key="accueil">info@zoobeauval.com</parameter>
+            <parameter key="boutique">boutique@zoobeauval.com</parameter>
+            <parameter key="science">eric@zoobeauval.com</parameter>
+        </parameter>
+
+    </parameters>
+
+    <services>
+        <service id="zpb.form.type.contact_interlocutors" class="%zpb.form.type.contact_interlocutors.class%">
+            <argument type="string">%zpb.zoo.contact_interlocutors%</argument>
+            <tag name="form.type" alias="contact_interlocutors_type" />
+        </service>
+    </services>
+
+</container>
