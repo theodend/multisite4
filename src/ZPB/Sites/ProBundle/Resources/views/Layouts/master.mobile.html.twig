@@ -1,0 +1,65 @@
+{% set active_site = (active_site is defined) ? active_site : null %}
+{% set active_page = (active_page is defined) ? active_page : null %}
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% if block('title') %}{{ block('title') }} {% else %}Bienvenue {% endif %}| Professionnels du tourisme | ZooParc de Beauval</title>
+        {% if block('description') %}
+            <meta name="description" content="{{ block('description') }}"/>
+        {% endif %}
+        {% if block('keywords') %}
+            <meta name="keywords" content="{{ block('keywords') }}"/>
+        {% endif %}
+
+        {% block metas_fb %}{% endblock %}
+
+        {% block headLinks %}
+            <link rel="stylesheet" href="/css/sites/pro/master.mobile.css"/>
+            <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+        {% endblock %}
+
+        {% block headStyles %}{% endblock %}
+
+        {% block headScripts %}
+            <script src="/js/vendor/jquery-2.1.1.min.js"></script>
+            <script src="/js/sites/pro/main.mobile.js"></script>
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        <div id="site-container" class="site-container">
+            <div id="site-pusher" class="site-pusher">
+                {% block main_top_bar %}
+                    {{ render(controller('ZPBSitesCommonBundle:Navs:topBar', {active_site: active_site})) }}
+                {% endblock %}
+
+                {{ include("ZPBSitesProBundle:Navs:main_menu_mobile.html.twig", {active_page: active_page}, with_context = false) }}
+
+                <div id="main-content">
+                    <div id="main-header">
+                        <button id="menu-toggler"><i class="fa fa-bars"></i></button>
+                        <div id="logo">
+                            {{ include("ZPBSitesProBundle:Incs:logo_pro_svg.html.twig") }}
+                        </div>
+                    </div>
+                    {% block mainContent %}
+                        <div id="content">
+                            {% block content %}{% endblock %}
+                        </div>
+                        <div id="site-overlay" class="site-overlay"></div>
+                    {% endblock %}
+                </div>
+
+                {% block mainfooter%}
+
+                {% endblock %}
+                {{ render(controller("ZPBSitesProBundle:Partials:mainMobileFooter")) }}
+                {% endblock %}
+            </div>
+        </div>
+
+
+    </body>
+</html>
