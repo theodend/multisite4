@@ -27,4 +27,9 @@ class PartialsController extends BaseController
     {
         return $this->getView('ZPBSitesCEBundle:Partials:main_footer.html.twig');
     }
+
+    public function mainMobileFooterAction()
+    {
+        return $this->getView('ZPBSitesCEBundle:Partials:main_mobile_footer.html.twig');
+    }
 }
