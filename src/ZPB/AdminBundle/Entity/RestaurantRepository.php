@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class RestaurantRepository extends EntityRepository
 {
+    public function findAllToArray()
+    {
+        $qb = $this->createQueryBuilder("r")->orderBy("r.name", "ASC");
+        return $qb->getQuery()->getArrayResult();
+    }
 }

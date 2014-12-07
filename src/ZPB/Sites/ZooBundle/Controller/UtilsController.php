@@ -47,7 +47,10 @@ class UtilsController extends BaseController
 
     public function restosAction(Request $request)
     {
-        return $this->getView('ZPBSitesZooBundle:Utils:restos.html.twig', $request);
+
+        $result = $this->getRepo("ZPBAdminBundle:Restaurant")->findAllToArray();
+        $restos = array_chunk($result, 3);
+        return $this->getView('ZPBSitesZooBundle:Utils:restos.html.twig', $request, ["restos"=>$restos]);
     }
 
     public function servicesAction(Request $request)

@@ -39,6 +39,7 @@ class FrontBoxController extends ZPBController
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
             throw $this->createAccessDeniedException();
         }
+        // TODO[Nicolas] create front box
 
         $response = ["error"=>true, "msg"=>"", "datas"=> []];
 
@@ -50,7 +51,7 @@ class FrontBoxController extends ZPBController
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
             throw $this->createAccessDeniedException();
         }
-
+        // TODO[Nicolas] upload image
         $response = ["error"=>true, "msg"=>"", "datas"=> []];
 
         return new JsonResponse($response);
