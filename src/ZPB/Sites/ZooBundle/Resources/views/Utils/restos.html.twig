@@ -20,13 +20,32 @@
             <div class="col-sm-2 col-md-2"></div>
         </div>
     </div>
-    {{ dump(restos) }}
 
+    <div class="spacer-20"></div>
     <div class="container">
+        {% for restos in restoRows %}
         <div class="row">
-            <div class="col-sm-4col-md-4"></div>
-            <div class="col-sm-4col-md-4"></div>
-            <div class="col-sm-4col-md-4"></div>
+            {%  for resto in restos %}
+            <div class="col-sm-4 col-md-4">
+                <div class="resto-card">
+                    <div class="resto-card-ribbon-wrapper">
+                        {% if resto.isOpen == true %}
+                            <div class="resto-card-ribbon resto-card-ribbon-green">
+                                ouvert
+                            </div>
+                        {% else %}
+                            <div class="resto-card-ribbon resto-card-ribbon-red">
+                                fermé
+                            </div>
+                        {% endif %}
+                    </div>
+                    <img src="{{ resto.image }}" alt="" class="resto-card-img"/>
+                    <h4 class="resto-card-name {% if resto.isOpen == false %}resto-card-is-closed{% endif %}">{{ resto.name }}</h4>
+                    <p class="resto-card-description">{{ resto.description|raw }}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
+        {% endfor %}
     </div>
 {% endblock %}

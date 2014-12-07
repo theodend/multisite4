@@ -49,8 +49,8 @@ class UtilsController extends BaseController
     {
 
         $result = $this->getRepo("ZPBAdminBundle:Restaurant")->findAllToArray();
-        $restos = array_chunk($result, 3);
-        return $this->getView('ZPBSitesZooBundle:Utils:restos.html.twig', $request, ["restos"=>$restos]);
+        $restoRows = array_chunk($result, 3);
+        return $this->getView('ZPBSitesZooBundle:Utils:restos.html.twig', $request, ["restoRows"=>$restoRows]);
     }
 
     public function servicesAction(Request $request)

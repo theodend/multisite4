@@ -1,0 +1,54 @@
+.resto-card{
+  border: 1px solid $contactCardBorderColor;
+  padding: toUnit(20);
+  margin-bottom: 20px;
+  position: relative;
+}
+.resto-card-img{
+  display: block;
+  width: 100%;
+  border: 1px solid $contactCardBorderColor;
+}
+.resto-card-name{
+  text-align: center;
+  &.resto-card-is-closed{
+    color: $grisDF;
+  }
+}
+.resto-card-description{
+  text-align: justify;
+  strong{
+    font-weight: 700;
+  }
+}
+
+.resto-card-ribbon-wrapper{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  z-index: 100;
+  overflow: hidden;
+
+  .resto-card-ribbon{
+    position: relative;
+    text-align: center;
+    color: $blanc;
+    text-transform: uppercase;
+    font-family: cooper_hewitt_bold, Arial, Helvetica, sans-serif;
+    padding: 5px 0;
+    width: 120px;
+    @include transform(rotate(45deg));
+    top: 14px;
+    left: 12px;
+
+    &.resto-card-ribbon-green{
+      background-color: $vert;
+    }
+
+    &.resto-card-ribbon-red{
+      background-color: $fraise;
+    }
+  }
+}

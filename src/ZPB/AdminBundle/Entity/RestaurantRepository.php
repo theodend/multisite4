@@ -14,7 +14,7 @@ class RestaurantRepository extends EntityRepository
 {
     public function findAllToArray()
     {
-        $qb = $this->createQueryBuilder("r")->orderBy("r.name", "ASC");
+        $qb = $this->createQueryBuilder("r");
         return $qb->getQuery()->getArrayResult();
     }
 }
