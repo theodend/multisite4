@@ -40,7 +40,7 @@ class Contact
 
     /**
      * @var string
-     * @ORM\Column(name="topic", type="string", length=255)
+     * @ORM\Column(name="topic", type="string", length=255, nullable=true)
      */
     private $topic;
 

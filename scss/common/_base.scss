@@ -82,6 +82,13 @@ a{
   text-align: center;
 }
 
+.hide{
+  display: none;
+}
+.show{
+  display: block;
+}
+
 ul.inline{
   li{
     display: inline;
