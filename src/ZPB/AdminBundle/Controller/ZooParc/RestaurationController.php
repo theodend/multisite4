@@ -37,7 +37,6 @@ class RestaurationController extends BaseController
 
     public function xhrUpdateRestaurantAction(Request $request)
     {
-        //TODO[Nicolas] bug resto bouton ouvrir/fermer update js
         if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
             throw $this->createAccessDeniedException();
         }

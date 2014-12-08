@@ -14,6 +14,8 @@ class RestaurantManager{
         loaderClass: ".loader",
         openText: "",
         closeText: "",
+        statusBtnOpenText: "Ouvrir",
+        statusBtnCloseText: "Fermer",
         deleteUrl: "",
         updateBtnId: "",
         cancelUpdateBtnId: "",
@@ -221,6 +223,13 @@ class RestaurantManager{
                 if(response.error == false){
                     var text = (response.datas["isOpen"] == true) ? self.options["openText"] : self.options["closeText"];
                     statusText.text(text);
+                    var btnTxt = (response.datas["isOpen"] == true) ? self.options["statusBtnCloseText"] : self.options["statusBtnOpenText"];
+                    btn.text(btnTxt);
+                    var resto;
+                    resto = self.findRestoById(id);
+                    if(resto != null){
+                        resto.isOpen = response.datas["isOpen"];
+                    }
                     self.options["showMsg"](response.msg, true);
                 } else {
                     self.options["showMsg"](response.msg, false);
