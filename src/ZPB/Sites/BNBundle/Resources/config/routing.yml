@@ -1,3 +1,27 @@
 zpb_sites_bn_homepage:
     path:     /
     defaults: { _controller: ZPBSitesBNBundle:Index:index }
+
+zpb_sites_bn_contact:
+    path:     /contact
+    defaults: { _controller: ZPBSitesBNBundle:Contact:index }
+
+zpb_sites_bn_faq:
+    path:     /questions-frequentes
+    defaults: { _controller: ZPBSitesBNBundle:FAQ:index }
+
+zpb_sites_bn_legales:
+    path: /mentions-legales
+    defaults: { _controller: ZPBSitesBNBundle:Miscellaneous:legals }
+    methods: ["GET"]
+
+zpb_sites_bn_cgv:
+    path: /conditions-generales-de-vente
+    defaults: { _controller: ZPBSitesBNBundle:Miscellaneous:cgv }
+    methods: ["GET"]
+
+
+################################# english
+zpb_sites_bn_en_routes:
+    prefix: /en
+    resource: "@ZPBSitesBNBundle/Resources/config/routing/en.yml"
