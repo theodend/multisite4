@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
             new Lunetics\LocaleBundle\LuneticsLocaleBundle(),
+            new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
             new ZPB\Sites\ZooBundle\ZPBSitesZooBundle(),
             new ZPB\Sites\CommonBundle\ZPBSitesCommonBundle(),
             new ZPB\AdminBundle\ZPBAdminBundle(),

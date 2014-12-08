@@ -34,6 +34,7 @@ class MiscellaneousController extends BaseController
 
     public function cgvAction(Request $request)
     {
-        return $this->getView("ZPBSitesProBundle:Miscellaneous:cgv.html.twig", $request);
+        $cgv = file_get_contents($this->get("kernel")->getRootDir()."/../web/mds/cgv-pro-grp.md");
+        return $this->getView("ZPBSitesProBundle:Miscellaneous:cgv.html.twig", $request, ["cgv"=>$cgv]);
     }
-} 
+}

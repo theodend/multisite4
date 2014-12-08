@@ -2,5 +2,14 @@
 
 
 {% block content %}
-    {{ include("ZPBSitesCommonBundle:Incs:cgv.html.twig") }}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2 col-md-2"></div>
+            <div class="col-sm-8 col-md-8">
+                {{ cgv|markdown }}
+            </div>
+            <div class="col-sm-2 col-md-2"></div>
+        </div>
+    </div>
+    <div class="spacer-40"></div>
 {% endblock %}
