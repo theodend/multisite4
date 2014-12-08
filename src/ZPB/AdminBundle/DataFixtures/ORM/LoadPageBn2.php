@@ -83,7 +83,7 @@ class LoadPageBn2  extends AbstractFixture implements OrderedFixtureInterface, C
     public function loadEnglish(ObjectManager $manager)
     {
         $page1 = new Page();
-        $page1->setName('bn:homepage')->setSite('bn')->setTitle('Home')->setRoute('zpb_sites_bn_homepage_en')->setUrl($this->container->get('router')->generate('zpb_sites_bn_homepage_en',[],false));
+        $page1->setName('bn:homepage:en')->setSite('bn')->setTitle('Home')->setRoute('zpb_sites_bn_homepage_en')->setUrl($this->container->get('router')->generate('zpb_sites_bn_homepage_en',[],false));
         $manager->persist($page1);
         $manager->flush();
     }

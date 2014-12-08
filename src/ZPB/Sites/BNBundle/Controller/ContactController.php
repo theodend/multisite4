@@ -27,6 +27,7 @@ class ContactController extends BaseController
 {
     public function indexAction(Request $request)
     {
+        //TODO[Nicolas] contact form
         return $this->getView("ZPBSitesBNBundle:Contact:index.html.twig", $request);
     }
 } 
