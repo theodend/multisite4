@@ -91,5 +91,62 @@ input[type=reset]{
         @include box-shadow(none);
       }
     }
+
+    &.btn-ce{
+      background-color: $framboise;
+      color: $blanc;
+      @include box-shadow(darken($framboise, 7) 0 5px 0);
+      &:hover{
+        top: 1px;
+        @include box-shadow(darken($framboise, 7) 0 4px 0);
+      }
+      &:active{
+        top: 5px;
+        @include box-shadow(none);
+      }
+    }
+
+    &.btn-bn{
+      background-color: $sable;
+      color: $grisFonce;
+      @include box-shadow(darken($sable, 7) 0 5px 0);
+      &:hover{
+        top: 1px;
+        @include box-shadow(darken($sable, 7) 0 4px 0);
+      }
+      &:active{
+        top: 5px;
+        @include box-shadow(none);
+      }
+    }
+
+    &.btn-pro{
+      background-color: $lilas;
+      color: $blanc;
+      @include box-shadow(darken($lilas, 7) 0 5px 0);
+      &:hover{
+        top: 1px;
+        @include box-shadow(darken($lilas, 7) 0 4px 0);
+      }
+      &:active{
+        top: 5px;
+        @include box-shadow(none);
+      }
+    }
+
+    &.btn-sco{
+      background-color: $menthe;
+      color: $blanc;
+      @include box-shadow(darken($menthe, 7) 0 5px 0);
+      &:hover{
+        top: 1px;
+        @include box-shadow(darken($menthe, 7) 0 4px 0);
+      }
+      &:active{
+        top: 5px;
+        @include box-shadow(none);
+      }
+    }
+
   }
 }
