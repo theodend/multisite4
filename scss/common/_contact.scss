@@ -4,9 +4,6 @@ $contactCardBorderColor: $grisDF!default;
   border: 1px solid $contactCardBorderColor;
   padding: toUnit(20);
   margin-bottom: 20px;
-  address{
-    height: 150px;
-  }
 }
 .contact-card-img{
   display: block;
@@ -28,3 +25,18 @@ $contactCardBorderColor: $grisDF!default;
   .contact-card-tel{}
 }
 
+.contact-card-btn{
+  display: none;
+}
+
+@media only screen and (min-width: 620px) {
+  .contact-card{;
+    address{
+      height: 150px;
+    }
+  }
+
+  .contact-card-btn{
+    display: block;
+  }
+}

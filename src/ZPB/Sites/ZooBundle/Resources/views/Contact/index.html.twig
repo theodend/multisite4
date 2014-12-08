@@ -1,6 +1,7 @@
 {% extends "ZPBSitesZooBundle:Layouts:master.html.twig" %}
 
 
+
 {% block content %}
     <div class="container">
         <div class="row">
@@ -31,7 +32,7 @@
                     <address class="contact-card-address">
                         <p class="contact-card-tel">Tél : 02 54 75 5000</p>
                     </address>
-                    <p class="text-center">
+                    <p class="text-center contact-card-btn">
                         <button class="btn btn-blue js-contact" type="button" data-id="accueil">Contacter</button>
                     </p>
                 </div>
@@ -44,7 +45,7 @@
                     <address class="contact-card-address">
                         <p class="contact-card-tel">Tél : 02 54 75 62 12</p>
                     </address>
-                    <p class="text-center">
+                    <p class="text-center contact-card-btn">
                         <button class="btn btn-blue js-contact" type="button" data-id="boutique">Contacter</button></p>
                 </div>
             </div>
@@ -58,7 +59,7 @@
                         <p class="contact-card-cap">Directrice des Ressources Humaines</p>
                         <p class="contact-card-tel">Tél : 02 54 75 62 14</p>
                     </address>
-                    <p class="text-center">
+                    <p class="text-center contact-card-btn">
                         <button class="btn btn-blue js-contact" type="button" data-id="rh">Contacter</button>
                     </p>
                 </div>
@@ -77,7 +78,7 @@
                         <p class="contact-card-tel">Tél : 02 54 75 74 26</p>
                         <p>Fax : 02 54 75 74 30</p>
                     </address>
-                    <p class="text-center">
+                    <p class="text-center contact-card-btn">
                         <button class="btn btn-blue js-contact" type="button" data-id="commerciaux">Contacter</button>
                     </p>
                 </div>
@@ -93,7 +94,7 @@
                         <p class="contact-card-tel">Tél/Fax : 02 54 71 25 19</p>
                         <p class="contact-card-tel">Mobile : 06 76 11 91 04</p>
                     </address>
-                    <p class="text-center">
+                    <p class="text-center contact-card-btn">
                         <button class="btn btn-blue js-contact" type="button" data-id="achats">Contacter</button>
                     </p>
                 </div>
@@ -108,7 +109,7 @@
                         <p class="contact-card-cap">Directeur scientifique</p>
                         <p class="contact-card-tel">Tél : 02 54 75 74 35</p>
                     </address>
-                    <p class="text-center">
+                    <p class="text-center contact-card-btn">
                         <button class="btn btn-blue js-contact" type="button" data-id="science">Contacter</button>
                     </p>
                 </div>
@@ -127,7 +128,7 @@
                         <p class="contact-card-cap">Responsable pédagogique</p>
                         <p class="contact-card-tel">Tél : 02 54 75 74 25</p>
                     </address>
-                    <p class="text-center">
+                    <p class="text-center contact-card-btn">
                         <button class="btn btn-blue js-contact" type="button" data-id="pedagogie">Contacter</button>
                     </p>
                 </div>
@@ -142,7 +143,7 @@
                         <p class="contact-card-cap">Directrice de la Communication</p>
                         <p class="contact-card-tel">Tél : 02 54 75 74 37</p>
                     </address>
-                    <p class="text-center">
+                    <p class="text-center contact-card-btn">
                         <button class="btn btn-blue js-contact" type="button" data-id="communication">Contacter</button>
                     </p>
                 </div>
@@ -158,7 +159,7 @@
                         <p class="contact-card-tel">Tél : 01 48 01 00 34</p>
                         <p class="contact-card-tel">Mobile : 06 62 25 51 60</p>
                     </address>
-                    <p class="text-center">
+                    <p class="text-center contact-card-btn">
                         <button class="btn btn-blue js-contact" type="button" data-id="presse">Contacter</button>
                     </p>
                 </div>
@@ -170,96 +171,70 @@
 
     <div class="spacer-40"></div>
 
-    <div class="modal" id="contact-modal">
-        <a class="modal-close-btn js-modal-close" href="">&times;</a>
+    {% if is_mobile() and is_tablet() == false %}
         <div class="row">
-
-            <div class="col-sm-12 col-md-12">
-                {{ form_start(form, {attr:{class:"form"}}) }}
-                {{ form_errors(form) }}
-                <div class="form-row">
-                    {{ form_label(form.interlocutor) }}
-                    <div class="form-field">
-                        {{ form_widget(form.interlocutor) }}
-                        <div class="error-block">
-                            {{ form_errors(form.interlocutor) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    {{ form_label(form.email) }}
-                    <div class="form-field">
-                        {{ form_widget(form.email) }}
-                        <div class="error-block">
-                            {{ form_errors(form.email) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    {{ form_label(form.topic) }}
-                    <div class="form-field">
-                        {{ form_widget(form.topic) }}
-                        <div class="error-block">
-                            {{ form_errors(form.topic) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    {{ form_label(form.message) }}
-                    <div class="form-field">
-                        {{ form_widget(form.message) }}
-                        <div class="error-block">
-                            {{ form_errors(form.message) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row hide">
-                    {{ form_label(form.name) }}
-                    <div class="form-field">
-                        {{ form_widget(form.name) }}
-                        {{ form_errors(form.name) }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    {{ form_widget(form.save, {attr:{class:"btn btn-blue"}}) }}
-                </div>
-                {{ form_end(form) }}
+            <div class="col-sm-12 col-md-12" id="contact-form">
+                {{ include("ZPBSitesZooBundle:Incs:contact_form.html.twig") }}
             </div>
-
         </div>
-    </div>
+    {% else %}
+        <div class="modal" id="contact-modal">
+            <a class="modal-close-btn js-modal-close" href="">&times;</a>
+            <div class="row">
+
+                <div class="col-sm-12 col-md-12" id="contact-form">
+                    {{ include("ZPBSitesZooBundle:Incs:contact_form.html.twig") }}
+                </div>
+
+            </div>
+        </div>
+    {% endif %}
+
+
 {% endblock %}
 
 {% block footScripts %}
     {{ parent() }}
-    <script src="/js/vendor/jquery-validation/jquery.validate.min.js"></script>
-    <script src="/js/devs/modal.js"></script>
     <script>
-        var formId = "#{{ form.vars.id }}";
+        var form = $("#contact-form form");
         var interlocutorId = "#{{ form.interlocutor.vars.id }}";
         var emailId = "#{{ form.email.vars.id }}";
         var messageId = "#{{ form.message.vars.id }}";
         var saveId = "#{{ form.save.vars.id }}"
     </script>
-    <script>
-        $(function(){
-            var modal = new Modal($("#contact-modal"));
 
-            var emailIpt = $(emailId), messageIpt = $(messageId);
+    {% if is_mobile() and is_tablet() == false %}
 
-            $(".js-contact").on("click", function(e){
-                e.preventDefault();
-                var interlocutorSelect = $(interlocutorId);
-                var target = $(this).data("id");
-                interlocutorSelect.val(target);
-                modal.open();
+        <script>
+            $(function() {
+
             });
+        </script>
 
-            $(formId).validate({
-                submitHandler: function(form) {
-                    form.submit();
-                }
+    {% else %}
+        <script src="/js/vendor/jquery-validation/jquery.validate.min.js"></script>
+        <script src="/js/devs/modal.js"></script>
+
+        <script>
+            $(function(){
+                var modal = new Modal($("#contact-modal"));
+
+                var emailIpt = $(emailId), messageIpt = $(messageId);
+
+                $(".js-contact").on("click", function(e){
+                    e.preventDefault();
+                    var interlocutorSelect = $(interlocutorId);
+                    var target = $(this).data("id");
+                    interlocutorSelect.val(target);
+                    modal.open();
+                });
+
+                $(form).validate({
+                    submitHandler: function(form) {
+                        form.submit();
+                    }
+                });
             });
-        });
-    </script>
+        </script>
+    {% endif %}
 {% endblock %}
