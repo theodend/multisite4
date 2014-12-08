@@ -3,12 +3,20 @@ zpb_sites_ce_homepage:
     defaults: { _controller: ZPBSitesCEBundle:Index:index }
     methods: ["GET"]
 
-zpb_sites_bn_legales:
+zpb_sites_ce_contact:
+    path:     /contact
+    defaults: { _controller: ZPBSitesCEBundle:Contact:index }
+
+zpb_sites_ce_faq:
+    path:     /questions-frequentes
+    defaults: { _controller: ZPBSitesCEBundle:FAQ:index }
+
+zpb_sites_ce_legales:
     path: /mentions-legales
     defaults: { _controller: ZPBSitesCEBundle:Miscellaneous:legals }
     methods: ["GET"]
 
-zpb_sites_bn_cgv:
+zpb_sites_ce_cgv:
     path: /conditions-generales-de-vente
     defaults: { _controller: ZPBSitesCEBundle:Miscellaneous:cgv }
     methods: ["GET"]
