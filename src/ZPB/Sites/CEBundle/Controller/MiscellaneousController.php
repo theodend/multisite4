@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Nicolas Canfrère
- * Date: 08/12/2014
- * Time: 08:43
+ * Date: 04/12/2014
+ * Time: 16:36
  */
   /*
            ____________________
@@ -18,16 +18,22 @@
       (__<  |mm_|mm_|  |mm_|mm_|
 */
 
-namespace ZPB\Sites\BNBundle\Controller\En;
+namespace ZPB\Sites\CEBundle\Controller;
+
+
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\BNBundle\Controller\BaseController;
 
-class IndexController extends BaseController
+class MiscellaneousController extends BaseController
 {
-    public function indexAction(Request $request)
+    public function legalsAction(Request $request)
     {
-        return $this->getView("ZPBSitesBNBundle:En/Index:index.html.twig", $request);
+        return $this->getView("ZPBSitesCEBundle:Miscellaneous:legals.html.twig",$request);
+    }
+
+    public function cgvAction(Request $request)
+    {
+        return $this->getView("ZPBSitesCEBundle:Miscellaneous:cgv.html.twig", $request);
     }
 } 

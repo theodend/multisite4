@@ -18,16 +18,16 @@
       (__<  |mm_|mm_|  |mm_|mm_|
 */
 
-namespace ZPB\Sites\BNBundle\Controller\En;
+namespace ZPB\Sites\CEBundle\Controller\En;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\BNBundle\Controller\BaseController;
+use ZPB\Sites\CEBundle\Controller\BaseController;
 
 class IndexController extends BaseController
 {
     public function indexAction(Request $request)
     {
-        return $this->getView("ZPBSitesBNBundle:En/Index:index.html.twig", $request);
+        return $this->getView("ZPBSitesCEBundle:En/index:index.html.twig", $request);
     }
 } 

@@ -61,12 +61,10 @@ class LoadPageBn2  extends AbstractFixture implements OrderedFixtureInterface, C
         $page4 = new Page();
         $page4->setName('bn:legales:legales')->setSite('bn')->setTitle('Mentions légales')->setRoute('zpb_sites_bn_legales')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_bn_legales',[],false));
         $manager->persist($page4);
-        $manager->flush();
 
         $page5 = new Page();
         $page5->setName('bn:cgv:cgv')->setSite('bn')->setTitle('Conditions générales de vente')->setRoute('zpb_sites_bn_cgv')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_bn_cgv',[],false));
         $manager->persist($page5);
-        $manager->flush();
 
         $manager->flush();
         // $page2 = new Page();

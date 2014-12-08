@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Nicolas Canfrère
  * Date: 08/12/2014
- * Time: 08:43
+ * Time: 09:36
  */
   /*
            ____________________
@@ -18,16 +18,17 @@
       (__<  |mm_|mm_|  |mm_|mm_|
 */
 
-namespace ZPB\Sites\BNBundle\Controller\En;
+namespace ZPB\Sites\CEBundle\Controller;
+
 
 
 use Symfony\Component\HttpFoundation\Request;
-use ZPB\Sites\BNBundle\Controller\BaseController;
 
-class IndexController extends BaseController
+class ContactController extends BaseController
 {
     public function indexAction(Request $request)
     {
-        return $this->getView("ZPBSitesBNBundle:En/Index:index.html.twig", $request);
+        //TODO[Nicolas] form contact CE
+        return $this->getView("ZPBSitesCEBundle:Contact:index.html.twig", $request);
     }
 } 

@@ -2,3 +2,36 @@ zpb_sites_ce_homepage:
     path:     /
     defaults: { _controller: ZPBSitesCEBundle:Index:index }
     methods: ["GET"]
+
+zpb_sites_bn_legales:
+    path: /mentions-legales
+    defaults: { _controller: ZPBSitesCEBundle:Miscellaneous:legals }
+    methods: ["GET"]
+
+zpb_sites_bn_cgv:
+    path: /conditions-generales-de-vente
+    defaults: { _controller: ZPBSitesCEBundle:Miscellaneous:cgv }
+    methods: ["GET"]
+
+################################# english
+zpb_sites_ce_en_routes:
+    prefix: /en
+    resource: "@ZPBSitesCEBundle/Resources/config/routing/en.yml"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
