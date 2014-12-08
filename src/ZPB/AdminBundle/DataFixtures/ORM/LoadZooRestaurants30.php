@@ -54,7 +54,7 @@ class LoadZooRestaurants30  extends AbstractFixture implements OrderedFixtureInt
         $manager->persist($resto2);
 
         $resto3 = new Restaurant();
-        $resto3->setImage("/img/sites/zoo/restauration/1417993241.jpeg")->setDescription("Une terrasse recouverte de roses,  face aux tigres blancs et surplombant l’un des plans d’eau du ZooParc. Appréciées des visiteurs, <strong>les galettes et les crêpes</strong> de Beauval sont à déguster au déjeuner comme au goûter&nbsp;! Vous y trouverez également <strong>sandwichs, salades, glaces et boissons.</strong>")->setImageRoot("/var/www/vhosts/multisite4/app/../web/")->setIsOpen(true)->setName("La Ros")->setNum("3")->setThumb("/img/sites/zoo/restauration/thumb/1417993241.jpeg");
+        $resto3->setImage("/img/sites/zoo/restauration/1417993241.jpeg")->setDescription("Une terrasse recouverte de roses,  face aux tigres blancs et surplombant l’un des plans d’eau du ZooParc. Appréciées des visiteurs, <strong>les galettes et les crêpes</strong> de Beauval sont à déguster au déjeuner comme au goûter&nbsp;! Vous y trouverez également <strong>sandwichs, salades, glaces et boissons.</strong>")->setImageRoot("/var/www/vhosts/multisite4/app/../web/")->setIsOpen(true)->setName("La Roseraie")->setNum("3")->setThumb("/img/sites/zoo/restauration/thumb/1417993241.jpeg");
         $manager->persist($resto3);
 
         $resto4 = new Restaurant();

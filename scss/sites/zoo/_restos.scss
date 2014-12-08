@@ -1,5 +1,7 @@
+$restoCardBorderColor: $grisDF!default;
+
 .resto-card{
-  border: 1px solid $contactCardBorderColor;
+  border: 1px solid $restoCardBorderColor;
   padding: toUnit(20);
   margin-bottom: 20px;
   position: relative;
@@ -7,12 +9,12 @@
 .resto-card-img{
   display: block;
   width: 100%;
-  border: 1px solid $contactCardBorderColor;
+  border: 1px solid $restoCardBorderColor;
 }
 .resto-card-name{
   text-align: center;
   &.resto-card-is-closed{
-    color: $grisDF;
+    color: $restoCardBorderColor;
   }
 }
 .resto-card-description{
