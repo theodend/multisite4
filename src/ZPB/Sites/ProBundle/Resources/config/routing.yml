@@ -1,3 +1,7 @@
 zpb_sites_pro_homepage:
     path:     /
     defaults: { _controller: ZPBSitesProBundle:Index:index }
+
+zpb_sites_pro_contact:
+    path:     /contact
+    defaults: { _controller: ZPBSitesProBundle:Contact:index }
