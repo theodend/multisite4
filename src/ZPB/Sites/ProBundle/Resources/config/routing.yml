@@ -5,3 +5,22 @@ zpb_sites_pro_homepage:
 zpb_sites_pro_contact:
     path:     /contact
     defaults: { _controller: ZPBSitesProBundle:Contact:index }
+
+zpb_sites_pro_legales:
+    path: /mentions-legales
+    defaults: { _controller: ZPBSitesProBundle:Miscellaneous:legals }
+    methods: ["GET"]
+
+zpb_sites_pro_cgv:
+    path: /conditions-generales-de-vente
+    defaults: { _controller: ZPBSitesProBundle:Miscellaneous:cgv }
+    methods: ["GET"]
+
+
+
+
+
+
+
+
+

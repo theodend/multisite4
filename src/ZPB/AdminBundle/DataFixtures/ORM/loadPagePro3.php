@@ -49,6 +49,13 @@ class loadPagePro3 extends AbstractFixture implements OrderedFixtureInterface, C
         $page2->setName('pro:contact')->setParent($page1)->setSite('pro')->setTitle('Contact')->setRoute('zpb_sites_pro_contact')->setUrl($this->container->get('router')->generate('zpb_sites_pro_contact',[],false));
         $manager->persist($page2);
 
+        $page4 = new Page();
+        $page4->setName('pro:legales:legales')->setParent($page1)->setSite('pro')->setTitle('Mentions légales')->setRoute('zpb_sites_pro_legales')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_pro_legales',[],false));
+        $manager->persist($page4);
+
+        $page5 = new Page();
+        $page5->setName('pro:cgv:cgv')->setParent($page1)->setSite('pro')->setTitle('Conditions générales de vente')->setRoute('zpb_sites_pro_cgv')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_pro_cgv',[],false));
+        $manager->persist($page5);
 
         $manager->flush();
 

@@ -5,3 +5,18 @@ zpb_sites_sco_homepage:
 zpb_sites_sco_contact:
     path:     /contact
     defaults: { _controller: ZPBSitesScoBundle:Contact:index }
+
+zpb_sites_sco_legales:
+    path: /mentions-legales
+    defaults: { _controller: ZPBSitesScoBundle:Miscellaneous:legals }
+    methods: ["GET"]
+
+zpb_sites_sco_cgv:
+    path: /conditions-generales-de-vente
+    defaults: { _controller: ZPBSitesScoBundle:Miscellaneous:cgv }
+    methods: ["GET"]
+
+
+
+
+

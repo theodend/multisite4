@@ -49,6 +49,14 @@ class loadPageSco4 extends AbstractFixture implements OrderedFixtureInterface, C
         $page2->setName('sco:contact')->setParent($page1)->setSite('sco')->setTitle('Contact')->setRoute('zpb_sites_sco_contact')->setUrl($this->container->get('router')->generate('zpb_sites_sco_contact',[],false));
         $manager->persist($page2);
 
+        $page4 = new Page();
+        $page4->setName('sco:legales:legales')->setParent($page1)->setSite('sco')->setTitle('Mentions légales')->setRoute('zpb_sites_sco_legales')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_sco_legales',[],false));
+        $manager->persist($page4);
+
+        $page5 = new Page();
+        $page5->setName('sco:cgv:cgv')->setParent($page1)->setSite('sco')->setTitle('Conditions générales de vente')->setRoute('zpb_sites_sco_cgv')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_sco_cgv',[],false));
+        $manager->persist($page5);
+
         $manager->flush();
 
         //autres
