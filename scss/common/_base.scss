@@ -78,6 +78,12 @@ a{
   }
 }
 
+small{
+  font-size: toUnit($fontSize* 0.8);
+}
+em{
+  font-style: italic;
+}
 .text-center{
   text-align: center;
 }

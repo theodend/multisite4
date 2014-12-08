@@ -15,6 +15,11 @@
                         <span class="country">France</span>
                         <span class="phone">Tél : 02 54 75 5000</span>
                     </address>
+                    {% if is_mobile() and is_tablet() == false %}
+
+                    <p><small><em>formulaire en bas de page</em></small></p>
+
+                    {% endif %}
                 </div>
             </div>
             <div class="col-sm-2 col-md-2"></div>
