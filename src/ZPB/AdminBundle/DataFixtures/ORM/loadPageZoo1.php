@@ -55,7 +55,7 @@ class loadPageZoo1 extends AbstractFixture implements OrderedFixtureInterface, C
         $manager->persist($page3);
 
         $page4 = new Page();
-        $page4->setName('zoo:pratique:animations')->setSite('zoo')->setTitle('Animations et spectacles')->setRoute('zpb_sites_zoo_utils_animations_shows')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_zoo_utils_animations_shows',[],false));
+        $page4->setName('zoo:pratique:animations')->setSite('zoo')->setTitle('Spectacles et animations')->setRoute('zpb_sites_zoo_utils_animations_shows')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_zoo_utils_animations_shows',[],false));
         $manager->persist($page4);
 
         $page5 = new Page();
