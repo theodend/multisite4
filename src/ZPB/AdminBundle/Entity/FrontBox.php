@@ -38,6 +38,12 @@ class FrontBox implements \JsonSerializable
 
     /**
      * @var string
+     * @ORM\Column(name="root_dir", type="string", length=255)
+     */
+    private $rootDir;
+
+    /**
+     * @var string
      *
      * @ORM\Column(name="link", type="string", length=255)
      */
@@ -224,17 +230,36 @@ class FrontBox implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getRootDir()
+    {
+        return $this->rootDir;
+    }
+
+    /**
+     * @param string $rootDir
+     * @return FrontBox
+     */
+    public function setRootDir($rootDir)
+    {
+        $this->rootDir = $rootDir;
+        return $this;
+    }
 
     public function jsonSerialize()
     {
         return [
-          "id"=>$this->getId(),
-          "position"=>$this->getPosition(),
-          "title"=>$this->getTitle(),
-          "subtitle"=>$this->getSubtitle(),
-          "color"=>$this->getColor(),
-          "link"=>$this->getLink(),
-          "site"=>$this->getSite(),
+            "id"=>$this->getId(),
+            "position"=>$this->getPosition(),
+            "title"=>$this->getTitle(),
+            "subtitle"=>$this->getSubtitle(),
+            "color"=>$this->getColor(),
+            "link"=>$this->getLink(),
+            "site"=>$this->getSite(),
+            "image"=> $this->getImage(),
+            "rootDir"=>$this->getRootDir()
         ];
     }
 }

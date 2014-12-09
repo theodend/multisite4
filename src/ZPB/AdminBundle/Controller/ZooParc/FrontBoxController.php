@@ -23,6 +23,7 @@ namespace ZPB\AdminBundle\Controller\ZooParc;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use ZPB\AdminBundle\Entity\FrontBox;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
 class FrontBoxController extends ZPBController
@@ -42,6 +43,38 @@ class FrontBoxController extends ZPBController
         // TODO[Nicolas] create front box
 
         $response = ["error"=>true, "msg"=>"", "datas"=> []];
+        $title = $request->request->get("title", false);
+        $subtitle = $request->request->get("subtitle", false);
+        $link = $request->request->get("link", false);
+        $image = $request->request->get("image", false);
+        $rootDir = $request->request->get("rootDir", false);
+        $color = $request->request->get("color", false);
+
+        if(
+            !$title ||
+            !$subtitle ||
+            !$link ||
+            !$image ||
+            !$rootDir ||
+            !$color
+        ){
+            $response["msg"] = "Données incomplètes.";
+        } else {
+            $fb = new FrontBox();
+            $fb->setRootDir($rootDir)
+                ->setImage($image)
+                ->setColor($color)
+                ->setLink($link)
+                ->setTitle($title)
+                ->setSubtitle($subtitle)
+                ->setSite("zoo");
+            $this->getManager()->persist($fb);
+            $this->getManager()->flush();
+
+            $response["error"] = false;
+            $response["msg"] = "Front box enregistrée";
+            $response["datas"] = $fb;
+        }
 
         return new JsonResponse($response);
     }
@@ -51,8 +84,32 @@ class FrontBoxController extends ZPBController
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
             throw $this->createAccessDeniedException();
         }
-        // TODO[Nicolas] upload image
+        $filename = $request->headers->get("X-File-Name", false);
         $response = ["error"=>true, "msg"=>"", "datas"=> []];
+        if(!$filename){
+            $response["msg"] = "Données incomplètes.";
+        } else {
+            $fs = $this->get('filesystem');
+            $rootDir = $this->container->getParameter('zpb.frontbox.zoo.img_base_dir');
+            $webDir = $this->container->getParameter('zpb.frontbox.zoo.img_web_dir');
+            $baseDir = $rootDir . $webDir;
+            if(!$fs->exists($baseDir)){
+                $fs->mkdir($baseDir);
+            }
+            $webDir = "/" . $webDir;
+            $matches = [];
+            $extension = '';
+            if(preg_match('/^.+\.(jpg|jpeg|png|gif)$/i', $filename, $matches)){
+                $extension = strtolower($matches[1]);
+                $newFilename = time() . '.' .$extension;
+                file_put_contents($baseDir . "/" . $newFilename, $request->getContent());
+                $response['error'] = false;
+                $response['datas'] = ["img"=>["image"=> $webDir . "/" . $newFilename,"rootDir"=> rtrim($rootDir, "/")]];
+                $response['msg'] = 'Image uploadée';
+            } else {
+                $response["msg"] = "Données incorrectes.";
+            }
+        }
 
         return new JsonResponse($response);
     }

@@ -47,15 +47,27 @@ class LoadFrontBoxs40  extends AbstractFixture implements OrderedFixtureInterfac
     {
 
         $fb1 = new FrontBox();
-        $fb1->setTitle("Au programme")->setSubtitle("Calendrier des animations et spectacles")->setLink("/pratique/animations-spectacles")->setImage("/dev/assets/img/Carnet-Rose.jpg")->setSite("zoo")->setColor("lilas");
+        $fb1->setTitle("Au programme")
+            ->setSubtitle("Calendrier des animations et spectacles")
+            ->setLink("/pratique/animations-spectacles")
+            ->setImage("/dev/assets/img/Carnet-Rose.jpg")->setRootDir($this->container->get("kernel")->getRootDir() . "/../web/")
+            ->setSite("zoo")->setColor("lilas");
         $manager->persist($fb1);
 
         $fb2 = new FrontBox();
-        $fb2->setTitle("Soigneur d'un jour")->setSubtitle("Vivez en une matinée une expérience de soigneur animalier")->setLink("/pratique/animations-spectacles")->setImage("/dev/assets/img/Soigneur-d-un-Jour.jpg")->setSite("zoo")->setColor("red");
+        $fb2->setTitle("Soigneur d'un jour")
+            ->setSubtitle("Vivez en une matinée une expérience de soigneur animalier")
+            ->setLink("/pratique/animations-spectacles")->setRootDir($this->container->get("kernel")->getRootDir() . "/../web/")
+            ->setImage("/dev/assets/img/Soigneur-d-un-Jour.jpg")
+            ->setSite("zoo")->setColor("red");
         $manager->persist($fb2);
 
         $fb3 = new FrontBox();
-        $fb3->setTitle("Parrainages")->setSubtitle("Devenez le Parrain d'un animal de Beauval")->setLink("/pratique/animations-spectacles")->setImage("/dev/assets/img/Ateliers-pedagogiques.jpg")->setSite("zoo")->setColor("green");
+        $fb3->setTitle("Parrainages")
+            ->setSubtitle("Devenez le Parrain d'un animal de Beauval")
+            ->setLink("/pratique/animations-spectacles")
+            ->setImage("/dev/assets/img/Ateliers-pedagogiques.jpg")->setRootDir($this->container->get("kernel")->getRootDir() . "/../web/")
+            ->setSite("zoo")->setColor("green");
         $manager->persist($fb3);
         $manager->flush();
 

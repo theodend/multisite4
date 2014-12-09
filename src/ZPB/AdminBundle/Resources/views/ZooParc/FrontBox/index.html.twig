@@ -50,52 +50,55 @@
         </div>
         <div class="col-sm-6 col-md-6">
 
-            <form class="form">
+            <form class="form" id="frontbox-create-form">
 
                 <div class="form-group">
                     <label for="box-title-ipt" class="control-label">Titre* (50 caractères max)</label>
                     <input type="text" class="form-control" id="box-title-ipt" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="box-title-ipt" class="control-label">Sous-titre* (60 caractères max)</label>
-                    <input type="text" class="form-control" id="box-title-ipt" placeholder="">
+                    <label for="box-subtitle-ipt" class="control-label">Sous-titre* (60 caractères max)</label>
+                    <input type="text" class="form-control" id="box-subtitle-ipt" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="box-link-ipt" class="control-label">Lien</label>
+                    <label for="box-link-ipt" class="control-label">Lien*</label>
                     <input type="text" class="form-control" id="box-link-ipt" placeholder="">
                 </div>
                 <div class="form-group">
                     <label>Couleur</label>
                     <div class="checkbox">
+                        {% for c in colors %}
                         <label>
-                            {% for c in colors %}
-                                <input type="radio" name="box-color-name" {% if loop.first == true %} checked="checked" {% endif %}> {{ c }}
-                            {% endfor %}
+
+                                <input type="radio" name="box-color-name" {% if loop.first == true %} checked="checked" {% endif %} value="{{ c }}"> {{ c }}
+
                         </label>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Image (400px * 400px)</label>
+                    <label>Image* (400px * 400px, 60Ko max)</label>
                     <div class="dropzone" id="new-frontbox-img"><div class="loader"></div></div>
                 </div>
-                <input id="new-frontbox-img-ipt" type="hidden"/>
-                <button type="button" class="btn btn-primary">Enregistrer</button><div class="loader"></div>
+                <input id="box-img-ipt" type="hidden"/>
+                <input id="box-img-root-ipt" type="hidden"/>
+                <button type="button" class="btn btn-primary" id="createFormBtn">Enregistrer</button><div class="loader"></div>
 
             </form>
         </div>
         <div class="col-sm-1 col-md-2"></div>
         <div class="col-sm-4 col-md-2">
-            <div class="front-box-preview">
+            <div class="front-box-preview" id="front-box-preview">
                 <div class="image-area-preview">
                     <a href="" class="front-box-img-link-preview">
-                        <img src="/img/sites/admin/frontbox_default.jpg" alt="" class="front-box-img-preview"/>
+                        <img src="/img/sites/admin/frontbox_default.jpg" alt="" class="front-box-img-preview" id="front-box-img-preview"/>
                     </a>
                     <div class="overlay"></div>
                     <div class="front-box-text-preview">
-                        <a href="" class="front-box-text-link-preview" >sous-titre</a>
+                        <a href="" class="front-box-text-link-preview" id="front-box-text-link-preview">sous-titre</a>
                     </div>
-                    <div class="front-box-title-preview rose">
-                        <h3><a href="" class="front-box-title-preview">titre</a></h3>
+                    <div class="front-box-title-preview rose" id="front-box-title-preview">
+                        <h3><a href="" class="front-box-title-preview" id="front-box-title-preview">titre</a></h3>
                     </div>
                 </div>
             </div>
@@ -119,10 +122,17 @@
     </script>
     <script src="/js/vendor/ui/jquery-ui.min.js"></script>
     <script src="/js/admin/common/jquery.imgUpload.min.js"></script>
+    <script src="/js/devs/frontbox_manager.js"></script>
     <script>
         $(function () {
-            var sortables = $("#sortable");
-            var messenger = $("#messenger");
+            var sortables, messenger, fbCreateForm,
+                    fbManager, fbCreateOptions, fbPrviewer, newFbImgOptions;
+            sortables = $("#sortable");
+            messenger = $("#messenger");
+
+            fbCreateForm = $("#frontbox-create-form");
+            fbPrviewer = $("#front-box-preview");
+
             var showMsg = function(msg, success){
                 if(arguments.length <1){
                     messenger.empty();
@@ -173,12 +183,67 @@
                         });
             };
 
+            var onDroppedNewImg = function(uploader){
+                showMsg();
+                var loader = uploader.$element.find(".loader");
+                loader.show();
+            };
+
+            var onDoneNewImg = function(response, uploader){
+                var loader = uploader.$element.find(".loader");
+                loader.hide();
+                fbManager.addImgVal(response.datas["img"]);
+                showMsg(response.msg, true);
+            };
+
+            var onFailNewImg = function(response, uploader){
+                var loader = uploader.$element.find(".loader");
+                loader.hide();
+                showMsg(response.msg, false);
+            };
+
+            var onErrorNewImg = function(msg, uploader){
+                var loader = uploader.$element.find(".loader");
+                loader.hide();
+                showMsg(msg, false);
+            };
+
             sortables.sortable({
                 handle: ".front-handle",
                 cursor: "move",
                 placeholder: "phantom",
                 update: updateSortable
             });
+
+            newFbImgOptions = {
+                uploadUrl: imageUploadUrl,
+                fileMaxSize: 60000,
+                onDropped: onDroppedNewImg,
+                onDone: onDoneNewImg,
+                onFail: onFailNewImg,
+                onError: onErrorNewImg
+            };
+
+            $("#new-frontbox-img").imgUpload(newFbImgOptions);
+
+            fbCreateOptions = {
+                titleIpt: "#box-title-ipt",
+                subTitleIpt: "#box-subtitle-ipt",
+                linkIpt: "#box-link-ipt",
+                imgIpt: "#box-img-ipt",
+                imgRootIpt: "#box-img-root-ipt",
+                colorIptName: "box-color-name",
+                saveFbBtn: "#createFormBtn",
+                createBoxUrl: createBoxUrl,
+                imgPreviewId: "#front-box-img-preview",
+                titlePreviewId:"#front-box-title-preview",
+                subTitlePreviewId:"#front-box-text-link-preview",
+                colorClassPrviewId: "#front-box-title-preview",
+                initColorClass: "rose",
+                showMsg: showMsg
+            };
+
+            fbManager = new FrontboxManager(fbCreateForm, fbPrviewer, fbCreateOptions)
         });
     </script>
 {% endblock %}
