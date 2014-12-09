@@ -201,4 +201,27 @@ class Alert
     }
 
 
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Alert
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 }

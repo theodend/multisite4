@@ -3,11 +3,12 @@
 namespace ZPB\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Animal
  *
- * @ORM\Table()
+ * @ORM\Table(name="zpb_animal")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\AnimalRepository")
  */
 class Animal
@@ -24,20 +25,25 @@ class Animal
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=255)
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=150)
      */
     private $slug;
 
     /**
+     * @ORM\Column(name="long_name", type="string", length=255)
+     */
+    private $longName;
+
+    /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
@@ -62,6 +68,12 @@ class Animal
      * @ORM\Column(name="long_description", type="text")
      */
     private $longDescription;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ZPB\AdminBundle\Entity\Species", inversedBy="animals")
+     * @ORM\JoinColumn(name="species_id", referencedColumnName="id")
+     */
+    private $species;
 
 
     /**
@@ -210,5 +222,46 @@ class Animal
     public function getLongDescription()
     {
         return $this->longDescription;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLongName()
+    {
+        return $this->longName;
+    }
+
+    /**
+     * @param mixed $longName
+     * @return Animal
+     */
+    public function setLongName($longName)
+    {
+        $this->longName = $longName;
+        return $this;
+    }
+
+    /**
+     * Set species
+     *
+     * @param Species $species
+     * @return Animal
+     */
+    public function setSpecies(Species $species = null)
+    {
+        $this->species = $species;
+
+        return $this;
+    }
+
+    /**
+     * Get species
+     *
+     * @return Species
+     */
+    public function getSpecies()
+    {
+        return $this->species;
     }
 }

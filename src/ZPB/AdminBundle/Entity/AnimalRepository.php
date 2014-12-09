@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class AnimalRepository extends EntityRepository
 {
+    public function getOneWithSpecies($id)
+    {
+        $qb = $this->createQueryBuilder("a")->join("a.species","s")->addSelect("s");
+        $qb->where($qb->expr()->eq("a.id", $id));
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }
