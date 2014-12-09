@@ -14,6 +14,10 @@ zpb_admin_zooparc_frontbox_create:
     defaults: { _controller: ZPBAdminBundle:ZooParc/FrontBox:xhrCreateFrontBox }
     methods: ["POST"]
 
+zpb_admin_zooparc_frontbox_update:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ZooParc/FrontBox:xhrUpdateFrontBox }
+    methods: ["PUT"]
 
 zpb_admin_zooparc_frontbox_img_upload:
     path: /image-upload

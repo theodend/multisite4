@@ -35,13 +35,22 @@ class FrontBoxController extends ZPBController
         return $this->render('ZPBAdminBundle:ZooParc/FrontBox:index.html.twig', ["frontboxs"=>$frontboxs, "colors"=>$colors]);
     }
 
+    public function xhrUpdateFrontBoxAction(Request $request)
+    {
+        // TODO[Nicolas] update front box
+        if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=> []];
+
+        return new JsonResponse($response);
+    }
+
     public function xhrCreateFrontBoxAction(Request $request)
     {
         if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
             throw $this->createAccessDeniedException();
         }
-        // TODO[Nicolas] create front box
-
         $response = ["error"=>true, "msg"=>"", "datas"=> []];
         $title = $request->request->get("title", false);
         $subtitle = $request->request->get("subtitle", false);
