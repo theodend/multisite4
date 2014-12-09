@@ -20,6 +20,23 @@ zpb_sites_bn_cgv:
     defaults: { _controller: ZPBSitesBNBundle:Miscellaneous:cgv }
     methods: ["GET"]
 
+################################# association
+
+zpb_sites_bn_association_history:
+    path: /association/histoire
+    defaults: { _controller: ZPBSitesBNBundle:Association:history }
+    methods: ["GET"]
+
+################################# conservation
+zpb_sites_bn_conservation_programs:
+    path: /conservation/programmes
+    defaults: { _controller: ZPBSitesBNBundle:Conservation:programs }
+    methods: ["GET"]
+
+zpb_sites_bn_conservation_old_programs:
+    path: /association/anciens-programmes
+    defaults: { _controller: ZPBSitesBNBundle:Conservation:oldPrograms }
+    methods: ["GET"]
 
 ################################# english
 zpb_sites_bn_en_routes:
