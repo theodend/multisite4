@@ -75,15 +75,38 @@ class Animal
      */
     private $species;
 
+    /**
+     * @Gedmo\SortableGroup()
+     * @ORM\ManyToOne(targetEntity="ZPB\AdminBundle\Entity\AnimalCategory", inversedBy="animals")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(name="position", type="integer")
+     * @Gedmo\SortablePosition()
+     */
+    private $position;
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -100,13 +123,13 @@ class Animal
     }
 
     /**
-     * Get name
+     * Get slug
      *
-     * @return string 
+     * @return string
      */
-    public function getName()
+    public function getSlug()
     {
-        return $this->name;
+        return $this->slug;
     }
 
     /**
@@ -123,13 +146,13 @@ class Animal
     }
 
     /**
-     * Get slug
+     * Get createdAt
      *
-     * @return string 
+     * @return \DateTime
      */
-    public function getSlug()
+    public function getCreatedAt()
     {
-        return $this->slug;
+        return $this->createdAt;
     }
 
     /**
@@ -146,13 +169,13 @@ class Animal
     }
 
     /**
-     * Get createdAt
+     * Get sex
      *
-     * @return \DateTime 
+     * @return string
      */
-    public function getCreatedAt()
+    public function getSex()
     {
-        return $this->createdAt;
+        return $this->sex;
     }
 
     /**
@@ -169,13 +192,13 @@ class Animal
     }
 
     /**
-     * Get sex
+     * Get description
      *
-     * @return string 
+     * @return string
      */
-    public function getSex()
+    public function getDescription()
     {
-        return $this->sex;
+        return $this->description;
     }
 
     /**
@@ -192,13 +215,13 @@ class Animal
     }
 
     /**
-     * Get description
+     * Get longDescription
      *
-     * @return string 
+     * @return string
      */
-    public function getDescription()
+    public function getLongDescription()
     {
-        return $this->description;
+        return $this->longDescription;
     }
 
     /**
@@ -212,16 +235,6 @@ class Animal
         $this->longDescription = $longDescription;
 
         return $this;
-    }
-
-    /**
-     * Get longDescription
-     *
-     * @return string 
-     */
-    public function getLongDescription()
-    {
-        return $this->longDescription;
     }
 
     /**
@@ -239,7 +252,18 @@ class Animal
     public function setLongName($longName)
     {
         $this->longName = $longName;
+
         return $this;
+    }
+
+    /**
+     * Get species
+     *
+     * @return Species
+     */
+    public function getSpecies()
+    {
+        return $this->species;
     }
 
     /**
@@ -256,12 +280,25 @@ class Animal
     }
 
     /**
-     * Get species
+     * Get category
      *
-     * @return Species
+     * @return AnimalCategory
      */
-    public function getSpecies()
+    public function getCategory()
     {
-        return $this->species;
+        return $this->category;
+    }
+
+    /**
+     * Set category
+     *
+     * @param AnimalCategory $category
+     * @return Animal
+     */
+    public function setCategory(AnimalCategory $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }
