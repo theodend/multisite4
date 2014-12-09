@@ -1,0 +1,4 @@
+zpb_admin_animal_category_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:Animal/Category:index }
+    methods: ["GET"]

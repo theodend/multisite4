@@ -34,6 +34,21 @@ zpb_admin_zooparc_frontbox_routes:
     prefix: /zooparc/frontbox
     resource: "@ZPBAdminBundle/Resources/config/routing/zooparc/frontbox.yml"
 
+############################################# animal
+zpb_admin_animal_routes:
+    prefix: /animal
+    resource: "@ZPBAdminBundle/Resources/config/routing/animal/animal.yml"
+zpb_admin_species_routes:
+    prefix: /species
+    resource: "@ZPBAdminBundle/Resources/config/routing/animal/species.yml"
+zpb_admin_animal_category_routes:
+    prefix: /animal/category
+    resource: "@ZPBAdminBundle/Resources/config/routing/animal/animal_category.yml"
+
+
+############################################# sponsoring
+
+
 
 
 ############################################# bn
