@@ -2,3 +2,35 @@ zpb_admin_animal_category_homepage:
     path: /
     defaults: { _controller: ZPBAdminBundle:Animal/Category:index }
     methods: ["GET"]
+
+zpb_admin_animal_category_xhr_create:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:Animal/Category:xhrCreate }
+    methods: ["POST"]
+
+zpb_admin_animal_category_xhr_update:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:Animal/Category:xhrUpdate }
+    methods: ["PUT"]
+
+zpb_admin_animal_category_xhr_delete:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:Animal/Category:xhrDelete }
+    methods: ["DELETE"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

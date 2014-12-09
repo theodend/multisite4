@@ -21,12 +21,30 @@
 namespace ZPB\AdminBundle\Controller\Animal;
 
 
+use Symfony\Component\HttpFoundation\Request;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
 class CategoryController extends ZPBController
 {
     public function indexAction()
     {
-        return $this->render('ZPBAdminBundle:Animal/Category:index.html.twig', []);
+        $cats = $this->getRepo("ZPBAdminBundle:AnimalCategory")->findBy([], ["name"=>"ASC"]);
+        return $this->render('ZPBAdminBundle:Animal/Category:index.html.twig', ["cats"=>$cats]);
     }
+
+    public function xhrCreateAction(Request $request)
+    {
+
+    }
+
+    public function xhrUpdateAction(Request $request)
+    {
+
+    }
+
+    public function xhrDeleteAction(Request $request)
+    {
+
+    }
+
 } 
