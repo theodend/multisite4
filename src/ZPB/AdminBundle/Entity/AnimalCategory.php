@@ -4,6 +4,7 @@ namespace ZPB\AdminBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * AnimalCategory
@@ -31,7 +32,7 @@ class AnimalCategory
 
     /**
      * @var string
-     *
+     * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", length=150)
      */
     private $slug;
