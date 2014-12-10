@@ -21,6 +21,7 @@
 namespace ZPB\AdminBundle\Controller\Post;
 
 
+use Symfony\Component\HttpFoundation\Request;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
 class DraftPostController extends ZPBController
@@ -29,5 +30,24 @@ class DraftPostController extends ZPBController
     {
         $posts = $this->getRepo("ZPBAdminBundle:DraftPost")->getPosts();
         return $this->render('ZPBAdminBundle:Post/DraftPost:index.html.twig', ["posts"=>$posts]);
+    }
+
+    public function editAction($id)
+    {
+        $post = $this->getRepo("ZPBAdminBundle:DraftPost")->getPost($id);
+        if(!$post){
+            throw $this->createNotFoundException();
+        }
+        return $this->render('ZPBAdminBundle:Post/DraftPost:edit.html.twig', ["post"=>$post]);
+    }
+
+    public function publishAction($id)
+    {
+
+    }
+
+    public function deleteAction($id, Request $request)
+    {
+
     }
 }

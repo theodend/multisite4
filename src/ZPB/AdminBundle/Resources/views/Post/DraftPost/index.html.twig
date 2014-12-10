@@ -12,15 +12,23 @@
             <table class="table table-striped table-hover">
             	<thead>
             		<tr>
+
+                        <th>Créé le</th>
             			<th>Titre</th>
-                        <th>Extrait</th>
+                        <th>Editer</th>
+                        <th>Publier</th>
+                        <th>Supprimer</th>
             		</tr>
             	</thead>
             	<tbody>
                     {% for post in posts %}
                         <tr>
+
+                            <td>{{ post.post.createdAt|date("d/m/y") }}</td>
                             <td>{{ post.post.title }}</td>
-                            <td>{{ post.post.excerpt|raw }}</td>
+                            <td><a class="btn btn-default" href="{{ path("zpb_admin_draft_post_edit", {id: post.id}) }}"><i class="fa fa-edit"></i></a></td>
+                            <td><a class="btn btn-default" href="{{ path("zpb_admin_draft_post_publish", {id: post.id}) }}"><i class="fa fa-share"></i></a></td>
+                            <td><a class="btn btn-default" href="{{ path("zpb_admin_draft_post_delete", {id: post.id}) }}"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                     {% endfor %}
 

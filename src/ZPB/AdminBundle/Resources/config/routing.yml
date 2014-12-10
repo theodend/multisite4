@@ -49,6 +49,10 @@ zpb_admin_animal_category_routes:
 ############################################# sponsoring
 
 ############################################# post
+zpb_admin_post_write:
+    path: /posts/ecrire
+    defaults: { _controller: ZPBAdminBundle:Post/Post:write }
+    methods: ["GET"]
 
 zpb_admin_draft_post_routes:
     prefix: /posts/brouillons

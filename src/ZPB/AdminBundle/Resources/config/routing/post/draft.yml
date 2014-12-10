@@ -2,3 +2,39 @@ zpb_admin_draft_post_homepage:
     path: /
     defaults: { _controller: ZPBAdminBundle:Post/DraftPost:index }
     methods: ["GET"]
+
+zpb_admin_draft_post_edit:
+    path: /editer/{id}
+    defaults: { _controller: ZPBAdminBundle:Post/DraftPost:edit }
+    methods: ["GET"]
+    requirements:
+        id: \d+
+
+zpb_admin_draft_post_publish:
+    path: /publier/{id}
+    defaults: { _controller: ZPBAdminBundle:Post/DraftPost:publish }
+    methods: ["GET"]
+    requirements:
+        id: \d+
+
+
+zpb_admin_draft_post_delete:
+    path: /supprimer/{id}
+    defaults: { _controller: ZPBAdminBundle:Post/DraftPost:delete }
+    methods: ["GET"]
+    requirements:
+        id: \d+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -21,6 +21,7 @@
 namespace ZPB\AdminBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class PostableRepository extends EntityRepository
 {
@@ -30,5 +31,14 @@ class PostableRepository extends EntityRepository
             ->join("s.post", "p")->addSelect("p");
 
         return $qb->getQuery()->getArrayResult();
+    }
+
+    public function getPost($id)
+    {
+        $qb = $this->createQueryBuilder("s")
+            ->join("s.post", "p")->addSelect("p")
+        ;
+        $qb->where($qb->expr()->eq("s.id", $id));
+        return $qb->getQuery()->getOneOrNullResult(Query::HYDRATE_ARRAY);
     }
 }

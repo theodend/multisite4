@@ -44,6 +44,22 @@ class PublishPost
      */
     private $post;
 
+    /**
+     * @ORM\Column(name="target_site", type="string", length=15, nullable=false)
+     */
+    private $targetSite;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ZPB\AdminBundle\Entity\PostCategory", inversedBy="posts")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
+
+    public function __construct()
+    {
+        $this->targetSite = "zoo";
+    }
+
 
     /**
      * Get id
@@ -53,6 +69,16 @@ class PublishPost
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     /**
@@ -69,13 +95,13 @@ class PublishPost
     }
 
     /**
-     * Get createdAt
+     * Get updatedAt
      *
      * @return \DateTime
      */
-    public function getCreatedAt()
+    public function getUpdatedAt()
     {
-        return $this->createdAt;
+        return $this->updatedAt;
     }
 
     /**
@@ -92,13 +118,13 @@ class PublishPost
     }
 
     /**
-     * Get updatedAt
+     * Get post
      *
-     * @return \DateTime
+     * @return Post
      */
-    public function getUpdatedAt()
+    public function getPost()
     {
-        return $this->updatedAt;
+        return $this->post;
     }
 
     /**
@@ -115,12 +141,44 @@ class PublishPost
     }
 
     /**
-     * Get post
-     *
-     * @return Post
+     * @return mixed
      */
-    public function getPost()
+    public function getTargetSite()
     {
-        return $this->post;
+        return $this->targetSite;
+    }
+
+    /**
+     * @param mixed $targetSite
+     * @return PublishPost
+     */
+    public function setTargetSite($targetSite)
+    {
+        $this->targetSite = $targetSite;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return PostCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set category
+     *
+     * @param PostCategory $category
+     * @return PublishPost
+     */
+    public function setCategory(PostCategory $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }

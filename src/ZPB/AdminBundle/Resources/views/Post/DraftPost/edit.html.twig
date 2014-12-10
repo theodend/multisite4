@@ -1,0 +1,18 @@
+{% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
+
+{% block title %}Articles | Beauval Nature{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
+
+    <h2>Les brouillons - Edition</h2>
+
+    <div class="row">
+        <div class="col-sm-8 col-md-8">
+            {{ dump(post) }}
+        </div>
+        <div class="col-sm-4 col-md-4"></div>
+    </div>
+
+
+{% endblock %}

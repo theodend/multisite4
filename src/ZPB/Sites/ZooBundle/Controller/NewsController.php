@@ -27,7 +27,8 @@ class NewsController extends BaseController
 {
     public function newsAction(Request $request)
     {
-        return $this->getView('ZPBSitesZooBundle:News:news.html.twig',$request);
+        $posts = $this->getRepo("ZPBAdminBundle:PublishPost")->getPosts();
+        return $this->getView('ZPBSitesZooBundle:News:news.html.twig',$request, ["posts"=>$posts]);
     }
 
     public function nouveautesAction(Request $request)

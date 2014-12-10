@@ -2,6 +2,8 @@
 
 namespace ZPB\AdminBundle\Entity;
 
+use Doctrine\ORM\Query;
+
 
 /**
  * PublishPostRepository
@@ -11,4 +13,28 @@ namespace ZPB\AdminBundle\Entity;
  */
 class PublishPostRepository extends PostableRepository
 {
+    public function getPosts()
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->addSelect("pub")
+            ->addSelect("post")
+            ->addSelect("category")
+            ->from("ZPBAdminBundle:PublishPost ", "pub")
+            ->leftJoin("pub.post", "post")
+            ->leftJoin("pub.category", "category")
+        ;
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    public function getPost($id)
+    {
+
+        $qb = $this->createQueryBuilder("s")
+            ->join("s.post", "p")->addSelect("p")
+            ->leftJoin("p.category", "c")->addSelect("c")
+        ;
+        $qb->where($qb->expr()->eq("s.id", $id));
+        return $qb->getQuery()->getOneOrNullResult(Query::HYDRATE_ARRAY);
+    }
 }
