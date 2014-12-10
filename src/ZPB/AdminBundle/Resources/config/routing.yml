@@ -48,7 +48,19 @@ zpb_admin_animal_category_routes:
 
 ############################################# sponsoring
 
+############################################# post
 
+zpb_admin_draft_post_routes:
+    prefix: /posts/brouillons
+    resource: "@ZPBAdminBundle/Resources/config/routing/post/draft.yml"
+
+zpb_admin_published_post_routes:
+    prefix: /posts/publies
+    resource: "@ZPBAdminBundle/Resources/config/routing/post/published.yml"
+
+zpb_admin_trash_post_routes:
+    prefix: /posts/corbeille
+    resource: "@ZPBAdminBundle/Resources/config/routing/post/trash.yml"
 
 
 ############################################# bn

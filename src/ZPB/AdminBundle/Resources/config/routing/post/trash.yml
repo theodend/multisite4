@@ -1,0 +1,4 @@
+zpb_admin_trash_post_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:Post/TrashPost:index }
+    methods: ["GET"]

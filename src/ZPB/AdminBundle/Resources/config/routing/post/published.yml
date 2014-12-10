@@ -1,0 +1,4 @@
+zpb_admin_published_post_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:Post/PublishedPost:index }
+    methods: ["GET"]

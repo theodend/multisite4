@@ -1,0 +1,34 @@
+{% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
+
+{% block title %}Articles | Beauval Nature{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
+
+    <h2>La corbeille</h2>
+
+    <div class="row">
+        <div class="col-sm-8 col-md-8">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Extrait</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                        <tr>
+                            <td>{{ post.post.title }}</td>
+                            <td>{{ post.post.excerpt|raw }}</td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-4 col-md-4"></div>
+    </div>
+
+
+{% endblock %}

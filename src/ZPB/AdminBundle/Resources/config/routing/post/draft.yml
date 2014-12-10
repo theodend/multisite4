@@ -1,0 +1,4 @@
+zpb_admin_draft_post_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:Post/DraftPost:index }
+    methods: ["GET"]
