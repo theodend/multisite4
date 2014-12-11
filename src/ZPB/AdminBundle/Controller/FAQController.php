@@ -95,4 +95,33 @@ class FAQController extends ZPBController
         }
         return new JsonResponse($response);
     }
+
+    public function xhrDeleteAction(Request $request)
+    {
+        // TODO javascript delete
+        if(!$request->isMethod("DELETE") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $token = $request->query->get('_token', false);
+        if(!$this->validateToken($token, 'delete_faq')){
+            throw $this->createAccessDeniedException();
+        }
+        $id = $request->query->get("id", false);
+        if(!$id){
+            throw $this->createAccessDeniedException();
+        }
+        $faq = $this->getRepo("ZPBAdminBundle:FAQ")->find($id);
+        if(!$faq){
+            throw $this->createNotFoundException();
+        }
+        $response = ["error"=>true, "msg"=>"", "datas"=>[]];
+        $this->getManager()->remove($faq);
+        $this->getManager()->flush();
+        $response["error"] = false;
+        $response["datas"] = $faq;
+        $response["msg"] = "Faqsupprimée.";
+
+        return new JsonResponse($response);
+
+    }
 }

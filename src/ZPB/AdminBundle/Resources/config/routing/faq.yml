@@ -13,5 +13,8 @@ zpb_admin_faqs_xhr_update:
     defaults: { _controller: ZPBAdminBundle:FAQ:xhrUpdate }
     methods: ["PUT"]
 
-
+zpb_admin_faqs_xhr_delete:
+    path: /xhr/delete
+    defaults: { _controller: ZPBAdminBundle:FAQ:xhrDelete }
+    methods: ["DELETE"]
 
