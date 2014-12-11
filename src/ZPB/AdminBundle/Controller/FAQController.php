@@ -27,7 +27,7 @@ class FAQController extends ZPBController
 {
     public function indexAction()
     {
-
-        return $this->render('ZPBAdminBundle:FAQ:index.html.twig', []);
+        $faqs = $this->getRepo("ZPBAdminBundle:FAQ")->getAll();
+        return $this->render('ZPBAdminBundle:FAQ:index.html.twig', ["faqs"=>$faqs]);
     }
 } 

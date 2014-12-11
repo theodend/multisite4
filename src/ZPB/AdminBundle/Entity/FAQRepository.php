@@ -12,4 +12,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class FAQRepository extends EntityRepository
 {
+    public function getAll()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("f","s")->from("ZPBAdminBundle:FAQ", "f");
+        $qb->leftJoin("f.site","s");
+        $qb->addSelect("s");
+        $qb->orderBy("s.name", "ASC");
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    public function getBySite($siteShortname)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("f","s")->from("ZPBAdminBundle:FAQ", "f");
+        $qb->leftJoin("f.site","s");
+        $qb->where("s.shortname = :name")->setParameter("name", $siteShortname);
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }

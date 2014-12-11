@@ -27,6 +27,7 @@ class FAQController extends BaseController
 {
     public function indexAction(Request $request)
     {
-        return $this->getView('ZPBSitesZooBundle:FAQ:index.html.twig', $request);
+        $faqs = $this->getRepo("ZPBAdminBundle:FAQ")->getBySite($this->site);
+        return $this->getView('ZPBSitesZooBundle:FAQ:index.html.twig', $request, ["faqs"=>$faqs]);
     }
 }
