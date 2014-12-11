@@ -37,4 +37,9 @@ class MiscellaneousController extends BaseController
         $cgv = file_get_contents($this->get("kernel")->getRootDir()."/../web/mds/cgv-gp.md");
         return $this->getView("ZPBSitesZooBundle:Miscellaneous:cgv.html.twig", $request, ["cgv"=>$cgv]);
     }
+
+    public function rulesAction(Request $request)
+    {
+        return $this->getView("ZPBSitesZooBundle:Miscellaneous:rules.html.twig", $request, []);
+    }
 }

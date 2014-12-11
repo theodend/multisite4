@@ -125,17 +125,22 @@ class loadPageZoo1 extends AbstractFixture implements OrderedFixtureInterface, C
         $page21 = new Page();
         $page21->setName('zoo:faq:faq')->setSite('zoo')->setTitle('Questions fréquentes')->setRoute('zpb_sites_zoo_faq')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_zoo_faq',[],false));
         $manager->persist($page21);
-        $manager->flush();
 
         $page22 = new Page();
         $page22->setName('zoo:legales:legales')->setSite('zoo')->setTitle('Mentions légales')->setRoute('zpb_sites_zoo_legales')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_zoo_legales',[],false));
         $manager->persist($page22);
-        $manager->flush();
 
         $page23 = new Page();
         $page23->setName('zoo:cgv:cgv')->setSite('zoo')->setTitle('Conditions générales de vente')->setRoute('zpb_sites_zoo_cgv')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_zoo_cgv',[],false));
         $manager->persist($page23);
+
+        $page23 = new Page();
+        $page23->setName('zoo:rules:rules')->setSite('zoo')->setTitle('Règlement intérieur')->setRoute('zpb_sites_zoo_rules')->setParent($page1)->setUrl($this->container->get('router')->generate('zpb_sites_zoo_rules',[],false));
+        $manager->persist($page23);
+
         $manager->flush();
+
+
 
     }
 

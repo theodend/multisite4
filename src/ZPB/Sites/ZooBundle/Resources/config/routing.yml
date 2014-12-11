@@ -52,3 +52,8 @@ zpb_sites_zoo_cgv:
     path: /conditions-generales-de-vente
     defaults: { _controller: ZPBSitesZooBundle:Miscellaneous:cgv }
     methods: ["GET"]
+
+zpb_sites_zoo_rules:
+    path: /reglement-interieur
+    defaults: { _controller: ZPBSitesZooBundle:Miscellaneous:rules }
+    methods: ["GET"]

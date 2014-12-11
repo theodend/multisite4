@@ -47,14 +47,17 @@ class LoadPublishPosts62  extends AbstractFixture implements OrderedFixtureInter
     {
         $pu1 = new PublishPost();
         $pu1->setPost($this->getReference("post4"));
+        $pu1->addSite($this->getReference('site-zoo'));
         $manager->persist($pu1);
 
         $pu2 = new PublishPost();
         $pu2->setPost($this->getReference("post5"));
+        $pu2->addSite($this->getReference('site-zoo'));
         $manager->persist($pu2);
 
         $pu3 = new PublishPost();
         $pu3->setPost($this->getReference("post6"));
+        $pu3->addSite($this->getReference('site-zoo'));
         $manager->persist($pu3);
 
         $manager->flush();

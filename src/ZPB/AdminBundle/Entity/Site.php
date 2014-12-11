@@ -2,6 +2,7 @@
 
 namespace ZPB\AdminBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,6 +50,29 @@ class Site implements \JsonSerializable
      */
     private $url;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="ZPB\AdminBundle\Entity\PublishPost", mappedBy="sites")
+     */
+    private $posts;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
+
+    function jsonSerialize()
+    {
+        return [
+            "id" => $this->getId(),
+            "name" => $this->getName(),
+            "shortname" => $this->getShortname(),
+            "route" => $this->getRoute(),
+            "url" => $this->getUrl(),
+        ];
+    }
 
     /**
      * Get id
@@ -58,6 +82,16 @@ class Site implements \JsonSerializable
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -74,13 +108,13 @@ class Site implements \JsonSerializable
     }
 
     /**
-     * Get name
+     * Get shortname
      *
      * @return string
      */
-    public function getName()
+    public function getShortname()
     {
-        return $this->name;
+        return $this->shortname;
     }
 
     /**
@@ -97,13 +131,13 @@ class Site implements \JsonSerializable
     }
 
     /**
-     * Get shortname
+     * Get route
      *
      * @return string
      */
-    public function getShortname()
+    public function getRoute()
     {
-        return $this->shortname;
+        return $this->route;
     }
 
     /**
@@ -120,13 +154,13 @@ class Site implements \JsonSerializable
     }
 
     /**
-     * Get route
+     * Get url
      *
      * @return string
      */
-    public function getRoute()
+    public function getUrl()
     {
-        return $this->route;
+        return $this->url;
     }
 
     /**
@@ -143,23 +177,35 @@ class Site implements \JsonSerializable
     }
 
     /**
-     * Get url
+     * Add posts
      *
-     * @return string
+     * @param PublishPost $posts
+     * @return Site
      */
-    public function getUrl()
+    public function addPost(PublishPost $posts)
     {
-        return $this->url;
+        $this->posts[] = $posts;
+
+        return $this;
     }
 
-    function jsonSerialize()
+    /**
+     * Remove posts
+     *
+     * @param PublishPost $posts
+     */
+    public function removePost(PublishPost $posts)
     {
-        return [
-            "id" => $this->getId(),
-            "name" => $this->getName(),
-            "shortname" => $this->getShortname(),
-            "route" => $this->getRoute(),
-            "url" => $this->getUrl(),
-        ];
+        $this->posts->removeElement($posts);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 }

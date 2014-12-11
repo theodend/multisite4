@@ -2,6 +2,7 @@
 
 namespace ZPB\AdminBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -45,9 +46,10 @@ class PublishPost
     private $post;
 
     /**
-     * @ORM\Column(name="target_site", type="string", length=15, nullable=false)
+     * @ORM\ManyToMany(targetEntity="ZPB\AdminBundle\Entity\Site", inversedBy="posts")
+     * @ORM\JoinTable(name="zpb_posts_to_sites")
      */
-    private $targetSite;
+    private $sites;
 
     /**
      * @ORM\ManyToOne(targetEntity="ZPB\AdminBundle\Entity\PostCategory", inversedBy="posts")
@@ -57,7 +59,7 @@ class PublishPost
 
     public function __construct()
     {
-        $this->targetSite = "zoo";
+        $this->sites = new ArrayCollection();
     }
 
 
@@ -180,5 +182,38 @@ class PublishPost
         $this->category = $category;
 
         return $this;
+    }
+
+    /**
+     * Add sites
+     *
+     * @param Site $sites
+     * @return PublishPost
+     */
+    public function addSite(Site $sites)
+    {
+        $this->sites[] = $sites;
+
+        return $this;
+    }
+
+    /**
+     * Remove sites
+     *
+     * @param Site $sites
+     */
+    public function removeSite(Site $sites)
+    {
+        $this->sites->removeElement($sites);
+    }
+
+    /**
+     * Get sites
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSites()
+    {
+        return $this->sites;
     }
 }

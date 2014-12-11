@@ -65,13 +65,17 @@ class LoadSites  extends AbstractFixture implements OrderedFixtureInterface, Con
         $manager->persist($site4);
 
 
-        $site1 = new Site();
-        $site1->setName('CE')->setShortname('ce')->setRoute('zpb_sites_ce_homepage')->setUrl('http://ce.zoobeauval.com');
-        $manager->persist($site1);
+        $site5 = new Site();
+        $site5->setName('CE')->setShortname('ce')->setRoute('zpb_sites_ce_homepage')->setUrl('http://ce.zoobeauval.com');
+        $manager->persist($site5);
 
         $manager->flush();
 
-        // $this->addReference('', );
+        $this->addReference('site-zoo', $site1);
+        $this->addReference('site-bn', $site2);
+        $this->addReference('site-pro', $site3);
+        $this->addReference('site-sco', $site4);
+        $this->addReference('site-ce', $site5);
     }
 
     public function getOrder()
