@@ -55,6 +55,7 @@ class UtilsController extends BaseController
 
     public function servicesAction(Request $request)
     {
-        return $this->getView('ZPBSitesZooBundle:Utils:services.html.twig', $request);
+        $services = file_get_contents($this->get("kernel")->getRootDir()."/../web/mds/services.md");
+        return $this->getView('ZPBSitesZooBundle:Utils:services.html.twig', $request, ["services"=>$services]);
     }
 }
