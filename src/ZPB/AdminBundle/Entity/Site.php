@@ -56,11 +56,17 @@ class Site implements \JsonSerializable
     private $posts;
 
     /**
+     * @ORM\OneToMany(targetEntity="ZPB\AdminBundle\Entity\FAQ", mappedBy="site")
+     */
+    private $faqs;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->faqs = new ArrayCollection();
     }
 
     function jsonSerialize()
@@ -207,5 +213,38 @@ class Site implements \JsonSerializable
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Add faqs
+     *
+     * @param FAQ $faqs
+     * @return Site
+     */
+    public function addFaq(FAQ $faqs)
+    {
+        $this->faqs[] = $faqs;
+
+        return $this;
+    }
+
+    /**
+     * Remove faqs
+     *
+     * @param FAQ $faqs
+     */
+    public function removeFaq(FAQ $faqs)
+    {
+        $this->faqs->removeElement($faqs);
+    }
+
+    /**
+     * Get faqs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFaqs()
+    {
+        return $this->faqs;
     }
 }

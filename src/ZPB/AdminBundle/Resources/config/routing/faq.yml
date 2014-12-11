@@ -1,0 +1,4 @@
+zpb_admin_faqs_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:FAQ:index }
+    methods: ["GET"]

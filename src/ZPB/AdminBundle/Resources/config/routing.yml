@@ -3,9 +3,13 @@ zpb_admin_homepage:
     defaults: { _controller: ZPBAdminBundle:Index:index }
     methods: ["GET"]
 
+zpb_admin_faqs_routes:
+    prefix: /faqs
+    resource: "@ZPBAdminBundle/Resources/config/routing/faq.yml"
+
 zpb_admin_sites_routes:
-   prefix: /sites
-   resource: "@ZPBAdminBundle/Resources/config/routing/site.yml"
+    prefix: /sites
+    resource: "@ZPBAdminBundle/Resources/config/routing/site.yml"
 
 
 ############################################# image galleries
