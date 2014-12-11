@@ -2,3 +2,16 @@ zpb_admin_faqs_homepage:
     path: /
     defaults: { _controller: ZPBAdminBundle:FAQ:index }
     methods: ["GET"]
+
+zpb_admin_faqs_xhr_create:
+    path: /xhr/create
+    defaults: { _controller: ZPBAdminBundle:FAQ:xhrCreate }
+    methods: ["POST"]
+
+zpb_admin_faqs_xhr_update:
+    path: /xhr/update
+    defaults: { _controller: ZPBAdminBundle:FAQ:xhrUpdate }
+    methods: ["PUT"]
+
+
+

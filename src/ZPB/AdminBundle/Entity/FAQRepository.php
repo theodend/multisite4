@@ -16,8 +16,7 @@ class FAQRepository extends EntityRepository
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select("f","s")->from("ZPBAdminBundle:FAQ", "f");
-        $qb->leftJoin("f.site","s");
-        $qb->addSelect("s");
+        $qb->join("f.site","s");
         $qb->orderBy("s.name", "ASC");
         return $qb->getQuery()->getArrayResult();
     }

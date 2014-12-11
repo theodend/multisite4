@@ -3,14 +3,15 @@
 namespace ZPB\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * FAQ
  *
- * @ORM\Table()
+ * @ORM\Table(name="zpb_faqs")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\FAQRepository")
  */
-class FAQ
+class FAQ implements \JsonSerializable
 {
     /**
      * @var integer
@@ -23,14 +24,14 @@ class FAQ
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Ce champs est requis.")
      * @ORM\Column(name="question", type="text")
      */
     private $question;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Ce champs est requis.")
      * @ORM\Column(name="response", type="text")
      */
     private $response;
@@ -41,15 +42,34 @@ class FAQ
      */
     private $site;
 
+    public function jsonSerialize()
+    {
+        return [
+            "id"       => $this->getId(),
+            "question" => $this->getQuestion(),
+            "response" => $this->getResponse(),
+            "site"     => $this->getSite()
+        ];
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get question
+     *
+     * @return string
+     */
+    public function getQuestion()
+    {
+        return $this->question;
     }
 
     /**
@@ -66,13 +86,13 @@ class FAQ
     }
 
     /**
-     * Get question
+     * Get response
      *
-     * @return string 
+     * @return string
      */
-    public function getQuestion()
+    public function getResponse()
     {
-        return $this->question;
+        return $this->response;
     }
 
     /**
@@ -89,13 +109,13 @@ class FAQ
     }
 
     /**
-     * Get response
+     * Get site
      *
-     * @return string 
+     * @return Site
      */
-    public function getResponse()
+    public function getSite()
     {
-        return $this->response;
+        return $this->site;
     }
 
     /**
@@ -109,15 +129,5 @@ class FAQ
         $this->site = $site;
 
         return $this;
-    }
-
-    /**
-     * Get site
-     *
-     * @return Site
-     */
-    public function getSite()
-    {
-        return $this->site;
     }
 }

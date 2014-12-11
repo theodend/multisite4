@@ -5,14 +5,152 @@
 {% block content %}
     <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
 
-    <h2>Liste</h2>
+    <h2 class="sub-header">Nouvelle FAQ</h2>
 
     <div class="row">
-        <div class="col-sm-8 col-md-8">
-            {{ dump(faqs) }}
+        <div class="col-sm-4 col-md-4">
+            {{ form_start(form, {attr:{class: "form", novalidate:true}}) }}
+            {{ form_errors(form) }}
+
+            <div class="form-group">
+                {{ form_label(form.question,null, {label_attr:{class: "control-label"}}) }}
+                {{ form_widget(form.question, {attr:{class: "form-control"}}) }}
+                {{ form_errors(form.question) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.response,null, {label_attr:{class: "control-label"}}) }}
+                {{ form_widget(form.response, {attr:{class: "form-control"}}) }}
+                {{ form_errors(form.response) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.site,null, {label_attr:{class: "control-label"}}) }}
+                {{ form_widget(form.site, {attr:{class: "form-control"}}) }}
+                {{ form_errors(form.site) }}
+            </div>
+            {{ form_widget(form.save, {attr: {class: "btn btn-primary"}}) }}
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
         </div>
-        <div class="col-sm-4 col-md-4"></div>
+        <div class="col-sm-8 col-md-8"></div>
+    </div>
+
+    <h2 class="sub-header">Liste</h2>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Site</th>
+                        <th>Question</th>
+                        <th>Editer</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for faq in faqs %}
+                        <tr>
+                            <td>{{ faq.id }}</td>
+                            <td>{{ faq.site.name }}</td>
+                            <td>{{ faq.question }}</td>
+                            <td><a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a></td>
+                            <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-6 col-md-6">
+
+            <form action="" method="post" name="update_faq_form" novalidate="1" class="form" data-id="">
+                <div class="form-group">
+                    <label class="control-label" for="update_faq_form_question"></label>
+                    <textarea name="update_faq_form[question]" id="update_faq_form_question"
+                              class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="update_faq_form_response"></label>
+                    <textarea name="update_faq_form[response]" id="update_faq_form_response"
+                              class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="update_faq_form_site"></label>
+                    <select name="update_faq_form[site]" id="update_faq_form_site" class="form-control">
+
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+            </form>
+
+        </div>
     </div>
 
 
+{% endblock %}
+
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        var createFaqUrl = "{{ path("zpb_admin_faqs_xhr_create") }}";
+        var updateFaqUrl = "{{ path("zpb_admin_faqs_xhr_update", { _token: csrf_token("update_faq")})|raw }}";
+        $(function () {
+            var createForm = $("form[name='faq_form']");
+            var updateForm = $("form[name='update_faq_form']");
+            var sitesUpdate = updateForm.find("#update_faq_form_site");
+            var siteOptions = createForm.find("#faq_form_site").find("option");
+
+            siteOptions.each(function () {
+                sitesUpdate.append($(this).clone());
+            });
+
+            createForm.on("submit", function () {
+
+                $.ajax({
+                    url: createFaqUrl,
+                    type: "POST",
+                    data: $(this).serialize()
+                })
+                        .done(function (response) {
+                            if (response.error === false) {
+                            } else {
+
+                            }
+                            console.log(response);
+                        })
+                        .fail(function (xhr) {
+                            console.log(xhr.statusCode + " " + xhr.statusText);
+                        });
+                return false;
+            });
+
+            updateForm.on("submit", function () {
+                if($(this).data("id") == ""){
+                    return false;
+                }
+                var url = updateFaqUrl + "&id=" + $(this).data("id");
+
+                $.ajax({
+                    type: "PUT",
+                    url: url,
+                    data: $(this).serialize()
+                })
+                        .done(function (response) {
+                            if (response.error === false) {
+                            } else {
+
+                            }
+                            console.log(response);
+                        })
+                        .fail(function (xhr) {
+                            console.log(xhr.statusCode + " " + xhr.statusText);
+                        });
+                return false;
+            })
+        });
+    </script>
 {% endblock %}

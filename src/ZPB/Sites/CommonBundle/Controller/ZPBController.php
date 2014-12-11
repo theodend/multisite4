@@ -22,6 +22,7 @@ namespace ZPB\Sites\CommonBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
 class ZPBController extends Controller
@@ -90,5 +91,47 @@ class ZPBController extends Controller
         parse_str($request->getContent(), $inputs);
         return $inputs;
 
+    }
+
+    /**
+     * @return \Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfTokenManagerAdapter
+     */
+    public function getCsrf()
+    {
+        if(!$this->container->has('form.csrf_provider')){
+            throw new \LogicException('The form.csrf_provider is undefined in container');
+        }
+        return $this->get('form.csrf_provider');
+    }
+
+    /**
+     * @param string $token
+     * @param string $intention
+     * @return bool
+     */
+    public function validateToken($token = '', $intention='')
+    {
+        if(!$token || !$this->getCsrf()->isCsrfTokenValid($intention, $token)){
+            return false;
+        }
+        return true;
+    }
+
+    protected function getFormErrors($form) {
+        $errors = [];
+        if ($form instanceof Form) {
+            foreach ($form->getErrors() as $error) {
+
+                $errors[] = $error->getMessage();
+            }
+
+            foreach ($form->all() as $key => $child) {
+                /** @var $child Form */
+                if ($err = $this->getFormErrors($child)) {
+                    $errors[$key] = $err;
+                }
+            }
+        }
+        return $errors;
     }
 }
