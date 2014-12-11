@@ -27,7 +27,8 @@ class UtilsController extends BaseController
 {
     public function accessAction(Request $request)
     {
-        return $this->getView('ZPBSitesZooBundle:Utils:access.html.twig', $request);
+        $acces = file_get_contents($this->get("kernel")->getRootDir()."/../web/mds/acces.md");
+        return $this->getView('ZPBSitesZooBundle:Utils:access.html.twig', $request, ["acces"=>$acces]);
     }
 
     public function schedulesAndPricesAction(Request $request)
@@ -43,6 +44,7 @@ class UtilsController extends BaseController
 
     public function mapAction(Request $request)
     {
+
         return $this->getView('ZPBSitesZooBundle:Utils:map.html.twig', $request);
     }
 
