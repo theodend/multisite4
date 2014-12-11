@@ -32,7 +32,8 @@ class UtilsController extends BaseController
 
     public function schedulesAndPricesAction(Request $request)
     {
-        return $this->getView('ZPBSitesZooBundle:Utils:horaires_tarifs.html.twig', $request);
+        $horaires = file_get_contents($this->get("kernel")->getRootDir()."/../web/mds/horaires.md");
+        return $this->getView('ZPBSitesZooBundle:Utils:horaires_tarifs.html.twig', $request, ["horaires"=>$horaires]);
     }
 
     public function animationsAndShowsAction(Request $request)
