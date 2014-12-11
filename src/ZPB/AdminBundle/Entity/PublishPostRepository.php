@@ -23,18 +23,64 @@ class PublishPostRepository extends PostableRepository
             ->leftJoin("pub.post", "post")
             ->leftJoin("pub.category", "category")
         ;
+        return $qb->getQuery()->getArrayResult();
+    }
 
+    public function getOrderedPosts()
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->addSelect("pub")
+            ->addSelect("post")
+            ->addSelect("category")
+            ->from("ZPBAdminBundle:PublishPost ", "pub")
+            ->leftJoin("pub.post", "post")
+            ->leftJoin("pub.category", "category")
+            ->orderBy("pub.updatedAt","ASC")
+        ;
         return $qb->getQuery()->getArrayResult();
     }
 
     public function getPost($id)
     {
-
-        $qb = $this->createQueryBuilder("s")
-            ->join("s.post", "p")->addSelect("p")
-            ->leftJoin("p.category", "c")->addSelect("c")
+        $qb = $this->_em->createQueryBuilder()
+            ->addSelect("pub")
+            ->addSelect("post")
+            ->addSelect("category")
+            ->from("ZPBAdminBundle:PublishPost ", "pub")
+            ->leftJoin("pub.post", "post")
+            ->leftJoin("pub.category", "category")
         ;
         $qb->where($qb->expr()->eq("s.id", $id));
+        return $qb->getQuery()->getOneOrNullResult(Query::HYDRATE_ARRAY);
+    }
+
+    public function getPostBySlug($slug)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->addSelect("pub")
+            ->addSelect("post")
+            ->addSelect("category")
+            ->from("ZPBAdminBundle:PublishPost ", "pub")
+            ->leftJoin("pub.post", "post")
+            ->leftJoin("pub.category", "category")
+        ;
+        $qb->where("post.slug = :slug");
+        $qb->setParameter("slug", $slug);
+        return $qb->getQuery()->getOneOrNullResult(Query::HYDRATE_ARRAY);
+    }
+
+    public function getPostsByCategory($slug)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->addSelect("pub")
+            ->addSelect("post")
+            ->addSelect("category")
+            ->from("ZPBAdminBundle:PublishPost ", "pub")
+            ->leftJoin("pub.post", "post")
+            ->leftJoin("pub.category", "category")
+        ;
+        $qb->where("category.slug = :slug");
+        $qb->setParameter("slug", $slug);
         return $qb->getQuery()->getOneOrNullResult(Query::HYDRATE_ARRAY);
     }
 }

@@ -27,12 +27,23 @@ class NewsController extends BaseController
 {
     public function newsAction(Request $request)
     {
-        $posts = $this->getRepo("ZPBAdminBundle:PublishPost")->getPosts();
-        return $this->getView('ZPBSitesZooBundle:News:news.html.twig',$request, ["posts"=>$posts]);
+        // TODO pagination
+        $posts = $this->getRepo("ZPBAdminBundle:PublishPost")->getOrderedPosts();
+        return $this->getView('ZPBSitesZooBundle:News:news.html.twig',$request, ["postArrs"=>array_chunk($posts, 2)]);
+    }
+
+    public function newsSingleAction($slug, Request $request)
+    {
+        $post = $this->getRepo("ZPBAdminBundle:PublishPost")->getPostBySlug($slug);
+        if(!$post){
+            throw $this->createNotFoundException();
+        }
+        return $this->getView('ZPBSitesZooBundle:News:single_post.html.twig',$request, ["post"=>$post]);
     }
 
     public function nouveautesAction(Request $request)
     {
-        return $this->getView('ZPBSitesZooBundle:News:nouveautes.html.twig',$request);
+        $posts = $this->getRepo("ZPBAdminBundle:PublishPost")->getPostsByCategory("nouveautes");
+        return $this->getView('ZPBSitesZooBundle:News:nouveautes.html.twig',$request, ["posts"=>$posts]);
     }
 }

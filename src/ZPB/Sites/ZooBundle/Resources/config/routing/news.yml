@@ -3,6 +3,11 @@ zpb_sites_zoo_news_news:
     defaults: { _controller: ZPBSitesZooBundle:News:news }
     methods: ["GET"]
 
+zpb_sites_zoo_news_single:
+    path: /article/{slug}
+    defaults: { _controller: ZPBSitesZooBundle:News:newsSingle }
+    methods: ["GET"]
+
 zpb_sites_zoo_news_nouveautes:
     path: /nouveautes
     defaults: { _controller: ZPBSitesZooBundle:News:nouveautes }

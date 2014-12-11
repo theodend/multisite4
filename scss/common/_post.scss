@@ -1,0 +1,79 @@
+$post_borderColor: #ddd !default;
+$post_hover_borderColor: #ddd !default;
+
+$post_categoryColor: $grisFonce !default;
+$post_categoryFontSize: $fontSize !default;
+$post_categoryLinkColor: $post_categoryColor !default;
+$post_categoryLinkHoverColor: $bleu !default;
+
+$post_titleFontSize: $fontSize !default;
+$post_titleLinkColor: $grisFonce !default;
+$post_hover_titleLinkColor: $bleu !default;
+
+$post_dateBgColor: #bbb !default;
+$post_dateColor: #fff !default;
+$post_dateFontSize: $fontSize !default;
+
+$post_hover_dateBgColor: $bleu !default;
+
+$post_articleHeight: 150 !default;
+$post_thumbWidth: 100 !default;
+
+$post_postMoreBgColor: #bbb !default;
+$post_hover_postMoreBgColor: $bleu !default;
+$post_postMoreColor: #fff !default;
+$post_hover_postMoreColor: #fff !default;
+$post_postMoreFontSize: $fontSize !default;
+
+$post_tagsFontSize: $fontSize !default;
+$post_tagsColor: #bbb !default;
+$post_tagsLinkColor: #bbb !default;
+$post_tagsLinkHoverColor: $bleu !default;
+.posts{
+  @include clearfix;
+  .post{
+    padding: 20px;
+    margin: 30px 0 10px;
+    border: 1px solid $post_borderColor;
+    position: relative;
+    @include clearfix;
+    header{
+      .post-title{
+        font-size: toUnit($post_titleFontSize);
+        margin: 0 0 20px 0;
+        a{
+          color: $post_titleLinkColor;
+        }
+      }
+    }
+    article{
+      height: toUnit($post_articleHeight);
+      max-height: toUnit($post_articleHeight);
+
+      @include clearfix;
+
+      .post-excerpt{
+        margin-left: toUnit($post_thumbWidth + 20);
+
+        &.post-has-thumbnail{
+          margin-left: toUnit($post_thumbWidth + 195);
+        }
+        .post-more{
+          margin-top: 20px;
+          display: inline-block;
+          background-color: $post_postMoreBgColor;
+          line-height: 25px;
+          height: 25px;
+          padding: 0 5px;
+          font-size: toUnit($post_postMoreFontSize);
+          color: $post_postMoreColor;
+          a{
+            color: $post_postMoreColor;
+          }
+        }
+      }
+    }
+
+  }
+}
+

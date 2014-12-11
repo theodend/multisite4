@@ -30,6 +30,12 @@ class Post
     private $title;
 
     /**
+     * @ORM\Column(name="slug", type="string", length=255)
+     * @Gedmo\Slug(fields={"title"}, unique=true)
+     */
+    private $slug;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="body", type="text", nullable=true)
@@ -184,4 +190,23 @@ class Post
     {
         return $this->excerpt;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     * @return PublishPost
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
 }

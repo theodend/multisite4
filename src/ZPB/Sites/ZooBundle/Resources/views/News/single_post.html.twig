@@ -7,8 +7,7 @@
             <div class="col-sm-2 col-md-2"></div>
             <div class="col-sm-8 col-md-8">
                 <div class="page-intro">
-                    <p>Des naissances aux arrivées d’animaux, en passant par les nouveautés de l’année, Beauval dévoile les évènements qui rythment son activité.
-                        <br/> Une actualité à suivre sans plus tarder !</p>
+
                 </div>
             </div>
             <div class="col-sm-2 col-md-2"></div>
@@ -16,29 +15,26 @@
     </div>
 
     <div class="container">
-        <div class="posts">
-            {% for row in postArrs  %}
+        <div class="single-post">
+
                 <div class="row">
-                    {% for post in row %}
+
                         <div class="col-sm-6 col-md-6">
                             <div class="post post-{{ post.targetSite }}" id="post_{{ post.id }}">
                                 <header>
-                                    <h1 class="post-title"><a href="{{ path("zpb_sites_zoo_news_single", {slug: post.post.slug}) }}">{{ post.post.title }}</a></h1>
+                                    <h1 class="post-title">{{ post.post.title }}</h1>
                                 </header>
                                 <article>
-                                    <div class="post-excerpt">
-                                        <p>{{ post.post.excerpt|raw }}</p>
-                                        <div class="post-more"><a href="{{ path("zpb_sites_zoo_news_single", {slug: post.post.slug}) }}">Lire plus...</a></div>
-                                    </div>
+
                                 </article>
                                 <footer>
 
                                 </footer>
                             </div>
                         </div>
-                    {% endfor %}
+
                 </div>
-            {% endfor %}
+
         </div>
     </div>
 {% endblock %}
