@@ -25,11 +25,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class NewsController extends BaseController
 {
-    public function newsAction(Request $request)
+    public function newsAction(Request $request, $page = 1)
     {
-        // TODO pagination
-        $posts = $this->getRepo("ZPBAdminBundle:PublishPost")->getOrderedPosts();
-        return $this->getView('ZPBSitesZooBundle:News:news.html.twig',$request, ["postArrs"=>array_chunk($posts, 2)]);
+        $pagination = $this->getRepo("ZPBAdminBundle:PublishPost")->getPagination($this->site, $page, 2);
+        $pagination["posts"] = array_chunk($pagination["posts"], 2);
+        return $this->getView('ZPBSitesZooBundle:News:news.html.twig',$request, ["pagination"=>$pagination]);
     }
 
     public function newsSingleAction($slug, Request $request)

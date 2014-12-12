@@ -21,8 +21,8 @@ class PublishPostRepository extends PostableRepository
             ->addSelect("category")
             ->from("ZPBAdminBundle:PublishPost ", "pub")
             ->leftJoin("pub.post", "post")
-            ->leftJoin("pub.category", "category")
-        ;
+            ->leftJoin("pub.category", "category");
+
         return $qb->getQuery()->getArrayResult();
     }
 
@@ -35,9 +35,70 @@ class PublishPostRepository extends PostableRepository
             ->from("ZPBAdminBundle:PublishPost ", "pub")
             ->leftJoin("pub.post", "post")
             ->leftJoin("pub.category", "category")
-            ->orderBy("pub.updatedAt","ASC")
-        ;
+            ->orderBy("pub.updatedAt", "ASC");
+
         return $qb->getQuery()->getArrayResult();
+    }
+
+    public function getPostsBySite($siteShortname)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("pub", "post", "category")
+            ->from("ZPBAdminBundle:PublishPost", "pub");
+        $qb->leftJoin("pub.post", "post")
+            ->leftJoin("pub.category", "category")
+            ->leftJoin("pub.sites", "sites");
+        $qb->where("sites.shortname = :name")
+            ->setParameter("name", $siteShortname);
+        $qb->orderBy("pub.updatedAt", "ASC");
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    public function getPagination($siteShortname, $pageNum = null, $resultsPerPage = null)
+    {
+        $numPosts = $this->countPostsBySite($siteShortname);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("pub", "post", "category")
+            ->from("ZPBAdminBundle:PublishPost", "pub");
+        $qb->leftJoin("pub.post", "post")
+            ->leftJoin("pub.category", "category")
+            ->leftJoin("pub.sites", "sites");
+        $qb->where("sites.shortname = :name")
+            ->setParameter("name", $siteShortname);
+        $qb->orderBy("pub.updatedAt", "ASC");
+        if($resultsPerPage != null && $resultsPerPage > 0 && $pageNum != null && $pageNum > 0){
+            $numTotalPage = ceil($numPosts / $resultsPerPage);
+            if ($pageNum > $numTotalPage) {
+                $pageNum = $numTotalPage;
+            }
+            $offset = ($pageNum - 1) * $resultsPerPage;
+            $qb->setMaxResults($resultsPerPage)->setFirstResult($offset);
+            return [
+                "numPost"   => $numPosts,
+                "totalPage" => $numTotalPage,
+                "pageNum"   => $pageNum,
+                "posts"     => $qb->getQuery()->getArrayResult()
+            ];
+
+        }
+        return [
+            "numPost"   => $numPosts,
+            "totalPage" => null,
+            "pageNum"   => null,
+            "posts"     => $qb->getQuery()->getArrayResult()
+        ];
+    }
+
+    public function countPostsBySite($siteShortname)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select("COUNT(pub) AS num")->from("ZPBAdminBundle:PublishPost", "pub");
+        $qb->leftJoin("pub.sites", "sites");
+        $qb->where("sites.shortname = :name")
+            ->setParameter("name", $siteShortname);
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     public function getPost($id)
@@ -48,9 +109,9 @@ class PublishPostRepository extends PostableRepository
             ->addSelect("category")
             ->from("ZPBAdminBundle:PublishPost ", "pub")
             ->leftJoin("pub.post", "post")
-            ->leftJoin("pub.category", "category")
-        ;
+            ->leftJoin("pub.category", "category");
         $qb->where($qb->expr()->eq("s.id", $id));
+
         return $qb->getQuery()->getOneOrNullResult(Query::HYDRATE_ARRAY);
     }
 
@@ -62,10 +123,10 @@ class PublishPostRepository extends PostableRepository
             ->addSelect("category")
             ->from("ZPBAdminBundle:PublishPost ", "pub")
             ->leftJoin("pub.post", "post")
-            ->leftJoin("pub.category", "category")
-        ;
+            ->leftJoin("pub.category", "category");
         $qb->where("post.slug = :slug");
         $qb->setParameter("slug", $slug);
+
         return $qb->getQuery()->getOneOrNullResult(Query::HYDRATE_ARRAY);
     }
 
@@ -77,10 +138,10 @@ class PublishPostRepository extends PostableRepository
             ->addSelect("category")
             ->from("ZPBAdminBundle:PublishPost ", "pub")
             ->leftJoin("pub.post", "post")
-            ->leftJoin("pub.category", "category")
-        ;
+            ->leftJoin("pub.category", "category");
         $qb->where("category.slug = :slug");
         $qb->setParameter("slug", $slug);
+
         return $qb->getQuery()->getOneOrNullResult(Query::HYDRATE_ARRAY);
     }
 }

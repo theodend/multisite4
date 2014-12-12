@@ -1,7 +1,9 @@
 zpb_sites_zoo_news_news:
-    path: /
-    defaults: { _controller: ZPBSitesZooBundle:News:news }
+    path: /{page}
+    defaults: { _controller: ZPBSitesZooBundle:News:news, page: 1 }
     methods: ["GET"]
+    requirements:
+        page: \d+
 
 zpb_sites_zoo_news_single:
     path: /article/{slug}

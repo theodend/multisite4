@@ -1,0 +1,54 @@
+ul.pagination{
+  @include clearfix;
+  display: inline-block;
+  li{
+    display: inline-block;
+    float: left;
+    color: $blanc;
+    border:{
+      top: 1px solid darken($grisDF, 5);
+      bottom: 1px solid darken($grisDF, 5);
+      left: 1px solid darken($grisDF, 5);
+    }
+    &:first-child{
+      @include border-top-left-radius(5px);
+      @include border-bottom-left-radius(5px);
+    }
+    &:last-child{
+      border-right: 1px solid darken($grisDF, 5);
+      @include border-top-right-radius(5px);
+      @include border-bottom-right-radius(5px);
+    }
+    &.nav{
+      background-color: $blanc;
+      a{
+
+        color: $ocean;
+      }
+      span{
+        background-color: $grisDF;
+      }
+    }
+    &.page{
+      background-color: $blanc;
+      a{
+        color: $ocean;
+
+      }
+      &.current{
+        border-top-color: $ocean;
+        border-bottom-color: $ocean;
+        span{
+          background-color: $ocean;
+        }
+      }
+    }
+
+    a, span{
+      display: inline-block;
+      padding: 5px 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+}
