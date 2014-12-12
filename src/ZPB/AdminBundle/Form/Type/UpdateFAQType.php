@@ -51,7 +51,12 @@ class UpdateFAQType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(['data_class' => 'ZPB\AdminBundle\Entity\FAQ']);
+        $resolver->setDefaults(
+            [
+                'data_class' => 'ZPB\AdminBundle\Entity\FAQ',
+                'csrf_protection'=>false
+            ]
+        );
         $resolver->setRequired(['em']);
         $resolver->setAllowedTypes(['em' => '\Doctrine\Common\Persistence\ObjectManager']);
     }

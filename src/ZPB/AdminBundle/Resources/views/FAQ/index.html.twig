@@ -74,7 +74,7 @@
                         <th>Supprimer</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="faqs_list">
                     {% for faq in faqs %}
                         <tr id="faq_{{ faq.id }}">
                             <td id="faq_id_{{ faq.id }}">{{ faq.id }}</td>
@@ -107,7 +107,7 @@
 
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary js-update-faq-btn">Mettre à jour</button><div class="loader"></div>
+                <button type="submit" class="btn btn-primary js-update-faq-btn" name="update_faq_form[save]">Mettre à jour</button><div class="loader"></div>
             </form>
 
         </div>
@@ -134,9 +134,22 @@
             var siteOptions = createForm.find("#faq_form_site").find("option");
             var messenger = $("#messenger");
 
+            var rowTpl = "<tr id=\"faq___id__\">" +
+                    "<td id=\"faq_id___id__\">__id__</td>" +
+                    "<td id=\"faq_site_name___id__\">__site_name__</td>" +
+                    "<td id=\"faq_question__id__\">__question__</td>" +
+                    "<td><a class=\"btn btn-default js-edit-faq-btn\" href=\"#\" data-id=\"__id__\"><i class=\"fa fa-edit\"></i></a></td>" +
+                    "<td><a class=\"btn btn-default js-delete-faq-btn\" href=\"#\" data-id=\"__id__\"><i class=\"fa fa-trash-o\"></i></a><div class=\"loader\"></div></td>" +
+                    "</tr>";
+
             siteOptions.each(function () {
                 sitesUpdate.append($(this).clone());
             });
+
+            var fillTpl = function(datas){
+                return rowTpl.replace(/__id__/g, datas["id"]).replace(/__site_name__/, datas["site"]["name"]).replace(/__question__/, datas["question"]);
+
+            };
 
             var showMsg = function(msg, success){
                 if(arguments.length <1){
@@ -160,9 +173,18 @@
                 creation: {
                     createFormName: "faq_form",
                     createUrl: createFaqUrl,
-                    onDone: function(msg, datas){},
-                    onFail: function(msg, datas){},
-                    onServerFail: function(msg){}
+                    updateFormBtnClass: ".js-create-faq-btn",
+                    onDone: function(msg, datas){
+                        var html = fillTpl(datas);
+                        $("#faqs_list").append($(html));
+                        showMsg(msg, true);
+                    },
+                    onFail: function(msg, datas){
+                        showMsg(msg, false);
+                    },
+                    onServerFail: function(msg){
+                        showMsg(msg, false);
+                    }
                 },
                 update: {
                     updateFormName: "update_faq_form",
@@ -191,9 +213,17 @@
                 "delete": {
                     deleteBtnClass: ".js-delete-faq-btn",
                     deleteUrl: deleteFaqUrl,
-                    onDone: function(msg, datas){},
-                    onFail: function(msg, datas){},
-                    onServerFail: function(msg){}
+                    onDone: function(msg, datas){
+                        var row = $("#faqs_list").find("#faq_" + datas["id"]);
+                        row.remove();
+                        showMsg(msg, true);
+                    },
+                    onFail: function(msg, datas){
+                        showMsg(msg, false);
+                    },
+                    onServerFail: function(msg){
+                        showMsg(msg, false);
+                    }
                 }
             };
             var faqManager = new FaqManager(faqs, faqManagerOptions);

@@ -12,6 +12,7 @@ var FaqManager = (function () {
     FaqManager.prototype.init = function () {
         this.createForm = $("form[name='" + this.getCreate("createFormName") + "']");
         this.createLoader = this.createForm.find(".loader");
+        this.createFormBtn = $(this.getCreate("updateFormBtnClass"));
         this.editBtns = $(this.getUpdate("editBtnClass"));
         this.updateForm = $("form[name='" + this.getUpdate("updateFormName") + "']");
         this.updateLoader = this.updateForm.find(".loader");
@@ -21,6 +22,8 @@ var FaqManager = (function () {
     FaqManager.prototype.initCreateEvents = function () {
         var self = this;
         this.createForm.on("submit", function () {
+            self.createFormBtn.hide();
+            self.createLoader.show();
             $.ajax({
                 url: self.getCreate("createUrl"),
                 type: "POST",
@@ -28,19 +31,24 @@ var FaqManager = (function () {
             }).done(function (response) {
                 if (response.error === false) {
                     self.getCreate("onDone")(response.msg, response.datas);
+                    self.faqs.push(response.datas);
                 }
                 else {
                     self.getCreate("onFail")(response.msg, response.datas);
                 }
+                self.createFormBtn.show();
+                self.createLoader.hide();
             }).fail(function (xhr) {
                 self.getCreate("onServerFail")(xhr.statusCode + " " + xhr.statusText);
+                self.createFormBtn.show();
+                self.createLoader.hide();
             });
             return false;
         });
     };
     FaqManager.prototype.initUpdateEvents = function () {
         var self = this;
-        this.editBtns.on("click", function (e) {
+        $(document).on("click", this.getUpdate("editBtnClass"), function (e) {
             e.preventDefault();
             var id = $(this).data("id");
             var faq = self.getById(parseInt(id));
@@ -57,21 +65,21 @@ var FaqManager = (function () {
             self.updateFormBtn.hide();
             self.updateLoader.show();
             $.ajax({
-                type: "PUT",
+                type: "POST",
                 url: url,
                 data: $(this).serialize()
             }).done(function (response) {
                 if (response.error === false) {
-                    self.getCreate("onDone")(response.msg, response.datas);
+                    self.getUpdate("onDone")(response.msg, response.datas);
                 }
                 else {
-                    self.getCreate("onFail")(response.msg, response.datas);
+                    self.getUpdate("onFail")(response.msg, response.datas);
                 }
                 console.log(response);
                 self.updateFormBtn.show();
                 self.updateLoader.hide();
             }).fail(function (xhr) {
-                self.getCreate("onServerFail")(xhr.statusCode + " " + xhr.statusText);
+                self.getUpdate("onServerFail")(xhr.statusCode + " " + xhr.statusText);
                 self.updateFormBtn.show();
                 self.updateLoader.hide();
             });
@@ -80,22 +88,37 @@ var FaqManager = (function () {
     };
     FaqManager.prototype.initDeleteEvents = function () {
         var self = this;
-        this.deleteBtns.on("click", function (e) {
+        $(document).on("click", this.getDelete("deleteBtnClass"), function (e) {
             e.preventDefault();
-            var url = self.getDelete("deleteUrl");
-            var datas = {};
+            var id = $(this).data("id");
+            var faqIdx = self.getIndex(parseInt(id));
+            if (faqIdx == null) {
+                return;
+            }
+            var btn = $(this);
+            var url = self.getDelete("deleteUrl") + "&id=" + id;
+            var datas = { id: id };
+            var loader = $(this).next(".loader");
+            btn.hide();
+            loader.show();
             $.ajax({
                 url: url,
                 type: "DELETE",
                 data: datas
             }).done(function (response) {
                 if (response.error === false) {
+                    response.datas["id"] = id;
                     self.getDelete("onDone")(response.msg, response.datas);
+                    self.faqs.splice(faqIdx, 1);
                 }
                 else {
                     self.getDelete("onFail")(response.msg, response.datas);
                 }
+                btn.show();
+                loader.hide();
             }).fail(function (xhr) {
+                btn.show();
+                loader.hide();
                 self.getDelete("onServerFail")(xhr.statusCode + " " + xhr.statusText);
             });
         });
@@ -133,10 +156,20 @@ var FaqManager = (function () {
         });
         return result;
     };
+    FaqManager.prototype.getIndex = function (id) {
+        var result = null;
+        $.each(this.faqs, function (i, e) {
+            if (e["id"] == id) {
+                result = i;
+            }
+        });
+        return 1;
+    };
     FaqManager.DEFAULTS = {
         creation: {
             createFormName: "",
             createUrl: "",
+            updateFormBtnClass: "",
             onDone: function () {
             },
             onFail: function () {

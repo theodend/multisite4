@@ -47,6 +47,7 @@ class FAQController extends ZPBController
         $newFaqForm = $this->createForm(new FAQType(),$faq, ["em"=>$this->getManager()] );
 
         $newFaqForm->handleRequest($request);
+
         if($newFaqForm->isValid()){
             $this->getManager()->persist($faq);
             $this->getManager()->flush();
@@ -59,13 +60,13 @@ class FAQController extends ZPBController
             $response["msg"] = "Il y a des erreurs.";
         }
 
-
+        return new JsonResponse($response);
     }
 
     public function xhrUpdateAction(Request $request)
     {
-        // TODO inject datas in for, save faq, display errors
-        if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+        // TODO display errors
+        if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
             throw $this->createAccessDeniedException();
         }
         $token = $request->query->get('_token', false);
@@ -84,9 +85,11 @@ class FAQController extends ZPBController
 
         $updateFaqForm = $this->createForm(new UpdateFAQType(),$faq, ["em"=>$this->getManager()] );
         $updateFaqForm->handleRequest($request);
+
         if($updateFaqForm->isValid()){
 
-
+            $this->getManager()->persist($faq);
+            $this->getManager()->flush();
             $response["error"] = false;
             $response["datas"] = $faq;
             $response["msg"] = "Faq mise à jour.";
@@ -122,7 +125,7 @@ class FAQController extends ZPBController
         $this->getManager()->flush();
         $response["error"] = false;
         $response["datas"] = $faq;
-        $response["msg"] = "Faqsupprimée.";
+        $response["msg"] = "Faq supprimée.";
 
         return new JsonResponse($response);
 

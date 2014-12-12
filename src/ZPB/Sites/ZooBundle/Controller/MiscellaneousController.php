@@ -40,6 +40,7 @@ class MiscellaneousController extends BaseController
 
     public function rulesAction(Request $request)
     {
-        return $this->getView("ZPBSitesZooBundle:Miscellaneous:rules.html.twig", $request, []);
+        $rules = file_get_contents($this->get("kernel")->getRootDir()."/../web/mds/internal_rules.md");
+        return $this->getView("ZPBSitesZooBundle:Miscellaneous:rules.html.twig", $request, ["rules"=>$rules]);
     }
 }
