@@ -61,12 +61,18 @@ class Site implements \JsonSerializable
     private $faqs;
 
     /**
+     * @ORM\OneToMany(targetEntity="ZPB\AdminBundle\Entity\PressRelease", mappedBy="site")
+     */
+    private $pressReleases;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->faqs = new ArrayCollection();
+        $this->pressReleases = new ArrayCollection();
     }
 
     function jsonSerialize()
@@ -246,5 +252,38 @@ class Site implements \JsonSerializable
     public function getFaqs()
     {
         return $this->faqs;
+    }
+
+    /**
+     * Add pressReleases
+     *
+     * @param PressRelease $pressReleases
+     * @return Site
+     */
+    public function addPressRelease(PressRelease $pressReleases)
+    {
+        $this->pressReleases[] = $pressReleases;
+
+        return $this;
+    }
+
+    /**
+     * Remove pressReleases
+     *
+     * @param PressRelease $pressReleases
+     */
+    public function removePressRelease(PressRelease $pressReleases)
+    {
+        $this->pressReleases->removeElement($pressReleases);
+    }
+
+    /**
+     * Get pressReleases
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPressReleases()
+    {
+        return $this->pressReleases;
     }
 }
