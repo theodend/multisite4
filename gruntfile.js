@@ -52,6 +52,11 @@ module.exports = function(grunt){
                     "web/js/sites/common/alertManager.min.js": "web/js/devs/alert_manager.js"
                 }
             },
+            faqManager:{
+                files:{
+                    "web/js/admin/common/faqManager.min.js": "web/js/devs/FAQ/faq_manager.js"
+                }
+            },
             jqueryCookie:{
                 files:{
                     "web/js/vendor/jquery.cookie.min.js": "web/js/vendor/jquery.cookie.js"
