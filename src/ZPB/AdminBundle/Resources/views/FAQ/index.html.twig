@@ -1,9 +1,31 @@
 {% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
 
+{% block headScripts %}
+    {{ parent() }}
+    <script src="/js/devs/FAQ/faq_manager.js"></script>
+{% endblock %}
+
+{% block headStyles %}
+    {{ parent() }}
+    <style>
+        .loader{
+            display: none;
+        }
+    </style>
+{% endblock %}
+
 {% block title %}FAQs {% endblock %}
 
 {% block content %}
     <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
+
+    <div class="row">
+        <div class="col-sm-3 col-md-3"></div>
+        <div class="col-sm-6 col-md-6">
+            <div id="messenger"></div>
+        </div>
+        <div class="col-sm-3 col-md-3"></div>
+    </div>
 
     <h2 class="sub-header">Nouvelle FAQ</h2>
 
@@ -54,12 +76,12 @@
                 </thead>
                 <tbody>
                     {% for faq in faqs %}
-                        <tr>
-                            <td>{{ faq.id }}</td>
-                            <td>{{ faq.site.name }}</td>
-                            <td>{{ faq.question }}</td>
-                            <td><a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a></td>
-                            <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a><div class="loader"></div></td>
+                        <tr id="faq_{{ faq.id }}">
+                            <td id="faq_id_{{ faq.id }}">{{ faq.id }}</td>
+                            <td id="faq_site_name_{{ faq.id }}">{{ faq.site.name }}</td>
+                            <td id="faq_question_{{ faq.id }}">{{ faq.question }}</td>
+                            <td><a class="btn btn-default js-edit-faq-btn" href="#" data-id="{{ faq.id }}"><i class="fa fa-edit"></i></a></td>
+                            <td><a class="btn btn-default js-delete-faq-btn" href="#" data-id="{{ faq.id }}"><i class="fa fa-trash-o"></i></a><div class="loader"></div></td>
                         </tr>
                     {% endfor %}
 
@@ -100,59 +122,81 @@
         var createFaqUrl = "{{ path("zpb_admin_faqs_xhr_create") }}";
         var updateFaqUrl = "{{ path("zpb_admin_faqs_xhr_update", { _token: csrf_token("update_faq")})|raw }}";
         var deleteFaqUrl = "{{ path("zpb_admin_faqs_xhr_delete", { _token: csrf_token("delete_faq")})|raw }}";
+        var faqs = [
+            {% for faq in faqs %}
+            {{ faq|json_encode(constant("JSON_PRETTY_PRINT"))|raw }}{% if loop.last != true %}, {% endif %}
+            {% endfor %}
+        ];
         $(function () {
             var createForm = $("form[name='faq_form']");
             var updateForm = $("form[name='update_faq_form']");
             var sitesUpdate = updateForm.find("#update_faq_form_site");
             var siteOptions = createForm.find("#faq_form_site").find("option");
+            var messenger = $("#messenger");
 
             siteOptions.each(function () {
                 sitesUpdate.append($(this).clone());
             });
 
-            createForm.on("submit", function () {
-
-                $.ajax({
-                    url: createFaqUrl,
-                    type: "POST",
-                    data: $(this).serialize()
-                })
-                        .done(function (response) {
-                            if (response.error === false) {
-                            } else {
-
-                            }
-                            console.log(response);
-                        })
-                        .fail(function (xhr) {
-                            console.log(xhr.statusCode + " " + xhr.statusText);
-                        });
-                return false;
-            });
-
-            updateForm.on("submit", function () {
-                if($(this).data("id") == ""){
+            var showMsg = function(msg, success){
+                if(arguments.length <1){
+                    messenger.empty();
                     return false;
                 }
-                var url = updateFaqUrl + "&id=" + $(this).data("id");
+                var type, title;
+                var html =  "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>";
+                if(success === true){
+                    type = "alert-success";
+                    title = "Succès !";
+                } else {
+                    type = "alert-danger";
+                    title = "Echec !";
+                }
+                html = html.replace("[[type]]", type).replace("[[title]]", title).replace("[[msg]]", msg);
+                messenger.append($(html));
+            };
 
-                $.ajax({
-                    type: "PUT",
-                    url: url,
-                    data: $(this).serialize()
-                })
-                        .done(function (response) {
-                            if (response.error === false) {
-                            } else {
+            var faqManagerOptions = {
+                creation: {
+                    createFormName: "faq_form",
+                    createUrl: createFaqUrl,
+                    onDone: function(msg, datas){},
+                    onFail: function(msg, datas){},
+                    onServerFail: function(msg){}
+                },
+                update: {
+                    updateFormName: "update_faq_form",
+                    updateUrl: updateFaqUrl,
+                    editBtnClass: ".js-edit-faq-btn",
+                    updateFormBtnClass: ".js-update-faq-btn",
+                    onDone: function(msg, datas){
 
-                            }
-                            console.log(response);
-                        })
-                        .fail(function (xhr) {
-                            console.log(xhr.statusCode + " " + xhr.statusText);
-                        });
-                return false;
-            })
+                        var tr = $("tr#faq_" + datas["id"]);
+                        var id = tr.find("td#faq_id_" + datas["id"]);
+                        var siteName = tr.find("td#faq_site_name_" + datas["id"]);
+                        var question = tr.find("td#faq_question_" + datas["id"]);
+
+                        id.text(datas["id"]);
+                        siteName.text(datas["site"]["name"]);
+                        question.text(datas["question"]);
+                        showMsg(msg, true);
+                    },
+                    onFail: function(msg, datas){
+                        showMsg(msg, false);
+                    },
+                    onServerFail: function(msg){
+                        showMsg(msg, false);
+                    }
+                },
+                "delete": {
+                    deleteBtnClass: ".js-delete-faq-btn",
+                    deleteUrl: deleteFaqUrl,
+                    onDone: function(msg, datas){},
+                    onFail: function(msg, datas){},
+                    onServerFail: function(msg){}
+                }
+            };
+            var faqManager = new FaqManager(faqs, faqManagerOptions);
         });
     </script>
 {% endblock %}

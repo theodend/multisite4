@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use ZPB\AdminBundle\Entity\FAQ;
 use ZPB\AdminBundle\Form\Type\FAQType;
+use ZPB\AdminBundle\Form\Type\UpdateFAQType;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
 class FAQController extends ZPBController
@@ -81,7 +82,7 @@ class FAQController extends ZPBController
         }
         $response = ["error"=>true, "msg"=>"", "datas"=>[]];
 
-        $updateFaqForm = $this->createForm(new FAQType(),$faq, ["em"=>$this->getManager()] );
+        $updateFaqForm = $this->createForm(new UpdateFAQType(),$faq, ["em"=>$this->getManager()] );
         $updateFaqForm->handleRequest($request);
         if($updateFaqForm->isValid()){
 
@@ -90,9 +91,11 @@ class FAQController extends ZPBController
             $response["datas"] = $faq;
             $response["msg"] = "Faq mise à jour.";
         } else {
+
             $response["datas"] = $this->getFormErrors($updateFaqForm);
             $response["msg"] = "Il y a des erreurs.";
         }
+
         return new JsonResponse($response);
     }
 
