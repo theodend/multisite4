@@ -9,6 +9,7 @@
         <parameter key="zpb.twig.header_carousel_extension.class">ZPB\Sites\CommonBundle\Twig\HeaderCarouselExtension</parameter>
         <parameter key="zpb.twig.alert_manager_extension.class">ZPB\Sites\CommonBundle\Twig\AlertExtension</parameter>
         <parameter key="zpb.twig.pagination_extension.class">ZPB\Sites\CommonBundle\Twig\PaginationExtension</parameter>
+        <parameter key="zpb.twig.shortcode_extension.class">ZPB\Sites\CommonBundle\Twig\ShortCodeExtension</parameter>
 
         <parameter key="zpb.pagination.twig_template">ZPBSitesCommonBundle:Incs:pagination.html.twig</parameter>
     </parameters>
@@ -19,12 +20,19 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="twig.extension" />
         </service>
+
         <service id="zpb.twig.alert_manager_extension" class="%zpb.twig.alert_manager_extension.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="twig.extension" />
         </service>
+
         <service id="zpb.twig.pagination_extension" class="%zpb.twig.pagination_extension.class%">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="zpb.twig.shortcode_extension" class="%zpb.twig.shortcode_extension.class%">
             <argument type="service" id="service_container" />
             <tag name="twig.extension" />
         </service>
