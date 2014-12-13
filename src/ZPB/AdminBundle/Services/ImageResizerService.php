@@ -35,6 +35,8 @@ class ImageResizerService {
     {
         $this->dims = $dims;
         $this->fs = $fs;
+
+        //TODO image resizer general
     }
 
     public function makeThumb($root,  $filename, $webDir)
