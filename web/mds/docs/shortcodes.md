@@ -36,7 +36,7 @@ Paramètres optionnels:
 - title="-texte\_de\_l\_intitulé-"
 - alt="-texte\_de\_alt-"
 
-exemple complet : [img url="chemin/vers-mon/image.jpg" width="300" height="50%" title="un intitulé" alt="alternatif"]
+exemple complet : [img url="/chemin/vers-mon/image.jpg" width="300" height="50%" title="un intitulé" alt="alternatif"]
 
 ####youtube <a name="youtube"></a>
 
