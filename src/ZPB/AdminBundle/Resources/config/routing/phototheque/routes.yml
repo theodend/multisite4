@@ -1,0 +1,4 @@
+zpb_admin_phototek_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:Phototheque/Index:index }
+    methods: ["GET"]

@@ -16,6 +16,12 @@ zpb_admin_doc_routes:
     prefix: /documentation
     resource: "@ZPBAdminBundle/Resources/config/routing/doc.yml"
 
+############################################# phototheque
+zpb_admin_phototek_routes:
+    prefix: /phototheque
+    resource: "@ZPBAdminBundle/Resources/config/routing/phototheque/routes.yml"
+
+
 ############################################# image galleries
 zpb_admin_image_galleries_routes:
     prefix: /image-galleries
