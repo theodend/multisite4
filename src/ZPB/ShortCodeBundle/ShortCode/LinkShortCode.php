@@ -42,6 +42,9 @@ class LinkShortCode extends AbstractShortCode
 
         $pattern = "/(?P<type>route|url)=(?:\"\s*)?(?P<value>[^\"\s]+)(?:\s*\")?/";
         $option = trim($params["params"], " ");
+        if(empty($params["internals"])){
+            $params["internals"] = null;
+        }
         if(preg_match($pattern, $params["params"], $matches)){
             if($matches["type"] === "url"){
                 return $this->makeUrl($matches["value"], $params["internals"]);
@@ -55,6 +58,9 @@ class LinkShortCode extends AbstractShortCode
 
     private function makeUrl($url, $internal)
     {
+        if($internal === null){
+            $internal = $url;
+        }
         return sprintf($this->template, $url, $internal);
     }
 
@@ -62,8 +68,8 @@ class LinkShortCode extends AbstractShortCode
     {
         $router = $this->container->get("router");
         try{
-            $url = $router->generate($route);
-            $string = sprintf($this->template, $url, $internal);
+            $url = $router->generate($route,[], true);
+            $string = $this->makeUrl($url, $internal);
         } catch(\Exception $e){
             $string = "";
         }

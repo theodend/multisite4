@@ -41,7 +41,6 @@ class ShortCodeHelper extends Helper
     {
         $tagsList = $this->shotCodesList();
 
-        //$content = preg_replace_callback("/\[(?P<tag>$tagsList)(?P<params>[^\]]*?)?\](?:(?P<internals>[^\[]+?)?\[\/\1\])?/", [$this, "parseShortCodes"], $content);
         $content = preg_replace_callback("/\[(?P<tag>$tagsList)\s*(?P<params>[^\]]*?)?\](?:(?P<internals>[^\[]+?)?\[\/\\1\])?/", [$this, "parseShortCodes"], $content);
         return $content;
     }
@@ -50,7 +49,6 @@ class ShortCodeHelper extends Helper
     {
         /** @var \ZPB\ShortCodeBundle\ShortCode\AbstractShortCode $shortcode */
         $shortcode = $this->shortcodes[$params["tag"]];
-
         return $shortcode->parse($params);
     }
 
