@@ -1,7 +1,3 @@
-zpb_short_code:
-    resource: "@ZPBShortCodeBundle/Resources/config/routing.yml"
-    prefix:   /
-
 zpb_sites_jdb:
     resource: "@ZPBSitesJDBBundle/Resources/config/routing.yml"
     prefix:   /

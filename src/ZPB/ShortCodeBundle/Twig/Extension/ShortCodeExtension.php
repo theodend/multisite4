@@ -18,10 +18,11 @@
       (__<  |mm_|mm_|  |mm_|mm_|
 */
 
-namespace ZPB\Sites\CommonBundle\Twig;
+namespace ZPB\ShortCodeBundle\Twig\Extension;
 
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use ZPB\ShortCodeBundle\Helper\ShortCodeHelper;
 
 class ShortCodeExtension extends \Twig_Extension{
 
@@ -30,8 +31,11 @@ class ShortCodeExtension extends \Twig_Extension{
      */
     private $container;
 
-    public function __construct(ContainerInterface $container)
+    private $helper;
+
+    public function __construct(ShortCodeHelper $helper, ContainerInterface $container)
     {
+        $this->helper = $helper;
         $this->container = $container;
     }
 
@@ -44,11 +48,11 @@ class ShortCodeExtension extends \Twig_Extension{
 
     public function parse($content)
     {
-
+        return $this->helper->parse($content);
     }
 
     public function getName()
     {
-        return "zpb_shortcode";
+        return "zpb_shortcodes";
     }
 }

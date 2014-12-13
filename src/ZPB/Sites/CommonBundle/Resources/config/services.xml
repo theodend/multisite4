@@ -9,7 +9,7 @@
         <parameter key="zpb.twig.header_carousel_extension.class">ZPB\Sites\CommonBundle\Twig\HeaderCarouselExtension</parameter>
         <parameter key="zpb.twig.alert_manager_extension.class">ZPB\Sites\CommonBundle\Twig\AlertExtension</parameter>
         <parameter key="zpb.twig.pagination_extension.class">ZPB\Sites\CommonBundle\Twig\PaginationExtension</parameter>
-        <parameter key="zpb.twig.shortcode_extension.class">ZPB\Sites\CommonBundle\Twig\ShortCodeExtension</parameter>
+
 
         <parameter key="zpb.pagination.twig_template">ZPBSitesCommonBundle:Incs:pagination.html.twig</parameter>
     </parameters>
