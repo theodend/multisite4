@@ -27,6 +27,10 @@ class IndexController extends ZPBController
 {
     public function indexAction()
     {
+        $shortcodes = file_get_contents($this->get("kernel")->getRootDir()."/../web/mds/docs/shortcodes.md");
 
+        return $this->render('ZPBAdminBundle:Documentation:index.html.twig', [
+            "shortcodes"=>$shortcodes
+        ]);
     }
 }

@@ -29,6 +29,11 @@
             <argument type="service" id="service_container" />
             <tag name="zpb.shortcode" alias="img"/>
         </service>
+
+        <service id="zpb.shortcode.youtube" class="ZPB\ShortCodeBundle\ShortCode\YouTubeShortCode">
+            <argument type="service" id="service_container" />
+            <tag name="zpb.shortcode" alias="youtube"/>
+        </service>
     </services>
 
 </container>

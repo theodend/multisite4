@@ -11,6 +11,10 @@ zpb_admin_sites_routes:
     prefix: /sites
     resource: "@ZPBAdminBundle/Resources/config/routing/site.yml"
 
+############################################# documentation
+zpb_admin_doc_routes:
+    prefix: /documentation
+    resource: "@ZPBAdminBundle/Resources/config/routing/doc.yml"
 
 ############################################# image galleries
 zpb_admin_image_galleries_routes:
