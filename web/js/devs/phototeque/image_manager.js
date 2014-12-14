@@ -44,7 +44,30 @@ var ImageManager = (function () {
         this.confirmStep.hide();
         this.infosStep.hide();
     };
-    ImageManager.prototype.deleteImage = function () {
+    ImageManager.prototype.deleteImage = function (btn) {
+        var loader = btn.next(".loader"), self = this;
+        btn.hide();
+        loader.show();
+        $.ajax({
+            type: "DELETE",
+            url: this.options["deleteUrl"],
+            data: { id: this.image["img"]["id"] }
+        }).done(function (response) {
+            if (response.error == false) {
+                self.image = null;
+                self.reloadSteps();
+                self.options["showMsg"](response.msg, true);
+            }
+            else {
+                self.options["showMsg"](response.msg, false);
+                btn.show();
+                loader.hide();
+            }
+        }).fail(function (xhr) {
+            self.options["showMsg"](xhr.status + " " + xhr.statusText, false);
+            btn.show();
+            loader.hide();
+        });
     };
     ImageManager.prototype.initEvents = function () {
         var self = this;
@@ -54,7 +77,7 @@ var ImageManager = (function () {
         });
         this.deleteS2Btn.on("click", function (e) {
             e.preventDefault();
-            self.deleteImage();
+            self.deleteImage($(this));
             self.reloadSteps();
         });
         this.saveBtn.on("click", function (e) {
@@ -63,13 +86,15 @@ var ImageManager = (function () {
         });
         this.deleteS3Btn.on("click", function (e) {
             e.preventDefault();
-            self.deleteImage();
+            self.deleteImage($(this));
             self.reloadSteps();
         });
     };
     ImageManager.DEFAULTS = {
         updateUrl: "",
-        deleteUrl: ""
+        deleteUrl: "",
+        showMsg: function () {
+        }
     };
     return ImageManager;
 })();

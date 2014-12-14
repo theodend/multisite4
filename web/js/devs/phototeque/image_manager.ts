@@ -5,7 +5,8 @@ class ImageManager{
 
     static  DEFAULTS = {
         updateUrl: "",
-        deleteUrl: ""
+        deleteUrl: "",
+        showMsg: function(){}
     };
 
     private options = {};
@@ -82,8 +83,30 @@ class ImageManager{
 
     }
 
-    deleteImage():void{
+    deleteImage(btn:JQuery):void{
+        var loader = btn.next(".loader"), self = this;
+        btn.hide();
+        loader.show();
+        $.ajax({
+            type: "DELETE",
+            url : this.options["deleteUrl"],
+            data: {id: this.image["img"]["id"]}
+        }).done(function (response) {
+            if(response.error == false){
+                self.image = null;
+                self.reloadSteps();
+                self.options["showMsg"](response.msg, true);
+            } else {
+                self.options["showMsg"](response.msg, false);
+                btn.show();
+                loader.hide();
+            }
 
+        }).fail(function (xhr) {
+            self.options["showMsg"](xhr.status + " " + xhr.statusText, false);
+            btn.show();
+            loader.hide();
+        });
     }
 
     initEvents():void{
@@ -97,7 +120,7 @@ class ImageManager{
 
         this.deleteS2Btn.on("click", function(e){
             e.preventDefault();
-            self.deleteImage();
+            self.deleteImage($(this));
             self.reloadSteps();
         });
 
@@ -108,7 +131,7 @@ class ImageManager{
 
         this.deleteS3Btn.on("click", function(e){
             e.preventDefault();
-            self.deleteImage();
+            self.deleteImage($(this));
             self.reloadSteps();
         });
     }

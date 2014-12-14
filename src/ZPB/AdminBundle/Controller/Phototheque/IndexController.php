@@ -101,11 +101,11 @@ class IndexController extends ZPBController
 
     public function xhrDeleteImageAction(Request $request)
     {
-        if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+        if(!$request->isMethod("DELETE") || !$request->isXmlHttpRequest()){
             throw $this->createAccessDeniedException();
         }
         $token = $request->query->get("_token", false);
-        if(!$token || !$this->validateToken($token, "image_delete")){
+        if(!$this->validateToken($token, "image_delete")){
             throw $this->createAccessDeniedException();
         }
         $response = ["error"=>true, "msg"=>"", "datas"=>[]];
