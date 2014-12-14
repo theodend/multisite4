@@ -24,14 +24,14 @@ class Image
     /**
      * @var string
      *
-     * @ORM\Column(name="web_path", type="string", length=255)
+     * @ORM\Column(name="web_path", type="string", length=255, nullable=true)
      */
     private $webPath;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
@@ -45,7 +45,7 @@ class Image
     /**
      * @var string
      *
-     * @ORM\Column(name="root_dir", type="string", length=255)
+     * @ORM\Column(name="root_dir", type="string", length=255, nullable=true)
      */
     private $rootDir;
 
@@ -67,12 +67,12 @@ class Image
     private $height;
 
     /**
-     * @ORM\Column(name="title", type="text")
+     * @ORM\Column(name="title", type="text", nullable=true)
      */
     private $title;
 
     /**
-     * @ORM\Column(name="copyrigth", type="string")
+     * @ORM\Column(name="copyrigth", type="string", nullable=true)
      */
     private $copyrigth;
 
@@ -233,7 +233,7 @@ class Image
     /**
      * Get width
      *
-     * @return integer 
+     * @return integer
      */
     public function getWidth()
     {
@@ -256,7 +256,7 @@ class Image
     /**
      * Get height
      *
-     * @return integer 
+     * @return integer
      */
     public function getHeight()
     {
@@ -279,7 +279,7 @@ class Image
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -302,7 +302,7 @@ class Image
     /**
      * Get copyrigth
      *
-     * @return string 
+     * @return string
      */
     public function getCopyrigth()
     {
@@ -325,7 +325,7 @@ class Image
     /**
      * Get mime
      *
-     * @return string 
+     * @return string
      */
     public function getMime()
     {
@@ -348,7 +348,7 @@ class Image
     /**
      * Get extension
      *
-     * @return string 
+     * @return string
      */
     public function getExtension()
     {

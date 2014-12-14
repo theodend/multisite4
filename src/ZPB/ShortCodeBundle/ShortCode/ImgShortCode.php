@@ -22,6 +22,7 @@ namespace ZPB\ShortCodeBundle\ShortCode;
 
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use ZPB\AdminBundle\Services\ImageManagerService;
 
 class ImgShortCode  extends AbstractShortCode
 {
@@ -30,28 +31,38 @@ class ImgShortCode  extends AbstractShortCode
      */
     private $container;
 
+    /**
+     * @var \ZPB\AdminBundle\Services\ImageManagerService
+     */
+    private $imgManager;
+
     private $template = "<img %s />";
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, ImageManagerService $imgManager)
     {
         $this->container = $container;
+        $this->imgManager = $imgManager;
     }
 
+    /**
+     * @param $params
+     * @return string
+     */
     public function parse($params)
     {
 
         $string = "";
-        $typePat =  "/(?:[^\s]*)\s*(?P<type>route|url)=(?:\"\s*)?(?P<src>[^\"\s]+)(?:\s*\")?\s*(?:[^\s]*)/";
+        $typePat =  "/(?:[^\s]*)\s*(?P<type>route|url|filename)=(?:\"\s*)?(?P<src>[^\"\s]+)(?:\s*\")?\s*(?:[^\s]*)/";
         $wPat =     "/(?:[^\s]*)\s*width=(?:\"\s*)?(?P<width>[^\"\s]*)(?:\s*\")?\s*(?:[^\s]*)/";
         $hPat =     "/(?:[^\s]*)\s*height=(?:\"\s*)?(?P<height>[^\"\s]*)(?:\s*\")?\s*(?:[^\s]*)/";
         $titlePat = "/(?:[^\s]*)\s*title=(?:\"\s*)?(?P<title>[^\"]*)(?:\s*\")?\s*(?:[^\s]*)/";
         $altPat =   "/(?:[^\s]*)\s*alt=(?:\"\s*)?(?P<alt>[^\"]*)(\s*\")(?:\s*\")?\s*(?:[^\s]*)/";
-
+        $classPat = "/(?:[^\s]*)\s*class=(?:\"\s*)?(?P<class>[^\"]*)(\s*\")(?:\s*\")?\s*(?:[^\s]*)/";
 
 
         if(preg_match($typePat, $params["params"], $matches)){
             $type = $matches["type"];
-            if(!in_array($type, ["route","url"]) || empty($matches["src"])){
+            if(!in_array($type, ["route","url","filename"]) || empty($matches["src"])){
                 return $string;
             }
             if($type == "url"){
@@ -63,13 +74,22 @@ class ImgShortCode  extends AbstractShortCode
                     $url = $router->generate($matches["src"]);
                     $string .= " src='" . $url . "' " ;
                 } catch(\Exception $e){
-                    return $string = "";
+                    return "";
                 }
+            }
+            if($type == "filename"){
+                $webpath = $this->imgManager->getWebPath($matches["src"]);
+                if($webpath){
+                    $string .= " src='" . $webpath . "' " ;
+                } else {
+                    return "";
+                }
+
             }
 
 
         } else {
-            return $string;
+            return "";
         }
 
         if(preg_match($wPat, $params["params"], $matches)){
@@ -86,6 +106,10 @@ class ImgShortCode  extends AbstractShortCode
 
         if(preg_match($altPat, $params["params"], $matches)){
             $string .= " alt='" . $matches["alt"] . "' ";
+        }
+
+        if(preg_match($classPat, $params["params"], $matches)){
+            $string .= " class='" . $matches["class"] . "' ";
         }
 
         return sprintf($this->template, $string);

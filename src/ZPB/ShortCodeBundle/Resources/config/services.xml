@@ -27,6 +27,7 @@
 
         <service id="zpb.shortcode.img" class="ZPB\ShortCodeBundle\ShortCode\ImgShortCode">
             <argument type="service" id="service_container" />
+            <argument type="service" id="zpb.image_manager" />
             <tag name="zpb.shortcode" alias="img"/>
         </service>
 

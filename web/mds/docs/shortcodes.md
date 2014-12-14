@@ -8,7 +8,7 @@ lorem ipsum
 - [img](#img)
 - [youtube](#youtube)
 
-####link <a name="link"></a>
+###link <a name="link"></a>
 
 __[link url="-adresse-"]-texte-[/link]__
 
@@ -20,14 +20,22 @@ Ou -nom\_de\_la\_route- est le nom de la route qui sera transformé en url absol
 Pour connaitre le nom de la route, aller dans la section "Pages statiques" du site visé,
 éditer la page (+), dans formulaire copier le champs "route associée" (ressemble à zpb\_sites\_...)
 
-Un des deux attributs est toujours obligatoires, jamais les deux en même temps. 
+__Un des deux attributs est toujours obligatoires, jamais les deux en même temps.__
 
-####img <a name="img"></a>
+###img <a name="img"></a>
 
 
 __[img url="-adresse-" ]__
 
-Ou -adresse- est l'url relative de l'image (ex "/chemin/vers-mon/image.jpg"), ce paramètre est obligatoire
+Ou -adresse- est l'url relative de l'image (ex "/chemin/vers-mon/image.jpg")
+
+__[img filename="-nom_du_fichier-" ]__
+
+Ou -nom\_du\_fichier- est le nom du fichier image
+
+__filename ou url sont obligatoires, jamais les deux en même temps.__
+
+
 
 Paramètres optionnels:
 
@@ -35,10 +43,14 @@ Paramètres optionnels:
 - height="-h-", idem width
 - title="-texte\_de\_l\_intitulé-"
 - alt="-texte\_de\_alt-"
+- class="-classes\_css"
 
-exemple complet : [img url="/chemin/vers-mon/image.jpg" width="300" height="50%" title="un intitulé" alt="alternatif"]
+exemples complets :
 
-####youtube <a name="youtube"></a>
+- avec url : [img url="/chemin/vers-mon/image.jpg" width="300" height="50%" title="un intitulé" alt="alternatif" class="align-right bordered"]
+- avec filename : [img filename="monimage.jpg" width="300" height="50%" title="un intitulé" alt="alternatif" class="align-right bordered"]
+
+###youtube <a name="youtube"></a>
 
 __[youtube id="-video\_id-"]__
 

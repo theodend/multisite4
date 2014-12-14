@@ -11,8 +11,9 @@
 
         <parameter key="zpb.admin.image_gallery_resizer.class">ZPB\AdminBundle\Services\ImageGalleryResizerService</parameter>
         <parameter key="zpb.admin.image_restauration_resizer.class">ZPB\AdminBundle\Services\ImageRestaurationResizerService</parameter>
-        <parameter key="zpb.admin.image_resizer.class">ZPB\AdminBundle\Services\ImageResizerService</parameter>
+        <parameter key="zpb.admin.image_manager.class">ZPB\AdminBundle\Services\ImageManagerService</parameter>
         <parameter key="zpb.stats.listener.class">ZPB\AdminBundle\Listeners\StatsListener</parameter>
+        <parameter key="zpb.twig.image_extension.class">ZPB\AdminBundle\Twig\Extension\ImageExtension</parameter>
 
         <!-- zoo spesific -->
 
@@ -74,13 +75,23 @@
             </parameter>
         </parameter>
 
-        <!-- image resizer -->
+        <!-- image manager -->
+
+        <parameter key="zpb.image.dirs" type="collection">
+            <parameter key="root_dir">%kernel.root_dir%/../web</parameter>
+            <parameter key="web_dir">/medias/img</parameter>
+            <parameter key="thumb_dir">/thumbs</parameter>
+            <parameter key="fb_dir">/fb</parameter>
+            <parameter key="twitter_dir">/twitter</parameter>
+        </parameter>
 
         <parameter key="zpb.image.thumbs.dims" type="collection">
+
             <parameter key="thumb" type="collection">
                 <parameter key="width">300</parameter>
                 <parameter key="height">300</parameter>
             </parameter>
+
         </parameter>
 
     </parameters>
@@ -89,6 +100,13 @@
 
 
     <services>
+        <!-- twig extensions -->
+        <service id="zpb.twig.image_extension" class="%zpb.twig.image_extension.class%">
+            <argument type="service" id="zpb.image_manager" />
+            <tag name="twig.extension" />
+        </service>
+
+        <!-- others -->
         <service id="zpb.stats.listener" class="%zpb.stats.listener.class%">
             <argument id="doctrine.orm.entity_manager" type="service"/>
             <tag name="kernel.event_subscriber" />
@@ -104,7 +122,8 @@
             <argument type="service" id="filesystem"/>
         </service>
 
-        <service id="zpb.admin.image_resizer" class="%zpb.admin.image_resizer.class%" >
+        <service id="zpb.image_manager" class="%zpb.admin.image_manager.class%" >
+            <argument>%zpb.image.dirs%</argument>
             <argument>%zpb.image.thumbs.dims%</argument>
             <argument type="service" id="filesystem"/>
         </service>

@@ -29,4 +29,4 @@ class IndexController extends ZPBController
     {
         return $this->render('ZPBAdminBundle:Index:index.html.twig', []);
     }
-} 
+}

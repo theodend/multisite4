@@ -1,0 +1,14 @@
+sudo apt-get remove —purge imagemagick
+ wget http://www.imagemagick.org/download/ImageMagick.tar.gz
+tar xvfz ImageMagick.tar.gz
+apt-get build-dep imagemagick
+cd ImageMagick-6.9.0-0
+./configure --disable-openmp
+make
+make install
+/usr/bin/identify -version
+
+... ???
+
+sudo apt-get install imagemagick
+sudo apt-get install php5-imagick
