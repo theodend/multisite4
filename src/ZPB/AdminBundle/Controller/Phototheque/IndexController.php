@@ -57,7 +57,7 @@ class IndexController extends ZPBController
 
                 $response["error"] = false;
                 $response["msg"] = "Image enregistrée";
-                $response["datas"] = $image;
+                $response["datas"] = ["img"=>$image, "src"=>$imgManager->getThumbPath($image->getFilename())];
             }
 
         }
@@ -88,11 +88,12 @@ class IndexController extends ZPBController
                         $image->$method($v);
                     }
                 }
+                $imgManager = $this->get("zpb.image_manager");
                 $this->getManager()->persist($image);
                 $this->getManager()->flush();
                 $response["error"] = false;
                 $response["msg"] = "Image modifiée";
-                $response["datas"] = $image;
+                $response["datas"] = ["img"=>$image, "src"=>$imgManager->getThumbPath($image->getFilename())];
             }
         }
         return new JsonResponse($response);
@@ -101,6 +102,10 @@ class IndexController extends ZPBController
     public function xhrDeleteImageAction(Request $request)
     {
         if(!$request->isMethod("PUT") || !$request->isXmlHttpRequest()){
+            throw $this->createAccessDeniedException();
+        }
+        $token = $request->query->get("_token", false);
+        if(!$token || !$this->validateToken($token, "image_delete")){
             throw $this->createAccessDeniedException();
         }
         $response = ["error"=>true, "msg"=>"", "datas"=>[]];

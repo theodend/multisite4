@@ -57,7 +57,7 @@ class ImageManagerService {
         if(preg_match('/^.+\.(jpg|jpeg|png|gif)$/i', $oldFilename, $matches)){
             $extension = $matches[1];
             $newFilename = time() . '.' .$extension;
-            $fullPath = $this->getThumbFullPath($newFilename);
+            $fullPath = $this->getFullPath($newFilename);
             if(false !== file_put_contents($fullPath, $request->getContent())){
                 $thumbize = $this->makeThumb($fullPath);
                 if($thumbize == true){

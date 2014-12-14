@@ -17,7 +17,10 @@ zpb_admin_phototek_xhr_image_update:
     defaults: { _controller: ZPBAdminBundle:Phototheque/Index:xhrUpdateImage }
     methods: ["PUT"]
 
-
+zpb_admin_phototek_xhr_image_delete:
+    path: /xhr/image
+    defaults: { _controller: ZPBAdminBundle:Phototheque/Index:xhrDeleteImage }
+    methods: ["DELETE"]
 
 
 

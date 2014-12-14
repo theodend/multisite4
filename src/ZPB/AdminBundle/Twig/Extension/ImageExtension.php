@@ -39,8 +39,9 @@ class ImageExtension extends \Twig_Extension
     public function getFunctions()
     {
         return[
-            new \Twig_SimpleFunction("thumb", [$this, "getThumb"], ["is_safe"=>"html"]),
-            new \Twig_SimpleFunction("get_shortcode", [$this, "getShortcode"], ["is_safe"=>"html"]),
+            new \Twig_SimpleFunction("thumb", [$this, "getThumb"], ["is_safe"=>["html"]]),
+            new \Twig_SimpleFunction("web_path", [$this, "getWebPath"], ["is_safe"=>["html"]]),
+            new \Twig_SimpleFunction("get_shortcode", [$this, "getShortcode"], ["is_safe"=>["html"]]),
         ];
     }
 
@@ -51,6 +52,15 @@ class ImageExtension extends \Twig_Extension
     public function getThumb($img = "")
     {
         return $this->imgManager->getThumbPath($img);
+    }
+
+    /**
+     * @param string $img
+     * @return string
+     */
+    public function getWebPath($img = "")
+    {
+        return $this->imgManager->getWebPath($img);
     }
 
     /**
