@@ -2,3 +2,26 @@ zpb_admin_phototek_homepage:
     path: /
     defaults: { _controller: ZPBAdminBundle:Phototheque/Index:index }
     methods: ["GET"]
+
+
+
+
+
+zpb_admin_phototek_xhr_image_upload:
+    path: /xhr/image/upload
+    defaults: { _controller: ZPBAdminBundle:Phototheque/Index:xhrUploadImage }
+    methods: ["POST"]
+
+zpb_admin_phototek_xhr_image_update:
+    path: /xhr/image
+    defaults: { _controller: ZPBAdminBundle:Phototheque/Index:xhrUpdateImage }
+    methods: ["PUT"]
+
+
+
+
+
+
+
+
+

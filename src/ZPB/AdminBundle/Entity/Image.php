@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="zpb_photos")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\ImageRepository")
  */
-class Image
+class Image implements \JsonSerializable
 {
     /**
      * @var integer
@@ -24,30 +24,9 @@ class Image
     /**
      * @var string
      *
-     * @ORM\Column(name="web_path", type="string", length=255, nullable=true)
-     */
-    private $webPath;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="long_id", type="string", length=255)
      */
     private $longId;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="root_dir", type="string", length=255, nullable=true)
-     */
-    private $rootDir;
 
     /**
      * @var string
@@ -92,6 +71,21 @@ class Image
         $this->longId = substr(base_convert(sha1(uniqid($now, true)), 16, 36), 0, 15);
     }
 
+    public function jsonSerialize()
+    {
+        return [
+            "id"        => $this->getId(),
+            "longId"    => $this->getLongId(),
+            "width"     => $this->getWidth(),
+            "height"    => $this->getHeight(),
+            "filename"  => $this->getFilename(),
+            "mime"      => $this->getMime(),
+            "extension" => $this->getExtension(),
+            "copyright" => $this->getCopyrigth(),
+            "title"     => $this->getTitle()
+        ];
+    }
+
     /**
      * Get id
      *
@@ -100,52 +94,6 @@ class Image
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get webPath
-     *
-     * @return string
-     */
-    public function getWebPath()
-    {
-        return $this->webPath;
-    }
-
-    /**
-     * Set webPath
-     *
-     * @param string $webPath
-     * @return Image
-     */
-    public function setWebPath($webPath)
-    {
-        $this->webPath = $webPath;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Image
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**
@@ -172,24 +120,47 @@ class Image
     }
 
     /**
-     * Get rootDir
+     * Get width
      *
-     * @return string
+     * @return integer
      */
-    public function getRootDir()
+    public function getWidth()
     {
-        return $this->rootDir;
+        return $this->width;
     }
 
     /**
-     * Set rootDir
+     * Set width
      *
-     * @param string $rootDir
+     * @param integer $width
      * @return Image
      */
-    public function setRootDir($rootDir)
+    public function setWidth($width)
     {
-        $this->rootDir = $rootDir;
+        $this->width = $width;
+
+        return $this;
+    }
+
+    /**
+     * Get height
+     *
+     * @return integer
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * Set height
+     *
+     * @param integer $height
+     * @return Image
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
 
         return $this;
     }
@@ -218,95 +189,13 @@ class Image
     }
 
     /**
-     * Set width
-     *
-     * @param integer $width
-     * @return Image
-     */
-    public function setWidth($width)
-    {
-        $this->width = $width;
-
-        return $this;
-    }
-
-    /**
-     * Get width
-     *
-     * @return integer
-     */
-    public function getWidth()
-    {
-        return $this->width;
-    }
-
-    /**
-     * Set height
-     *
-     * @param integer $height
-     * @return Image
-     */
-    public function setHeight($height)
-    {
-        $this->height = $height;
-
-        return $this;
-    }
-
-    /**
-     * Get height
-     *
-     * @return integer
-     */
-    public function getHeight()
-    {
-        return $this->height;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Image
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
+     * Get mime
      *
      * @return string
      */
-    public function getTitle()
+    public function getMime()
     {
-        return $this->title;
-    }
-
-    /**
-     * Set copyrigth
-     *
-     * @param string $copyrigth
-     * @return Image
-     */
-    public function setCopyrigth($copyrigth)
-    {
-        $this->copyrigth = $copyrigth;
-
-        return $this;
-    }
-
-    /**
-     * Get copyrigth
-     *
-     * @return string
-     */
-    public function getCopyrigth()
-    {
-        return $this->copyrigth;
+        return $this->mime;
     }
 
     /**
@@ -323,13 +212,13 @@ class Image
     }
 
     /**
-     * Get mime
+     * Get extension
      *
      * @return string
      */
-    public function getMime()
+    public function getExtension()
     {
-        return $this->mime;
+        return $this->extension;
     }
 
     /**
@@ -346,12 +235,48 @@ class Image
     }
 
     /**
-     * Get extension
+     * Get copyrigth
      *
      * @return string
      */
-    public function getExtension()
+    public function getCopyrigth()
     {
-        return $this->extension;
+        return $this->copyrigth;
+    }
+
+    /**
+     * Set copyrigth
+     *
+     * @param string $copyrigth
+     * @return Image
+     */
+    public function setCopyrigth($copyrigth)
+    {
+        $this->copyrigth = $copyrigth;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Image
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
     }
 }
