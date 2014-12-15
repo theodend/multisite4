@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="zpb_post_categories")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\PostCategoryRepository")
  */
-class PostCategory
+class PostCategory implements \JsonSerializable
 {
     /**
      * @var integer
@@ -166,5 +166,15 @@ class PostCategory
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->getId(),
+            "name" => $this->getName(),
+            "slug" => $this->getSlug(),
+            "target" => $this->getTarget()
+        ];
     }
 }

@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="zpb_post_published")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\PublishPostRepository")
  */
-class PublishPost
+class PublishPost implements \JsonSerializable
 {
     /**
      * @var integer
@@ -143,25 +143,6 @@ class PublishPost
     }
 
     /**
-     * @return mixed
-     */
-    public function getTargetSite()
-    {
-        return $this->targetSite;
-    }
-
-    /**
-     * @param mixed $targetSite
-     * @return PublishPost
-     */
-    public function setTargetSite($targetSite)
-    {
-        $this->targetSite = $targetSite;
-
-        return $this;
-    }
-
-    /**
      * Get category
      *
      * @return PostCategory
@@ -215,5 +196,21 @@ class PublishPost
     public function getSites()
     {
         return $this->sites;
+    }
+
+    public function jsonSerialize()
+    {
+        $sites = [];
+        foreach($this->getSites() as $site){
+            $sites[] = $site;
+        }
+        return [
+            "id" => $this->getId(),
+            "createdAt" => $this->getCreatedAt()->format("c"),
+            "updatedAt" => $this->getUpdatedAt()->format("c"),
+            "post" => $this->getId(),
+            "sites" => $sites,
+            "category" => $this->getCategory()
+        ];
     }
 }

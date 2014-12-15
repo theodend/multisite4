@@ -24,6 +24,7 @@ namespace ZPB\AdminBundle\Controller\Post;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use ZPB\AdminBundle\Entity\DraftPost;
+use ZPB\AdminBundle\Entity\PublishPost;
 use ZPB\AdminBundle\Form\Type\PostType;
 use ZPB\AdminBundle\Entity\Post;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
@@ -50,6 +51,8 @@ class PostController extends ZPBController
         $form = $this->createForm(new PostType(), $post);
         $form->handleRequest($request);
         if($form->isValid()){
+            $postManager = $this->get("zpb.post_manager");
+            $post = $postManager->cleanUpPost($post);
             $this->getManager()->persist($post);
             $this->getManager()->flush();
             $draft = new DraftPost();
@@ -77,8 +80,13 @@ class PostController extends ZPBController
         $form = $this->createForm(new PostType(), $post);
         $form->handleRequest($request);
         if($form->isValid()){
-            var_dump($request->request->all());
-            die();
+            $postManager = $this->get("zpb.post_manager");
+            $post = $postManager->cleanUpPost($post);
+            $this->getManager()->persist($post);
+            $this->getManager()->flush();
+            $publish = new PublishPost();
+            $publish->setPost($post);
+
         }
         return new JsonResponse($response);
     }
