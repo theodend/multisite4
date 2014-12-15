@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="zpb_post_drafts")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\DraftPostRepository")
  */
-class DraftPost
+class DraftPost implements \JsonSerializable
 {
     /**
      * @var integer
@@ -122,5 +122,15 @@ class DraftPost
     public function getPost()
     {
         return $this->post;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "id"=>$this->getId(),
+            "createdAt"=>$this->getCreatedAt()->format("c"),
+            "updatedAt"=>$this->getUpdatedAt()->format("c"),
+            "post"=>$this->getPost()
+        ];
     }
 }

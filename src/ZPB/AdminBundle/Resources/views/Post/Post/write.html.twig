@@ -7,12 +7,53 @@
 
     <h2>Ecrire un article</h2>
 
+
     <div class="row">
         <div class="col-sm-8 col-md-8">
+            {{  form_start(form, {attr:{class: "form", novalidate:true}}) }}
+            {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.title,null, {label_attr:{class: "control-label"}}) }} <span class="counter " id="counter-title">(caractères : <span class="counter-num"></span>)</span>
+                    {{ form_widget(form.title, {attr:{class: "form-control"}}) }}
+                    {{ form_errors(form.title) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.excerpt,null, {label_attr:{class: "control-label"}}) }} <span class="counter " id="counter-excerpt">(caractères : <span class="counter-num"></span>)</span>
+                    {{ form_widget(form.excerpt, {attr:{class: "form-control", "data-editor":"html", "data-editorsize":"small"}}) }}
+                    {{ form_errors(form.excerpt) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.body,null, {label_attr:{class: "control-label"}}) }} <span class="counter " id="counter-body">(caractères : <span class="counter-num"></span>)</span>
+                    {{ form_widget(form.body, {attr:{class: "form-control", "data-editor":"html", "data-editorsize":"large"}}) }}
+                    {{ form_errors(form.body) }}
+                </div>
+            {{ form_widget(form.saveDraft, {attr: {class: "btn btn-primary js-save-draft-btn"}}) }}
+            {{ form_widget(form.savePublish, {attr: {class: "btn btn-primary js-save-publish-btn"}}) }}
+
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
 
         </div>
-        <div class="col-sm-4 col-md-4"></div>
+        <div class="col-sm-4 col-md-4">
+            <div id="messenger"></div>
+        </div>
     </div>
 
+
+{% endblock %}
+
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        var saveDraftUrl = "{{ path("zpb_admin_post_save_draft") }}";
+        var savePublishUrl = "{{ path("zpb_admin_post_save_publish") }}";
+    </script>
+    <script src="/js/vendor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/vendor/ace/ext-emmet.js"></script>
+    <script src="/js/vendor/emmet.js"></script>
+    <script src="/js/admin/post/main.js"></script>
 
 {% endblock %}

@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="zpb_posts")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\PostRepository")
  */
-class Post
+class Post implements \JsonSerializable
 {
     /**
      * @var integer
@@ -209,4 +209,16 @@ class Post
         return $this;
     }
 
+    public function jsonSerialize()
+    {
+        return [
+            "id"=>$this->getId(),
+            "title"=>$this->getTitle(),
+            "slug"=>$this->getSlug(),
+            "excerpt"=>$this->getExcerpt(),
+            "body"=>$this->getBody(),
+            "createdAt"=>$this->getCreatedAt()->format("c"),
+            "updatedAt"=>$this->getUpdatedAt()->format("c")
+        ];
+    }
 }
