@@ -22,9 +22,19 @@ namespace ZPB\AdminBundle\Twig\Extension;
 
 
 use ZPB\AdminBundle\Entity\PDF;
+use ZPB\AdminBundle\Services\PDFManagerService;
 
 class PdfExtension extends \Twig_Extension
 {
+    /**
+     * @var PdfManagerService
+     */
+    private $pdfManager;
+
+    public function __construct(PdfManagerService $pdfManager)
+    {
+        $this->pdfManager = $pdfManager;
+    }
 
     public function getFunctions()
     {
@@ -34,9 +44,12 @@ class PdfExtension extends \Twig_Extension
         ];
     }
 
-    public function getWebPath($pdf = "")
+    public function getWebPath(PDF $pdf = null)
     {
-        //TODO
+        if($pdf == null){
+            return "";
+        }
+        return $this->pdfManager->getWebPath($pdf);
     }
 
     public function getShortcode(PDF $pdf = null)

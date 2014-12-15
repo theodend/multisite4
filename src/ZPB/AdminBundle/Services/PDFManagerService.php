@@ -79,6 +79,11 @@ class PDFManagerService
         return true;
     }
 
+    public function getWebPath(PDF $pdf)
+    {
+        return $this->options["web_dir"] . "/" . $pdf->getFilename();
+    }
+
     private function getAbsoluteBasePath()
     {
         return $this->options["root_dir"] . $this->options["web_dir"] . "/";
