@@ -51,9 +51,9 @@ class Image implements \JsonSerializable
     private $title;
 
     /**
-     * @ORM\Column(name="copyrigth", type="string", nullable=true)
+     * @ORM\Column(name="copyright", type="string", nullable=true)
      */
-    private $copyrigth;
+    private $copyright;
 
     /**
      * @ORM\Column(name="mime", type="string")
@@ -81,7 +81,7 @@ class Image implements \JsonSerializable
             "filename"  => $this->getFilename(),
             "mime"      => $this->getMime(),
             "extension" => $this->getExtension(),
-            "copyright" => $this->getCopyrigth(),
+            "copyright" => $this->getCopyright(),
             "title"     => $this->getTitle()
         ];
     }
@@ -235,24 +235,24 @@ class Image implements \JsonSerializable
     }
 
     /**
-     * Get copyrigth
+     * Get copyright
      *
      * @return string
      */
-    public function getCopyrigth()
+    public function getCopyright()
     {
-        return $this->copyrigth;
+        return $this->copyright;
     }
 
     /**
-     * Set copyrigth
+     * Set copyright
      *
-     * @param string $copyrigth
+     * @param string $copyright
      * @return Image
      */
-    public function setCopyrigth($copyrigth)
+    public function setCopyright($copyright)
     {
-        $this->copyrigth = $copyrigth;
+        $this->copyright = $copyright;
 
         return $this;
     }

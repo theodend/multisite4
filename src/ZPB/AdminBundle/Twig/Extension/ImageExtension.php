@@ -72,7 +72,7 @@ class ImageExtension extends \Twig_Extension
         if(!$image){
             return "";
         }
-        $title = ($image->getCopyrigth() != null) ? $image->getTitle() . " &copy; " . $image->getCopyrigth() : $image->getTitle();
+        $title = ($image->getCopyright() != null) ? $image->getTitle() . " &copy; " . $image->getCopyright() : $image->getTitle();
         return '[img filename="'.$image->getFilename().'" width="'.$image->getWidth().'" height="'.$image->getHeight().'" title="'. $title .'" class="" alt=""]';
     }
 
