@@ -11,6 +11,16 @@ zpb_admin_sites_routes:
     prefix: /sites
     resource: "@ZPBAdminBundle/Resources/config/routing/site.yml"
 
+############################################# press
+
+zpb_admin_press_release_routes:
+    prefix: /press/communique
+    resource: "@ZPBAdminBundle/Resources/config/routing/press/press_release.yml"
+
+zpb_admin_press_kit_routes:
+    prefix: /press/dossier
+    resource: "@ZPBAdminBundle/Resources/config/routing/press/press_kit.yml"
+
 ############################################# documentation
 zpb_admin_doc_routes:
     prefix: /documentation

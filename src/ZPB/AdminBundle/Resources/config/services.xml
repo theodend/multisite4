@@ -14,7 +14,9 @@
         <parameter key="zpb.admin.image_manager.class">ZPB\AdminBundle\Services\ImageManagerService</parameter>
         <parameter key="zpb.stats.listener.class">ZPB\AdminBundle\Listeners\StatsListener</parameter>
         <parameter key="zpb.twig.image_extension.class">ZPB\AdminBundle\Twig\Extension\ImageExtension</parameter>
+        <parameter key="zpb.twig.pdf_extension.class">ZPB\AdminBundle\Twig\Extension\PdfExtension</parameter>
         <parameter key="zpb.post_manager.class">ZPB\AdminBundle\Services\PostManagerService</parameter>
+        <parameter key="zpb.pdf_manager.class">ZPB\AdminBundle\Services\PDFManagerService</parameter>
 
         <!-- zoo spesific -->
 
@@ -98,6 +100,13 @@
 
         </parameter>
 
+        <!-- pdf -->
+
+        <parameter key="zpb.pdf" type="collection">
+            <parameter key="root_dir">%kernel.root_dir%/../web</parameter>
+            <parameter key="web_dir">/media/pdf</parameter>
+        </parameter>
+
     </parameters>
 
 
@@ -107,6 +116,11 @@
         <!-- twig extensions -->
         <service id="zpb.twig.image_extension" class="%zpb.twig.image_extension.class%">
             <argument type="service" id="zpb.image_manager" />
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="zpb.twig.pdf_extension" class="%zpb.twig.pdf_extension.class%">
+
             <tag name="twig.extension" />
         </service>
 
@@ -134,6 +148,11 @@
 
         <service id="zpb.post_manager" class="%zpb.post_manager.class%">
             <argument id="service_container" type="service"/>
+        </service>
+
+        <service id="zpb.pdf_manager" class="%zpb.pdf_manager.class%">
+            <argument type="service" id="filesystem"/>
+            <argument>%zpb.pdf%</argument>
         </service>
     </services>
 

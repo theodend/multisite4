@@ -40,8 +40,8 @@ class ImageExtension extends \Twig_Extension
     {
         return[
             new \Twig_SimpleFunction("thumb", [$this, "getThumb"], ["is_safe"=>["html"]]),
-            new \Twig_SimpleFunction("web_path", [$this, "getWebPath"], ["is_safe"=>["html"]]),
-            new \Twig_SimpleFunction("get_shortcode", [$this, "getShortcode"], ["is_safe"=>["html"]]),
+            new \Twig_SimpleFunction("img_web_path", [$this, "getWebPath"], ["is_safe"=>["html"]]),
+            new \Twig_SimpleFunction("get_img_shortcode", [$this, "getShortcode"], ["is_safe"=>["html"]]),
         ];
     }
 

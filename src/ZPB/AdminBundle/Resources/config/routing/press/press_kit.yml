@@ -1,0 +1,4 @@
+zpb_admin_press_kit_homepage:
+    path: /
+    defaults: {_controller: ZPBAdminBundle:Press/PressKit:index }
+    methods: ["GET"]

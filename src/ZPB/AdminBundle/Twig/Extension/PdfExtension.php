@@ -1,0 +1,55 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Nicolas Canfrère
+ * Date: 15/12/2014
+ * Time: 17:18
+ */
+  /*
+           ____________________
+  __      /     ______         \
+ {  \ ___/___ /       }         \
+  {  /       / #      }          |
+   {/ ô ô  ;       __}           |
+   /          \__}    /  \       /\
+<=(_    __<==/  |    /\___\     |  \
+   (_ _(    |   |   |  |   |   /    #
+    (_ (_   |   |   |  |   |   |
+      (__<  |mm_|mm_|  |mm_|mm_|
+*/
+
+namespace ZPB\AdminBundle\Twig\Extension;
+
+
+use ZPB\AdminBundle\Entity\PDF;
+
+class PdfExtension extends \Twig_Extension
+{
+
+    public function getFunctions()
+    {
+        return[
+            new \Twig_SimpleFunction("pdf_web_path", [$this, "getWebPath"], ["is_safe"=>["html"]]),
+            new \Twig_SimpleFunction("get_pdf_shortcode", [$this, "getShortcode"], ["is_safe"=>["html"]]),
+        ];
+    }
+
+    public function getWebPath($pdf = "")
+    {
+        //TODO
+    }
+
+    public function getShortcode(PDF $pdf = null)
+    {
+        if($pdf == null){
+            return "";
+        }
+        //TODO
+        return "";
+    }
+
+    public function getName()
+    {
+        return "zpb_pdf_extension";
+    }
+}

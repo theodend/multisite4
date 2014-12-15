@@ -112,9 +112,9 @@
                     {% for image in images %}
                         <tr>
                             <td>{{ image.id }}</td>
-                            <td><a href="{{ web_path(image.filename) }}" target="_blank"><img src="{{ thumb(image.filename) }}" alt="" width="75"/></a></td>
+                            <td><a href="{{ img_web_path(image.filename) }}" target="_blank"><img src="{{ thumb(image.filename) }}" alt="" width="75"/></a></td>
                             <td>{{ image.filename }}</td>
-                            <td><button class="btn btn-default js-copy"  data-clipboard-text='{{ get_shortcode(image) }}'>{{ get_shortcode(image) }}</button></td>
+                            <td><button class="btn btn-default js-copy"  data-clipboard-text='{{ get_img_shortcode(image) }}'>{{ get_img_shortcode(image) }}</button></td>
                             <td><a class="btn btn-default js-edit-btn" href="" data-id="{{ image.id }}"><i class="fa fa-edit"></i></a></td>
                             <td><a class="btn btn-default js-delete-btn" href="" data-id="{{ image.id }}"><i class="fa fa-trash-o"></i></a><div class="loader"></div></td>
                         </tr>
