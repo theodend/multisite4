@@ -59,16 +59,7 @@ $(function(){
         editor.getSession().setWrapLimitRange(120,120);
         editor.renderer.setPrintMarginColumn(120);
         editor.setOption('enableEmmet', true);
-        if(editor.getSession().getValue().length>0){
-            if($(this).attr("id")== "new_post_form_excerpt"){
-                validObj.excerpt = true;
-                enableEdition();
-            }
-            if($(this).attr("id")== "new_post_form_body"){
-                validObj.body = true;
-                enableEdition();
-            }
-        }
+
         editor.getSession().on('change', function(e){
             textarea.val(editor.getSession().getValue());
         });

@@ -38,6 +38,6 @@ class PressReleaseController extends ZPBController
             return $this->redirect($this->generateUrl("zpb_admin_press_release_homepage"));
         }
 
-        return $this->render('ZPBAdminBundle:Press/PressRelease:index.html.twig', ["docs"=>$docs]);
+        return $this->render('ZPBAdminBundle:Press/PressRelease:index.html.twig', ["docs"=>$docs, "form"=>$form->createView()]);
     }
 }
