@@ -61,30 +61,10 @@ class PressRelease
     /**
      * @var string
      *
-     * @ORM\Column(name="image", type="string", length=255)
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     private $image;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="root_dir", type="string", length=255)
-     */
-    private $rootDir;
-
-    /**
-     * @var string
-     * @Assert\NotBlank(message="Ce champs est requis.")
-     * @ORM\Column(name="pdf_fr", type="string", length=255)
-     */
-    private $pdfFr;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pdf_en", type="string", length=255, nullable=true)
-     */
-    private $pdfEn;
 
     /**
      * @var string
@@ -218,75 +198,6 @@ class PressRelease
     public function getBody()
     {
         return $this->body;
-    }
-
-    /**
-     * Set rootDir
-     *
-     * @param string $rootDir
-     * @return PressRelease
-     */
-    public function setRootDir($rootDir)
-    {
-        $this->rootDir = $rootDir;
-
-        return $this;
-    }
-
-    /**
-     * Get rootDir
-     *
-     * @return string 
-     */
-    public function getRootDir()
-    {
-        return $this->rootDir;
-    }
-
-    /**
-     * Set pdfFr
-     *
-     * @param string $pdfFr
-     * @return PressRelease
-     */
-    public function setPdfFr($pdfFr)
-    {
-        $this->pdfFr = $pdfFr;
-
-        return $this;
-    }
-
-    /**
-     * Get pdfFr
-     *
-     * @return string 
-     */
-    public function getPdfFr()
-    {
-        return $this->pdfFr;
-    }
-
-    /**
-     * Set pdfEn
-     *
-     * @param string $pdfEn
-     * @return PressRelease
-     */
-    public function setPdfEn($pdfEn)
-    {
-        $this->pdfEn = $pdfEn;
-
-        return $this;
-    }
-
-    /**
-     * Get pdfEn
-     *
-     * @return string 
-     */
-    public function getPdfEn()
-    {
-        return $this->pdfEn;
     }
 
     /**

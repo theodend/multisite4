@@ -5,4 +5,45 @@
 {% block content %}
     <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
 
+    <h2 class="subheader">Ecrire</h2>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6"></div>
+        <div class="col-sm-6 col-md-6">
+            <p>image 3/4 min 400*600</p>
+        </div>
+    </div>
+
+    <h2 class="subheader">Liste</h2>
+
+    <div class="row">
+        <div class="col-sm-8 col-md-8">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Titre</th>
+                    <th>Date création</th>
+                    <th>Dernière MàJ</th>
+                    <th>Editer</th>
+                    <th>Supprimer</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for doc in docs %}
+                    <tr>
+                        <td></td>
+                        <td>{{ doc.title }}</td>
+                        <td>{{ doc.createdAt|date("d/m/y") }}</td>
+                        <td>{{ doc.updatedAt|date("d/m/y") }}</td>
+                        <td><a class="bt btn-default" href="#"><i class="fa fa-edit"></i></a></td>
+                        <td><a class="btn btn-default" href=""><i class="fa fa-trash-o"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-sm-4 col-md-4"></div>
+    </div>
 {% endblock %}

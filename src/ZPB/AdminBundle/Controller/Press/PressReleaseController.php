@@ -19,12 +19,25 @@
 */
 namespace ZPB\AdminBundle\Controller\Press;
 
+use Symfony\Component\HttpFoundation\Request;
+use ZPB\AdminBundle\Entity\PressRelease;
+use ZPB\AdminBundle\Form\Type\PressReleaseType;
 use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
 class PressReleaseController extends ZPBController
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->render('ZPBAdminBundle:Press/PressRelease:index.html.twig', []);
+        $docs = $this->getRepo("ZPBAdminBundle:PressRelease")->findAll();
+        $pr = new PressRelease();
+        $form = $this->createForm(new PressReleaseType(), $pr);
+        $form->handleRequest($request);
+        if($form->isValid()){
+
+
+            return $this->redirect($this->generateUrl("zpb_admin_press_release_homepage"));
+        }
+
+        return $this->render('ZPBAdminBundle:Press/PressRelease:index.html.twig', ["docs"=>$docs]);
     }
 }

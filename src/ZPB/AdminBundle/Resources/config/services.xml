@@ -92,12 +92,10 @@
         </parameter>
 
         <parameter key="zpb.image.thumbs.dims" type="collection">
-
             <parameter key="thumb" type="collection">
                 <parameter key="width">300</parameter>
                 <parameter key="height">300</parameter>
             </parameter>
-
         </parameter>
 
         <!-- pdf -->
@@ -106,6 +104,17 @@
             <parameter key="root_dir">%kernel.root_dir%/../web</parameter>
             <parameter key="web_dir">/medias/pdf</parameter>
             <parameter key="default_copyright">"(c) ZooParc de Beauval"</parameter>
+        </parameter>
+
+        <!-- press release (communiqués de presse) -->
+
+        <parameter key="zpb.press_release" type="collection">
+            <parameter key="image" type="collection">
+                <parameter key="width">400</parameter>
+                <parameter key="height">600</parameter>
+                <parameter key="root_dir">%kernel.root_dir%/../web</parameter>
+                <parameter key="web_dir">/img/sites/common/press</parameter>
+            </parameter>
         </parameter>
 
     </parameters>
