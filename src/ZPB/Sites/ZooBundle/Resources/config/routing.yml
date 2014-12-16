@@ -23,6 +23,14 @@ zpb_sites_zoo_newsletter:
     prefix:     /newsletter
     resource: "@ZPBSitesZooBundle/Resources/config/routing/newsletter.yml"
 
+zpb_sites_zoo_download_pdf:
+    path: /telechargements/pdf/{filename}.{_format}
+    defaults: { _controller: ZPBSitesZooBundle:Download:donwloadPdf, _format: pdf }
+    methods: ["GET"]
+    requirements:
+        filename: "[a-zA-Z0-9_. -]+"
+        _format: pdf
+
 zpb_sites_zoo_social:
     path: /reseaux-sociaux
     defaults: { _controller: ZPBSitesZooBundle:Social:social }

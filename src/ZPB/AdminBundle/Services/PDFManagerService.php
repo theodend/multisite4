@@ -110,7 +110,7 @@ class PDFManagerService
         return $this->options["web_dir"] . "/" . $pdf->getFilename() . "." .$pdf->getExtension();
     }
 
-    private function getAbsoluteBasePath()
+    public function getAbsoluteBasePath()
     {
         return $this->options["root_dir"] . $this->options["web_dir"] . "/";
     }
