@@ -31,7 +31,7 @@ class PdfExtension extends \Twig_Extension
      */
     private $pdfManager;
 
-    public function __construct(PdfManagerService $pdfManager)
+    public function __construct(PDFManagerService $pdfManager)
     {
         $this->pdfManager = $pdfManager;
     }
@@ -57,8 +57,9 @@ class PdfExtension extends \Twig_Extension
         if($pdf == null){
             return "";
         }
+        $filename = $pdf->getFilename() . "." . $pdf->getExtension();
         $title = ($pdf->getCopyright() != null) ? $pdf->getTitle() . " &copy; " . $pdf->getCopyright() : $pdf->getTitle();
-        return '[pdf filename="'.$pdf->getFilename().'" title="'. $title .'" class="" alt=""]'.$pdf->getFilename().'[/pdf]';
+        return '[pdf filename="'. $filename .'" title="'. $title .'" class="" alt=""]'.$pdf->getFilename().'[/pdf]';
     }
 
     public function getName()

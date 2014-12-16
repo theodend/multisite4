@@ -104,7 +104,8 @@
 
         <parameter key="zpb.pdf" type="collection">
             <parameter key="root_dir">%kernel.root_dir%/../web</parameter>
-            <parameter key="web_dir">/media/pdf</parameter>
+            <parameter key="web_dir">/medias/pdf</parameter>
+            <parameter key="default_copyright">"(c) ZooParc de Beauval"</parameter>
         </parameter>
 
     </parameters>
@@ -120,7 +121,7 @@
         </service>
 
         <service id="zpb.twig.pdf_extension" class="%zpb.twig.pdf_extension.class%">
-
+            <argument type="service" id="zpb.pdf_manager" />
             <tag name="twig.extension" />
         </service>
 
@@ -152,6 +153,7 @@
 
         <service id="zpb.pdf_manager" class="%zpb.pdf_manager.class%">
             <argument type="service" id="filesystem"/>
+            <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%zpb.pdf%</argument>
         </service>
     </services>

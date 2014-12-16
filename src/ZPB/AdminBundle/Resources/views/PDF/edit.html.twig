@@ -1,0 +1,43 @@
+{% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
+
+{% block title %}PDFs | Edition{% endblock %}
+
+{% block headStyles %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
+
+    <div class="row">
+    <div class="col-sm-6 col-md-6">
+        {{ form_start(form, {attr:{class: "form", novalidate:true}}) }}
+        {{ form_errors(form) }}
+
+        <div class="form-group">
+            {{ form_label(form.filename,null, {label_attr:{class: "control_label"}}) }}
+            {{ form_widget(form.filename, {attr:{class: "form-control"}}) }}
+            {{ form_errors(form.filename) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.title,null, {label_attr:{class: "control_label"}}) }}
+            {{ form_widget(form.title, {attr:{class: "form-control"}}) }}
+            {{ form_errors(form.title) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.copyright,null, {label_attr:{class: "control_label"}}) }}
+            {{ form_widget(form.copyright, {attr:{class: "form-control"}}) }}
+            {{ form_errors(form.copyright) }}
+        </div>
+        {{ form_widget(form.save, {attr:{class: "btn btn-primary"}}) }}
+
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+    </div>
+    <div class="col-sm-6 col-md-6"></div>
+</div>
+{% endblock %}
+
+{% block footScripts %}
+    {{ parent() }}
+{% endblock %}

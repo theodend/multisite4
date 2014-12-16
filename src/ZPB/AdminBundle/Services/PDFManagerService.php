@@ -21,6 +21,7 @@
 namespace ZPB\AdminBundle\Services;
 
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Filesystem\Filesystem;
 use ZPB\AdminBundle\Entity\PDF;
 
@@ -37,10 +38,16 @@ class PDFManagerService
      */
     private $fs;
 
-    public function __construct(Filesystem $fs, $options = [])
+    /**
+     * @var EntityManager
+     */
+    private $em;
+
+    public function __construct(Filesystem $fs, EntityManager $em, $options = [])
     {
         $this->options = $options;
         $this->fs = $fs;
+        $this->em = $em;
     }
 
     /**
@@ -55,10 +62,17 @@ class PDFManagerService
         $pdf->setExtension($pdf->file->guessExtension());
         $pdf->setMime($pdf->file->getMimeType());
         $dest = $this->getAbsoluteBasePath();
-        if($pdf->getFilename() == null){
+        if($pdf->getFilename() != null){
+            $filename = $this->sanitizeFilename($pdf->getFilename());
+            $pdf->setFilename($filename);
+        } else {
             $filename = pathinfo($this->sanitizeFilename($pdf->file->getClientOriginalName()), PATHINFO_FILENAME);
             $pdf->setFilename($filename);
         }
+        if($pdf->getCopyright() == null){
+            $pdf->setCopyright($this->options["default_copyright"]);
+        }
+        $this->searchAndDestroy($filename);
         $pdf->file->move($dest, $pdf->getFilename() . "." . $pdf->getExtension());
         $pdf->file = null;
         return true;
@@ -79,9 +93,21 @@ class PDFManagerService
         return true;
     }
 
+    private function searchAndDestroy($filename)
+    {
+        $pdf = $this->em->getRepository("ZPBAdminBundle:PDF")->findOneBy(["filename"=>$filename]);
+        if($pdf){
+            $this->deletePdf($pdf);
+            $this->em->remove($pdf);
+            $this->em->flush();
+            return true;
+        }
+        return false;
+    }
+
     public function getWebPath(PDF $pdf)
     {
-        return $this->options["web_dir"] . "/" . $pdf->getFilename();
+        return $this->options["web_dir"] . "/" . $pdf->getFilename() . "." .$pdf->getExtension();
     }
 
     private function getAbsoluteBasePath()
@@ -91,6 +117,6 @@ class PDFManagerService
 
     private function sanitizeFilename($string = "")
     {
-        return preg_replace('/[^a-zA-Z0-9._-]/', '', $string);
+        return mb_strtolower(preg_replace('/[^a-zA-Z0-9._-]/', '', preg_replace('/\s/', '_', $string)), 'UTF-8');
     }
 }

@@ -11,6 +11,10 @@ zpb_admin_sites_routes:
     prefix: /sites
     resource: "@ZPBAdminBundle/Resources/config/routing/site.yml"
 
+zpb_admin_pdfs_routes:
+    prefix: /pdfs
+    resource: "@ZPBAdminBundle/Resources/config/routing/pdfs.yml"
+
 ############################################# press
 
 zpb_admin_press_release_routes:

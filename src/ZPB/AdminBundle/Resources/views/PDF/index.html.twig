@@ -1,0 +1,159 @@
+{% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
+
+{% block title %}PDFs {% endblock %}
+
+{% block headStyles %}
+    {{ parent() }}
+    <style>
+        .loader{
+            display: none;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
+
+    <h2 class="sub-header">Upload</h2>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            {{ form_start(form, {attr:{class: "form", novalidate:true}}) }}
+            {{ form_errors(form) }}
+
+            <div class="form-group">
+                {{ form_label(form.file,null, {label_attr:{class: "control_label"}}) }}
+                {{ form_widget(form.file) }}
+                {{ form_errors(form.file) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.filename,null, {label_attr:{class: "control_label"}}) }}
+                {{ form_widget(form.filename, {attr:{class: "form-control"}}) }}
+                {{ form_errors(form.filename) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.title,null, {label_attr:{class: "control_label"}}) }}
+                {{ form_widget(form.title, {attr:{class: "form-control"}}) }}
+                {{ form_errors(form.title) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.copyright,null, {label_attr:{class: "control_label"}}) }}
+                {{ form_widget(form.copyright, {attr:{class: "form-control"}}) }}
+                {{ form_errors(form.copyright) }}
+            </div>
+            {{ form_widget(form.save, {attr:{class: "btn btn-primary"}}) }}
+
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+        <div class="col-sm-6 col-md-6"></div>
+    </div>
+
+    <h2 class="sub-header">Liste</h2>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div id="messenger"></div>
+        </div>
+        <div class="col-sm-6 col-md-6"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>fichier</th>
+                    <th>Shortcode</th>
+                    <th>Editer</th>
+                    <th>Supprimer</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for pdf in pdfs %}
+                        <tr id="pdf_row_{{ pdf.id }}">
+                            <td>{{ pdf.id }}</td>
+                            <td><a href="{{ pdf_web_path(pdf) }}" target="_blank">{{ pdf.filename }}</a></td>
+                            <td><button class="btn btn-default js-copy"  data-clipboard-text='{{ get_pdf_shortcode(pdf) }}'>{{ get_pdf_shortcode(pdf) }}</button></td>
+                            <td><a href="{{ path("zpb_admin_pdfs_edit", {id: pdf.id}) }}" class="btn btn-default"><i class="fa fa-edit"></i></a></td>
+                            <td><a href="#" class="btn btn-default js-delete-pdf-btn" data-id="{{ pdf.id }}"><i class="fa fa-trash-o"></i></a><div class="loader"></div></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        var deletePdfUrl = "{{ path("zpb_admin_pdfs_xhr_delete", {_token: csrf_token("delete_pdf")}) }}";
+    </script>
+    <script src="/js/vendor/ZeroClipboard.min.js"></script>
+    <script>
+        $(function () {
+            var showMsg = function(msg, success){
+                if(arguments.length <1){
+                    messenger.empty();
+                    return false;
+                }
+                var type, title;
+                var html =  "<div class=\'alert [[type]] alert-dismissible fade in\' role=\'alert\'><button class=\'close\' data-dismiss=\'alert\' type=\'button\'><span aria-hidden=\'true\'>&times;</span><span class=\'sr-only\'>close</span></button><h4>[[title]]</h4><p>[[msg]]</p></div>";
+                if(success === true){
+                    type = "alert-success";
+                    title = "Succès !";
+                } else {
+                    type = "alert-danger";
+                    title = "Echec !";
+                }
+                html = html.replace("[[type]]", type).replace("[[title]]", title).replace("[[msg]]", msg);
+                messenger.append($(html));
+            };
+            var copier = new ZeroClipboard($(".js-copy"));
+            var deleteBtns = $(".js-delete-pdf-btn");
+            var messenger = $("#messenger");
+            copier.on("ready", function(){
+                copier.on("copy", function(event){
+                    var clipboard = event.clipboardData;
+
+                });
+            });
+
+            deleteBtns.on("click", function(e){
+                e.preventDefault();
+
+                var id = $(this).data("id");
+                if(id == undefined || id === null || deletePdfUrl == undefined || deletePdfUrl == null ){
+                    return false;
+                }
+                var btn = $(this);
+                var loader = $(this).next(".loader");
+                btn.hide();
+                loader.show();
+                showMsg();
+                $.ajax({
+                    url : deletePdfUrl,
+                    type: "DELETE",
+                    data: {id: id}
+                })
+                        .done(function(response){
+                            if(response.error == false){
+                                showMsg(response.msg, true);
+                                $("#pdf_row_" + id).remove();
+                            } else {
+                                showMsg(response.msg, false);
+                            }
+                            btn.show();
+                            loader.hide();
+                        })
+                        .fail(function(xhr){
+                            btn.show();
+                            loader.hide();
+                            showMsg(xhr.status + " " + xhr.statusText, false);
+                        });
+            });
+        });
+    </script>
+{% endblock %}

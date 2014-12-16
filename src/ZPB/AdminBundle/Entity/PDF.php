@@ -4,7 +4,6 @@ namespace ZPB\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,10 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="zpb_pdfs")
  * @ORM\Entity(repositoryClass="ZPB\AdminBundle\Entity\PDFRepository")
- * @UniqueEntity("filename", message="Un fichier pdf du même nom existe déjà.")
  * @ORM\HasLifecycleCallbacks()
  */
-class PDF
+class PDF implements \JsonSerializable
 {
     /**
      * @var integer
@@ -35,7 +33,7 @@ class PDF
     /**
      * @var string
      * @Assert\Regex("/^[a-zA-Z0-9._-]*$/", message="Ce champ contient des caractères non autorisés.")
-     * @ORM\Column(name="filename", type="string", length=255, unique=true)
+     * @ORM\Column(name="filename", type="string", length=255, nullable=true)
      */
     private $filename;
 
@@ -70,15 +68,15 @@ class PDF
 
     /**
      * @var string
-     * @Assert\Regex("/^[a-zA-Zéèêëàâçûîïöô0-9_,;.?!:\/ù"')(\]\[=@ -]+$/", message="Ce champ contient des caractères non autorisés. )
-     * @ORM\Column(name="title", type="text")
+     * @Assert\Regex("/^[a-zA-Zéèêëàâçûîïöô0-9_,;.?!:\/ù')(\]\[=@ -]+$/", message="Ce champ contient des caractères non autorisés." )
+     * @ORM\Column(name="title", type="text", nullable=true)
      */
     private $title;
 
     /**
      * @var string
      * @Assert\Regex("/^[a-zA-Zéèêëàâçûùîïöô0-9.,;'_ -]*$/", message="Ce champ contient des caractères non autorisés.")
-     * @ORM\Column(name="copyright", type="string", length=255)
+     * @ORM\Column(name="copyright", type="string", length=255, nullable=true)
      */
     private $copyright;
 
@@ -255,5 +253,19 @@ class PDF
     public function getCopyright()
     {
         return $this->copyright;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "id"=>$this->getId(),
+            "filename"=>$this->getFilename(),
+            "extension"=>$this->getExtension(),
+            "title"=>$this->getTitle(),
+            "copyright"=>$this->getCopyright(),
+            "mime"=>$this->getMime(),
+            "createdAt"=>$this->getCreatedAt()->format("c"),
+            "updatedAt"=>$this->getUpdatedAt()->format("c")
+        ];
     }
 }

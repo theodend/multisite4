@@ -1,0 +1,28 @@
+zpb_admin_pdfs_homepage:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:PDF:index }
+    methods: ["GET", "POST"]
+
+
+zpb_admin_pdfs_edit:
+    path: /edit/{id}
+    defaults: { _controller: ZPBAdminBundle:PDF:edit }
+    methods: ["GET", "POST"]
+
+zpb_admin_pdfs_xhr_delete:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:PDF:xhrDelete }
+    methods: ["DELETE"]
+
+
+
+
+
+
+
+
+
+
+
+
+
