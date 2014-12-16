@@ -1,10 +1,12 @@
 zpb_sites_pro_homepage:
     path:     /
     defaults: { _controller: ZPBSitesProBundle:Index:index }
+    methods: ["GET"]
 
 zpb_sites_pro_contact:
     path:     /contact
     defaults: { _controller: ZPBSitesProBundle:Contact:index }
+    methods: ["GET"]
 
 zpb_sites_pro_legales:
     path: /mentions-legales

@@ -6,10 +6,12 @@ zpb_sites_ce_homepage:
 zpb_sites_ce_contact:
     path:     /contact
     defaults: { _controller: ZPBSitesCEBundle:Contact:index }
+    methods: ["GET"]
 
 zpb_sites_ce_faq:
     path:     /questions-frequentes
     defaults: { _controller: ZPBSitesCEBundle:FAQ:index }
+    methods: ["GET"]
 
 zpb_sites_ce_legales:
     path: /mentions-legales

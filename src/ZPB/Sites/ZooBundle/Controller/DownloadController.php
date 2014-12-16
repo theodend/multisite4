@@ -22,13 +22,12 @@ namespace ZPB\Sites\ZooBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use ZPB\AdminBundle\Entity\PdfStat;
 
 class DownloadController extends BaseController
 {
-    public function donwloadPdfAction($filename, $_format, Request $request)
+    public function donwloadPdfAction($filename, $_format)
     {
         $filename = str_replace('.'.$_format, '', $filename);
         /** @var \ZPB\AdminBundle\Entity\PDF $pdf */

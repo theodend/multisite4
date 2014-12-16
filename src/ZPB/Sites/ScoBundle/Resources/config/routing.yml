@@ -1,10 +1,12 @@
 zpb_sites_sco_homepage:
     path:     /
     defaults: { _controller: ZPBSitesScoBundle:Index:index }
+    methods: ["GET"]
 
 zpb_sites_sco_contact:
     path:     /contact
     defaults: { _controller: ZPBSitesScoBundle:Contact:index }
+    methods: ["GET"]
 
 zpb_sites_sco_legales:
     path: /mentions-legales
