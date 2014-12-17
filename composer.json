@@ -22,7 +22,8 @@
         "doctrine/doctrine-fixtures-bundle": "2.2.*@dev",
         "suncat/mobile-detect-bundle": "0.9.*",
         "lunetics/locale-bundle": "2.*",
-        "knplabs/knp-markdown-bundle": "~1.3"
+        "knplabs/knp-markdown-bundle": "~1.3",
+        "coresphere/console-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

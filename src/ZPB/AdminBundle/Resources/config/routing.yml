@@ -3,6 +3,12 @@ zpb_admin_homepage:
     defaults: { _controller: ZPBAdminBundle:Index:index }
     methods: ["GET"]
 
+_console:
+    resource: "@CoreSphereConsoleBundle/Resources/config/routing.yml"
+    host: new.admin.zooparc.com
+    schemes: ["http"]
+    prefix: /_console
+
 zpb_admin_faqs_routes:
     prefix: /faqs
     resource: "@ZPBAdminBundle/Resources/config/routing/faq.yml"

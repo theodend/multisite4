@@ -17,6 +17,7 @@
         <parameter key="zpb.twig.pdf_extension.class">ZPB\AdminBundle\Twig\Extension\PdfExtension</parameter>
         <parameter key="zpb.post_manager.class">ZPB\AdminBundle\Services\PostManagerService</parameter>
         <parameter key="zpb.pdf_manager.class">ZPB\AdminBundle\Services\PDFManagerService</parameter>
+        <parameter key="zpb.press_release_manager.class">ZPB\AdminBundle\Services\PressReleaseManagerService</parameter>
 
         <!-- zoo spesific -->
 
@@ -165,6 +166,11 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%zpb.pdf%</argument>
         </service>
+
+        <service id="zpb.press_release_manager" class="%zpb.press_release_manager.class%">
+            <argument id="service_container" type="service"/>
+        </service>
+
     </services>
 
 </container>
