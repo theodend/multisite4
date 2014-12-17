@@ -100,7 +100,6 @@ class ImageManagerService {
         }
         $im->destroy();
         return false;
-
     }
 
     /**

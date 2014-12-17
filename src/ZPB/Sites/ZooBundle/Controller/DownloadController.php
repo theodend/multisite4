@@ -29,9 +29,9 @@ class DownloadController extends BaseController
 {
     public function donwloadPdfAction($filename, $_format)
     {
-        $filename = str_replace('.'.$_format, '', $filename);
+
         /** @var \ZPB\AdminBundle\Entity\PDF $pdf */
-        $pdf = $this->getRepo('ZPBAdminBundle:PDF')->findOneByFilename($filename);
+        $pdf = $this->getRepo('ZPBAdminBundle:PDF')->findOneByFilename(str_replace('.'.$_format, '', $filename));
         $pdfManager = $this->get("zpb.pdf_manager");
         $absolutePath = $pdfManager->getAbsoluteBasePath() . $filename;
         if(!$pdf || !file_exists($absolutePath)){

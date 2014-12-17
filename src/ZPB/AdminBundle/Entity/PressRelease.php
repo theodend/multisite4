@@ -47,9 +47,9 @@ class PressRelease
     /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="update_at", type="datetime")
+     * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updateAt;
+    private $updatedAt;
 
     /**
      * @var string
@@ -65,14 +65,6 @@ class PressRelease
      */
     private $image;
 
-
-    /**
-     * @var string
-     *
-     * @ORM\ManyToOne(targetEntity="ZPB\AdminBundle\Entity\Site", inversedBy="pressReleases")
-     * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
-     */
-    private $site;
 
 
     /**
@@ -155,26 +147,26 @@ class PressRelease
     }
 
     /**
-     * Set updateAt
+     * Set updatedAt
      *
-     * @param \DateTime $updateAt
+     * @param \DateTime $updatedAt
      * @return PressRelease
      */
-    public function setUpdateAt($updateAt)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->updateAt = $updateAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     /**
-     * Get updateAt
+     * Get updatedAt
      *
      * @return \DateTime 
      */
-    public function getUpdateAt()
+    public function getUpdatedAt()
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
     /**
@@ -223,26 +215,4 @@ class PressRelease
         return $this->image;
     }
 
-    /**
-     * Set site
-     *
-     * @param Site $site
-     * @return PressRelease
-     */
-    public function setSite(Site $site = null)
-    {
-        $this->site = $site;
-
-        return $this;
-    }
-
-    /**
-     * Get site
-     *
-     * @return Site
-     */
-    public function getSite()
-    {
-        return $this->site;
-    }
 }

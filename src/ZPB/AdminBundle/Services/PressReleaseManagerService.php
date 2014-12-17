@@ -25,6 +25,8 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use ZPB\AdminBundle\Entity\PressRelease;
 
 class PressReleaseManagerService {
 
@@ -38,17 +40,20 @@ class PressReleaseManagerService {
      */
     private $em;
 
+    private $options = [];
+
     private $errors = null;
 
-    public function __construct(ContainerInterface $container, EntityManager $em)
+    public function __construct(ContainerInterface $container, EntityManager $em, $options = [])
     {
         $this->container = $container;
         $this->em = $em;
+        $this->options = $options;
     }
 
     public function createFormHandle(Form $form, Request $request)
     {
-        if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
+        if(!$request->isMethod("POST")){
             return false;
         }
 
@@ -91,6 +96,71 @@ class PressReleaseManagerService {
         }
         return $errors;
 
+    }
+
+    public function xhrUploadImage(Request $request)
+    {
+        if(!$request->isMethod("POST") || !$request->isXmlHttpRequest()){
+            return [];
+        }
+        $response = ["msg"=>"","error"=>true,"datas"=>[]];
+
+        $filename = $request->headers->get("X-File-Name", false);
+        if(!$filename){
+            $response["msg"] = "Données incomplètes.";
+        } else{
+            if(preg_match('/^.+\.(jpg|jpeg|png|gif)$/i', $filename, $matches)){
+                $baseDir = $this->options["image"]["root_dir"] . $this->options["image"]["web_dir"];
+                $fs = $this->container->get("filesystem");
+                if(!$fs->exists($baseDir)){
+                    $fs->mkdir($baseDir);
+                }
+                $fullPath = $baseDir . "/" . $filename;
+                if(false !== file_put_contents($fullPath, $request->getContent())){
+                    $resize = $this->resize($fullPath, $this->options["image"]["width"], $this->options["image"]["height"]);
+                    if($resize){
+                        $response["error"] = false;
+                        $response["msg"] = "Image uploadée";
+                        $response["datas"] = $this->options["image"]["web_dir"] . "/" . $filename;
+                    } else {
+                        $response["msg"] = "Problème, image non redimensionnée.";
+                    }
+                } else {
+                    $response["msg"] = "Problème, image non enregistrée.";
+                }
+            } else {
+                $response["msg"] = "Données incorrectes.";
+            }
+        }
+
+        return $response;
+    }
+
+    public function delete(PressRelease $pr)
+    {
+
+    }
+
+    public function resize($filename = "", $width = 300, $height = 200)
+    {
+        if($filename == ""){
+            return false;
+        }
+        $im = new \Imagick();
+        try{
+            $im->readImage($filename);
+        } catch (\ImagickDrawException $ie){
+            return false;
+        }
+
+        $result = $im->resizeImage($width, $height, \Imagick::FILTER_LANCZOS, 1, true);
+
+        if($result && true === $im->writeImage()){
+            $im->destroy();
+            return true;
+        }
+        $im->destroy();
+        return false;
     }
 
 }

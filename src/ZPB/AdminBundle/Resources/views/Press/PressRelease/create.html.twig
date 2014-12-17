@@ -1,7 +1,26 @@
 {% extends 'ZPBAdminBundle:Layouts:master.html.twig' %}
 
 {% block title %}Communiqués de presse | Nouveau {% endblock %}
-
+{% block headLinks %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/css/sweet-alert.css"/>
+{% endblock %}
+{% block headStyles %}
+    {{ parent() }}
+    <style>
+        .loader{
+            display: none;
+        }
+        #uploaded-image{
+            margin: 10px auto;
+            width: 300px
+        }
+        #uploaded-image img{
+            display: block;
+            width: 100%;
+        }
+    </style>
+{% endblock %}
 {% block content %}
     <h1 class="page-header">Dashboard | {{ block('title') }}</h1>
 
@@ -37,13 +56,25 @@
 
         </div>
         <div class="col-sm-6 col-md-6">
-            <p>image 3/4 min 400*600</p>
+
+            <h4>Image d'illustration associée</h4>
+            <p>Glissez-déposez une image dans le cadre ci-dessous</p>
+            <p>Limitations: 3Mo max, image en 3*4 (minimun 400px par 600px)</p>
+            <div id="dropzone" class="dropzone"><div class="loader"></div></div>
+            <div id="uploaded-image"></div>
         </div>
     </div>
 {% endblock %}
 
 {% block footScripts %}
     {{ parent() }}
+    <script>
+        var imgUploadUrl = "{{ path("zpb_admin_press_release_xhr_img_upload") }}";
+        var hiddenImageIptId = "{{ form.image.vars.id }}";
+
+    </script>
+    <script src="/js/vendor/sweet-alert.min.js"></script>
+    <script src="/js/admin/common/jquery.imgUpload.min.js"></script>
     <script src="/js/vendor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="/js/vendor/ace/ext-emmet.js"></script>
     <script src="/js/vendor/emmet.js"></script>

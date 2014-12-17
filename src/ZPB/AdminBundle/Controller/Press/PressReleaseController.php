@@ -19,6 +19,7 @@
 */
 namespace ZPB\AdminBundle\Controller\Press;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use ZPB\AdminBundle\Entity\PressRelease;
 use ZPB\AdminBundle\Form\Type\PressReleaseType;
@@ -41,6 +42,13 @@ class PressReleaseController extends ZPBController
             return $this->redirect($this->generateUrl("zpb_admin_press_release_homepage"));
         }
         return $this->render('ZPBAdminBundle:Press/PressRelease:create.html.twig', ["form"=>$form->createView()]);
+    }
+
+    public function xhrUploadImageAction(Request $request)
+    {
+        $prManager = $this->get("zpb.press_release_manager");
+        $response = $prManager->xhrUploadImage($request);
+        return new JsonResponse($response);
     }
 
 }

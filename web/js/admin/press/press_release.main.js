@@ -27,16 +27,60 @@ $(function(){
         });
 
         editor.on("change", function(){
-            /*var el;
-            if(textarea.attr("id") == "post_form_excerpt"){
-                el = editor.getSession().getValue().length;
-                counterExcerpt.text(el);
-            }
-            if(textarea.attr("id") == "post_form_body"){
-                el = editor.getSession().getValue().length;
-                counterBody.text(el);
-            }*/
+
         });
 
+
+
+    });
+
+    var onDone = function(response, uploader){
+        swal({
+            title: "Upload d'image",
+            text: response.msg,
+            type: "success"
+        });
+        imgDisplayer.empty();
+        imageIpt.val(response.datas);
+        var img = $("<img />");
+        imgDisplayer.append(img.attr("src", response.datas));
+    };
+
+    var onError = function(msg){
+        swal({
+            title: "Upload d'image",
+            text: msg,
+            type: "error"
+        });
+    };
+
+    var onFail = function(){
+        swal({
+            title: "Upload d'image",
+            text: response.msg,
+            type: "error"
+        });
+    };
+
+    var onDropped = function(uploader){
+        uploader.$element.find(".loader").show();
+    };
+
+    var always = function(uploader){
+        uploader.$element.find(".loader").hide();
+    };
+
+    var dropzone = $("#dropzone");
+    var imageIpt = $("#" + hiddenImageIptId);
+    var imgDisplayer = $("#uploaded-image");
+
+    dropzone.imgUpload({
+        fileMaxSize: 3000000,
+        uploadUrl: imgUploadUrl,
+        onDone: onDone,
+        onError: onError,
+        onFail: onFail,
+        onDropped: onDropped,
+        always: always
     });
 });

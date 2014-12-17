@@ -28,6 +28,7 @@ class PressReleaseController extends BaseController
 {
     public function indexAction(Request $request)
     {
-
+        $prs = $this->getRepo("ZPBAdminBundle:PressRelease")->findBy([], ["createdAt"=>"ASC"]);
+        return $this->getView("ZPBSitesZooBundle:Press/PressRelease:index.html.twig", $request, ["prs"=>$prs]);
     }
 }

@@ -7,3 +7,8 @@ zpb_admin_press_release_new:
     path: /new
     defaults: { _controller: ZPBAdminBundle:Press/PressRelease:create }
     methods: ["GET","POST"]
+
+zpb_admin_press_release_xhr_img_upload:
+    path: /xhr/image/upload
+    defaults: { _controller: ZPBAdminBundle:Press/PressRelease:xhrUploadImage }
+    methods: ["POST"]

@@ -29,11 +29,11 @@
                 <tbody>
                 {% for doc in docs %}
                     <tr>
-                        <td></td>
+                        <td><img src="{{ doc.image }}" alt="" width="60"/></td>
                         <td>{{ doc.title }}</td>
                         <td>{{ doc.createdAt|date("d/m/y") }}</td>
                         <td>{{ doc.updatedAt|date("d/m/y") }}</td>
-                        <td><a class="bt btn-default" href="#"><i class="fa fa-edit"></i></a></td>
+                        <td><a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a></td>
                         <td><a class="btn btn-default" href=""><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                 {% endfor %}

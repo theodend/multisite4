@@ -1,0 +1,4 @@
+zpb_sites_zoo_press_press_release_homepage:
+    path: /communiques
+    defaults: { _controller: ZPBSitesZooBundle:Press/PressRelease:index }
+    methods: ["GET"]

@@ -31,6 +31,7 @@ class PressReleaseType extends AbstractType
         $builder
             ->add('title','text', ['label'=>'Titre'])
             ->add('body','textarea', ['label'=>'Corps'])
+            ->add('image', 'hidden')
             ->add('save', 'submit', ['label'=>'Enregistrer'])
         ;
     }
