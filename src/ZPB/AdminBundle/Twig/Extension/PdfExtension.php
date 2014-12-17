@@ -58,7 +58,7 @@ class PdfExtension extends \Twig_Extension
             return "";
         }
         $filename = $pdf->getFilename() . "." . $pdf->getExtension();
-        $title = ($pdf->getCopyright() != null) ? $pdf->getTitle() . " &copy; " . $pdf->getCopyright() : $pdf->getTitle();
+        $title = ($pdf->getCopyright() != null) ? $pdf->getTitle() . $pdf->getCopyright() : $pdf->getTitle();
         return '[pdf filename="'. $filename .'" title="'. $title .'" class="" alt=""]'.$pdf->getFilename().'[/pdf]';
     }
 

@@ -1,0 +1,25 @@
+.releases{
+
+  .release{
+    margin-bottom: 20px;
+    .realease-date{
+
+    }
+    .release-title{
+
+    }
+    .release-body{
+      @include clearfix;
+      img{
+        display: block;
+        float: left;
+        width: 200px;
+
+      }
+
+      article{
+        margin-left: 215px;
+      }
+    }
+  }
+}

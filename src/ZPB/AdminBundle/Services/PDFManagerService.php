@@ -71,6 +71,8 @@ class PDFManagerService
         }
         if($pdf->getCopyright() == null){
             $pdf->setCopyright($this->options["default_copyright"]);
+        } else {
+            $pdf->setCopyright("(c) " . $pdf->getCopyright());
         }
         $this->searchAndDestroy($filename);
         $pdf->file->move($dest, $pdf->getFilename() . "." . $pdf->getExtension());
