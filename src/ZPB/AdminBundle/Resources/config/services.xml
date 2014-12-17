@@ -169,6 +169,7 @@
 
         <service id="zpb.press_release_manager" class="%zpb.press_release_manager.class%">
             <argument id="service_container" type="service"/>
+            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
     </services>

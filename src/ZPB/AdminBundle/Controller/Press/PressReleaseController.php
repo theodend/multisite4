@@ -26,18 +26,21 @@ use ZPB\Sites\CommonBundle\Controller\ZPBController;
 
 class PressReleaseController extends ZPBController
 {
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         $docs = $this->getRepo("ZPBAdminBundle:PressRelease")->findAll();
-        $pr = new PressRelease();
-        $form = $this->createForm(new PressReleaseType(), $pr);
-        $form->handleRequest($request);
-        if($form->isValid()){
 
+        return $this->render('ZPBAdminBundle:Press/PressRelease:index.html.twig', ["docs"=>$docs]);
+    }
 
+    public function createAction(Request $request)
+    {
+        $form = $this->createForm(new PressReleaseType(), new PressRelease());
+        $prManager = $this->get("zpb.press_release_manager");
+        if($prManager->createFormHandle($form, $request)){
             return $this->redirect($this->generateUrl("zpb_admin_press_release_homepage"));
         }
-
-        return $this->render('ZPBAdminBundle:Press/PressRelease:index.html.twig', ["docs"=>$docs, "form"=>$form->createView()]);
+        return $this->render('ZPBAdminBundle:Press/PressRelease:create.html.twig', ["form"=>$form->createView()]);
     }
+
 }

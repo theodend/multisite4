@@ -1,4 +1,9 @@
 zpb_admin_press_release_homepage:
     path: /
     defaults: {_controller: ZPBAdminBundle:Press/PressRelease:index }
-    methods: ["GET", "POST"]
+    methods: ["GET"]
+
+zpb_admin_press_release_new:
+    path: /new
+    defaults: { _controller: ZPBAdminBundle:Press/PressRelease:create }
+    methods: ["GET","POST"]

@@ -121,10 +121,8 @@ class ZPBController extends Controller
         $errors = [];
         if ($form instanceof Form) {
             foreach ($form->getErrors() as $error) {
-
                 $errors[] = $error->getMessage();
             }
-
             foreach ($form->all() as $key => $child) {
                 /** @var $child Form */
                 if ($err = $this->getFormErrors($child)) {
